@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <main class="container">
+        <section id="posts">
+            <div class="row">
+                <h2>Liste des articles Admin[<a href="{{ path('new') }}"><i class="icofont-plus"></i></a>]</h2>
+            </div>
+
+            <div class="col-md-10 offset-1">
+                <table class="table table-hover ">
+                    <thead>
+                    <tr>
+                        <td>Image</td>
+                        <td>Title</td>
+                        <td>Date de création</td>
+                        <td>Catégorie</td>
+                        <td>Delete</td>
+                        <td>Edit</td>
+                        <td class="text-center">hide/show</td>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for post in posts %}
+                        <tr>
+                            <td><img src="{{ asset('/img/posts/' ~ post.image) }}" alt="{{ post.title }}"
+                                     class="img-post"></td>
+                            <td><a href="{{ path('post',{ id:post.id })}} ">{{ post.title|capitalize }}</a></td>
+                            <td>{{ post.createdAt|date('d/m/Y') }}</td>
+                            <td>{{ post.category.name }}</td>
+                            <td><a href="{{ path('delete',{id:post.id}) }}) }}"><i class="icofont-ui-delete text-danger"></i></a></td>
+                            <td><a href="{{ path('edit', {id:post.id}) }}"><i class="icofont-edit-alt"></i></a></td>
+                            {% if post.isIsPublished %}
+                                <td class="text-center"><a href="{{ path('publish',{id:post.id}) }}"><i class="icofont-eye text-success" ></i></a></td>
+                            {% else %}
+                                <td class="text-center"><a href="{{ path('publish',{id:post.id}) }}"><i class="icofont-eye text-danger"></i></a></td>
+                            {% endif %}
+
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
+

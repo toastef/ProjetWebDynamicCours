@@ -1,0 +1,56 @@
+
+body {
+    font-size: 90%;
+    color: #141414;
+}
+
+.navbar-brand {
+    padding-right: 28px;
+}
+
+
+img {
+    width: auto;
+    height: 250px;
+}
+
+
+
+/* Footer */
+footer {
+    margin-top: 60px;
+    padding: 20px 0;
+    border-top: 1px solid #dfdfdf;
+    text-align: center;
+    color: #fff;
+}
+
+footer h4 {
+    padding-bottom: 1.3rem;
+}
+
+footer a {
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #fff;
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: #fedfdf;
+}
+
+/* Filterizer */
+.filtr-item img {
+    width: 100%;
+    height: auto;
+}
+
+
+.controls-filter {
+    margin-bottom: 26px;
+    color: red;
+}
+
+

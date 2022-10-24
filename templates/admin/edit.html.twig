@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="container">
+        <section class="row">
+            <div class="col-md-8 offset-md-2">
+                <h2 class="display-5 my-3">Mettre à jour un article</h2>
+                {{ form_start(form)}}
+                {{ form_widget(form) }} <!-- recupère d'abprd tous les champs de postype puis ajoute le reste sinon le boutton va être au dessus-->
+                <button type="submit" class="btn btn-primary">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        </section>
+    </main>
+{% endblock %}
