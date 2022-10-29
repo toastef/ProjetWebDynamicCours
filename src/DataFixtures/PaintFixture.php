@@ -32,7 +32,8 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setHeight($this->height[$faker->numberBetween(0, $nbHeight - 1)])
                 ->setWidth($this->width[$faker->numberBetween(0, $nbWidth - 1)])
-                ->setImage($i . '.jpg')
+                ->setUpdatedAt(new \DateTimeImmutable())
+                ->setImageName($i.'.jpg')
                 ->setSlug($slugify->slugify($name))
                 ->setStyle($style[$faker->numberBetween(0, $sty - 1)]);
             $manager->persist($paint);

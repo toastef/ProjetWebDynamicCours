@@ -2,10 +2,18 @@
 
 namespace App\Entity;
 
+
+
+
+use Cocur\Slugify\Slugify;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Repository\PaintingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: PaintingRepository::class)]
+#[Vich\Uploadable]
 class Painting
 {
     #[ORM\Id]
@@ -28,8 +36,13 @@ class Painting
     #[ORM\Column]
     private ?float $width = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
+    #[ORM\Column(type: 'string')]
+    private ?string $imageName = null;
+
+
+    #[Vich\UploadableField(mapping: 'Oeuvre_image', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'paintings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,6 +51,8 @@ class Painting
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
 
 
     public function getId(): ?int
@@ -105,17 +120,35 @@ class Painting
         return $this;
     }
 
-    public function getImage(): ?string
+
+    public function getImageName(): ?string
     {
-        return $this->image;
+        return $this->imageName;
     }
 
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
 
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
         return $this;
     }
+
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
 
     public function getStyle(): ?Style
     {
@@ -141,5 +174,22 @@ class Painting
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function createSlug()
+    {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->title);
+
+    }
 }
