@@ -35,7 +35,7 @@ class PaintType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Photo',
-                'required' => true,
+                'required' => false,
                 'download_uri'=> true,
                 'image_uri'=> true,
                 'asset_helper'=>true,

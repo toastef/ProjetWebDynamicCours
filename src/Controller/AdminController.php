@@ -50,6 +50,23 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/edit/{id}', name: 'edit')]
+    public function edit(Painting $paint, EntityManagerInterface $manager,Request $request): Response
+    {
+        $form= $this->createForm(PaintType::class, $paint);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $paint->createSlug();
+            $manager->flush();
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->renderForm('admin/edit.html.twig', [
+            'form'=>$form
+        ]);
+    }
+
+
     /**
      * @param Painting $painting
      * @param EntityManagerInterface $manager

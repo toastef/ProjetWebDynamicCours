@@ -6,14 +6,19 @@ namespace App\Entity;
 
 
 use Cocur\Slugify\Slugify;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Repository\PaintingRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaintingRepository::class)]
 #[Vich\Uploadable]
+#[UniqueEntity(
+    fields: ['title'],
+    message: 'ce titre existe déja'
+)]
 class Painting
 {
     #[ORM\Id]
@@ -21,18 +26,36 @@ class Painting
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(
+        max:3,
+        minMessage:'Votre titre peut contenir au max{{ limit }} characters ',
+    )]
     #[ORM\Column(length: 120)]
     private ?string $title = null;
 
+    #[Assert\Length(
+        min:10,
+        minMessage:'Votre contenu doit contenir au moins{{ limit }} characters ',
+    )]
     #[ORM\Column(length: 255)]
     private ?string $descrioption = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+
+    #[Assert\Range(
+        notInRangeMessage: 'Votre tableau ne doit être compris entre {{ min }} et {{ max }} cm de hauteur',
+        min: 20,
+        max: 114
+    )]
     #[ORM\Column]
     private ?float $height = null;
-
+    #[Assert\Range(
+        notInRangeMessage: 'Votre tableau ne doit être compris entre {{ min }} et {{ max }} cm de largeur',
+        min: 25,
+        max: 195
+    )]
     #[ORM\Column]
     private ?float $width = null;
 
@@ -53,6 +76,9 @@ class Painting
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'paintings')]
+    private ?Comment $comment = null;
 
 
     public function getId(): ?int
@@ -191,5 +217,17 @@ class Painting
         $slugify = new Slugify();
         $this->slug = $slugify->slugify($this->title);
 
+    }
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
     }
 }

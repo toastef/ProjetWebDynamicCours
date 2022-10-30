@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Painting;
+use App\Form\CommentType;
 use App\Repository\PaintingRepository;
 use App\Repository\StyleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaintController extends AbstractController
@@ -34,10 +39,23 @@ class PaintController extends AbstractController
     }
 
 #[Route('/painting/{slug}', name: 'paint')]
-public function course(Painting $paints): Response
+public function course(Painting $paints,Request $request, EntityManagerInterface $manager): Response
 {
+    $commentaire = new Comment();
+    $form = $this->createForm(CommentType::class , $commentaire);
+    $form->handleRequest($request);
+
+    if($form->isSubmitted() && $form->isValid()) {
+        $commentaire->setIsPubliched(false);
+        $manager->persist($commentaire);
+        $paints->setComment($commentaire);
+        $manager->flush();
+
+        return $this->redirectToRoute('paint',['slug' => $paints->getSlug()]);
+    }
     return $this->render('painting/detailPaint.html.twig', [
-        'paint' => $paints
+        'paint' => $paints,
+        'form'  => $form->createView(),
     ]);
 }
 

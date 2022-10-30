@@ -30,9 +30,9 @@
                                      class="img-post"></td>
                             <td><a href="{{ path('paint', {slug: paint.slug})}} ">{{ paint.title|capitalize }}</a></td>
                             <td>{{ paint.createdAt|date('d/m/Y') }}</td>
-                            {# <td>{{ paint.style.name }}</td> #}
+                            <td>{{ paint.style.name }}</td>
                             <td><a href="{{ path('delete',{id:paint.id}) }}) }}"><i class="icofont-ui-delete text-danger"></i></a></td>
-                            {#  <td><a href="{{ path('edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>#}
+                            <td><a href="{{ path('edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
                             {# {% if paint.comment.isIsPublished %}
                                 <td class="text-center"><a href="{{ path('publish',{id:paint.comment.id}) }}"><i class="icofont-eye text-success" ></i></a></td>
                             {% else %}
