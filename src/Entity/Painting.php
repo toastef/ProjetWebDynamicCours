@@ -27,8 +27,8 @@ class Painting
     private ?int $id = null;
 
     #[Assert\Length(
-        max:3,
-        minMessage:'Votre titre peut contenir au max{{ limit }} characters ',
+        max:30,
+        maxMessage:'Votre titre peut contenir au max{{ limit }} characters ',
     )]
     #[ORM\Column(length: 120)]
     private ?string $title = null;

@@ -3,28 +3,43 @@
 {% block body %}
 
     <main class="container">
-        <div class="row">
-            <div class="col-md-12 offset-1">
-                <h2 class="display-4 py-4">Détail de l'oeuvre</h2>
+            <div class="row">
+            <div class="col-md-12 ">
+                <h2 class="display-4 py-4 text-decoration-underline text-center">Détail de l'oeuvre</h2>
             </div>
-            <div class="col-md-4 py-5">
+            <div class="col-md-4 py-5 justify-content-center">
                 <img src="{{ asset('img/oeuvres/' ~ paint.imageName) }}" alt="{{ paint.title }}">
             </div>
-            <div class="col-md-8">
-                <h3 class="display-5 py-5">{{ paint.title|capitalize }}</h3>
+            <div class="col-md-8 py-4">
+                <h3 class="display-5 py-4">{{ paint.title|capitalize }}</h3>
                 <h4>Création: {{ paint.createdAt|date('d/m/Y') }}</h4>
                 <p class="lead"> {{ paint.descrioption }}</p>
-                <a href="{{ path('paintings') }}" class="btn btn-outline-dark">retour a la liste des articles</a>
+                <a href="{{ path('paintings') }}" class="btn btn-outline-dark">retour a la Gallery</a>
             </div>
-            <section class="pt6 pt-md-8">
+            <div class="container mt-5">
+                {% for comment in comments  %}
+                <div class="d-flex justify-content-center row">
+                    <div class="col-md-8">
+                        <div class="d-flex flex-column comment-section">
+                            <div class="bg-white p-2">
+                                <div class="mt-2">
+                                    <p class="comment-text">{{ comment.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
                 <div class="container">
-                    <div class="row justify-content-center">
+
                         <button type="button" class="btn btn-secondary mb-5" data-bs-toggle="collapse" data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
                             Laisser un commentaire
                         </button>
-                    </div>
+
                 </div>
-            </section>
+
 
             <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
                 <div class="modal-dialog">
@@ -39,9 +54,7 @@
                     </div>
                 </div>
             </div>
-
-
-        </div>
+            </div>
     </main>
 
 

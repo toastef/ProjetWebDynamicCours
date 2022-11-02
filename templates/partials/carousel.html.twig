@@ -1,0 +1,17 @@
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('css/card-test.css') }}">
+{% endblock %}
+    <div class="containerC">
+        <div id="carousel">
+            {% for paint in paints  %}
+                <figure><img src="{{ asset('img/oeuvres/' ~ paint.imageName) }}" alt=""></figure>
+
+            {% endfor %}
+
+
+        </div>
+    </div>
+
+
+<script src="{{ asset('js/caroussel.js') }}"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>

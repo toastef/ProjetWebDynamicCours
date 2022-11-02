@@ -11,7 +11,7 @@
                 <div class="col-md-12 controls-filter ">
                     <ul>
                         <!-- For filtering controls add -->
-                        <li data-filter="all" class="btn btn-outline-primary "> All items </li>
+                        <li data-filter="all" class="btn btn-outline-primary "> All items</li>
                         <!--variable passée dans le controller-->
                         {% for style in styles %}
                             <li data-filter="{{ style.id }}" class="btn btn-outline-primary"> {{ style.name }}</li>
@@ -23,23 +23,23 @@
                     <!-- Card -->
                     {% for paint in paints %}
                         <div class="col-md-4 filtr-item" data-category="{{ paint.style.id }}" data-sort="value">
-                            <div class="card m-3" style="min-height: 450px !important;">
+                            <div class="card m-3" style="min-height: 480px !important; height: auto;">
                                 <div class="card-header bg-light">
-                                    <h5 class="text-center">{{ paint.title | capitalize}}</h5>
+                                    <h5 class="text-center">{{ paint.title | capitalize }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName)  }}" style="height: 50%;">
+                                    <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName) }}"
+                                         style="height: 225px;">
                                     <p class="card-text">
                                     <h5 class="card-subtitle text-muted my-3">{{ paint.style.name }}</h5>
-                                        <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut consectetur libero nemo nihil obcaecati vero.</p>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-sm" href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                        <a class="btn btn-primary btn-sm"
+                                           href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-
 
                 </div>
             </div>

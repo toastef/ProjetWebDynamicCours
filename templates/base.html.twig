@@ -2,17 +2,17 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} -ArtGallery2022{% endblock %}</title>
+    <title>{% block title %}ArtGallery2022{% endblock %}</title>
     <link rel="icon" href="{{ asset('img/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}">
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+
     {% endblock %}
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+
     {% endblock %}
 </head>
 <body>
@@ -20,6 +20,8 @@
 {% block body %}{% endblock %}
 {% include 'partials/footer.html.twig' %}
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('js/canvas.js') }}"></script>
+
 
 </body>
 </html>

@@ -3,97 +3,69 @@
 {% block title %}Accueil{{ parent() }}{% endblock %}
 
 {% block body %}
-
-<!-- Latest courses -->
-<main class="container">
-    <section class="home-courses">
-        <h2 class="my-5 text-black-50">Oeuvre</h2>
-        <div class="row">
-                <div class="col-md-3 mb-4 ">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/1.jpg' ) }}"  >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/2.jpg' ) }}"  >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/3.jpg' ) }}"  >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/4.jpg' ) }}" >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/5.jpg' ) }}" >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <img alt="" src="{{ asset('img/oeuvres/6.jpg' ) }}"  >
-                        <div class="card-body">
-                            <h5 class="card-title text-dark">le roi </h5>
-                            <p></p>
-                            <p class="card-text"></p>
-                            <a href="" class="btn btn-secondary btn-sm">En savoir plus...</a>
-                        </div>
-                    </div>
-
-                </div>
-
-        </div>
-
-    </section>
-    <!-- End Latest courses -->
-</main>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/animG.css') }}">
     {% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('js/canvas.js') }}"></script>
+    {% endblock %}
+
+    <div class="index">
+        <div class="containerb">
+            <canvas id="scene"></canvas>
+            <label for="copy"></label>
+            <input id="copy" type="text" value="Art-Gallery"/>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-center mt-5 fs-3" id="bord">
+        <p class="borderS">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea eveniet nulla obcaecati! Accusantium, alias
+            aliquam aspernatur atque beatae consequuntur culpa dicta dignissimos dolor dolore doloremque, doloribus
+            ducimus eius error excepturi fugit itaque laboriosam magnam modi nemo neque omnis pariatur perspiciatis
+            placeat praesentium quas qui, quisquam reprehenderit rerum saepe sapiente tempora tempore temporibus tenetur
+            totam vel vitae. Ab aliquid ea eligendi, harum hic impedit numquam quam quidem temporibus voluptate! Cum
+            delectus dolores error et exercitationem itaque labore omnis sit totam veniam?</p>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="carousel-wrapper">
+
+            <div id="demo" class="carousel slide" data-ride="carousel">
+                <ul class="carousel-indicators">
+                    <li data-target="#demo" data-slide-to="0" class="active"></li>
+                    <li data-target="#demo" data-slide-to="1"></li>
+                    <li data-target="#demo" data-slide-to="2"></li>
+                </ul>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ asset('img/slider/1.jpg') }}" alt="">
+                        <div class="carousel-caption">
+                            <h3>Name</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset('img/slider/2.jpg') }}" alt="">
+                        <div class="carousel-caption">
+                            <h3>Surnme</h3>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset('img/slider/3.jpg') }}" alt="">
+                        <div class="carousel-caption">
+                            <h3>BBBa</h3>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </a>
+                <a class="carousel-control-next" href="#demo" data-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

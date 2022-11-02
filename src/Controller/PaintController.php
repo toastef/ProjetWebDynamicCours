@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Painting;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\PaintingRepository;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,8 +40,11 @@ class PaintController extends AbstractController
     }
 
 #[Route('/painting/{slug}', name: 'paint')]
-public function course(Painting $paints,Request $request, EntityManagerInterface $manager): Response
+public function paint(Painting $paints,CommentRepository $comment , Request $request, EntityManagerInterface $manager): Response
 {
+    $comments = $comment->findBy(
+        ['isPubliched'=> true],[],
+    );
     $commentaire = new Comment();
     $form = $this->createForm(CommentType::class , $commentaire);
     $form->handleRequest($request);
@@ -56,6 +60,7 @@ public function course(Painting $paints,Request $request, EntityManagerInterface
     return $this->render('painting/detailPaint.html.twig', [
         'paint' => $paints,
         'form'  => $form->createView(),
+        'comments' => $comments,
     ]);
 }
 

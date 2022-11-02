@@ -5,7 +5,7 @@
     <main class="container">
         <section id="posts">
             <div class="row">
-                <h2>Liste des Peintures Admin[<a href="{{ path('new') }}"><i class="icofont-plus"></i></a>]</h2>
+                <h2 class="py-3">Liste des Peintures Admin [<a href="{{ path('new') }}"><i class="icofont-plus"></i></a>]</h2>
             </div>
 
             <div class="col-md-10 offset-1">
@@ -33,12 +33,12 @@
                             <td>{{ paint.style.name }}</td>
                             <td><a href="{{ path('delete',{id:paint.id}) }}) }}"><i class="icofont-ui-delete text-danger"></i></a></td>
                             <td><a href="{{ path('edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
-                            {# {% if paint.comment.isIsPublished %}
-                                <td class="text-center"><a href="{{ path('publish',{id:paint.comment.id}) }}"><i class="icofont-eye text-success" ></i></a></td>
-                            {% else %}
-                                <td class="text-center"><a href="{{ path('publish',{id:paint.comment.id}) }}"><i class="icofont-eye text-danger"></i></a></td>
-                            {% endif %} #}
 
+                                {% if paint.comment %}
+                                 <td class="text-center"><a href="{{ path('comment',{id:paint.id}) }}"><i class="icofont-comment"></i></a></td>
+                                {% else %}
+                                    <td class="text-center">/</td>
+                                {% endif %}
 
                         </tr>
                     {% endfor %}
