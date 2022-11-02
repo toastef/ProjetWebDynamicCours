@@ -14,7 +14,7 @@ var wh = canvas.height = window.innerHeight;
 
 function Particle(x,y){
     this.x =  Math.random()*ww;
-    this.y =  Math.random()*wh;git add .
+    this.y =  Math.random()*wh;
     this.dest = {
         x : x,
         y: y
