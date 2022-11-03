@@ -21,8 +21,10 @@ class Comment
     #[ORM\Column]
     private ?bool $isPubliched = null;
 
-    #[ORM\OneToMany(mappedBy: 'comment', targetEntity: Painting::class)]
-    private Collection $paintings;
+    #[ORM\ManyToOne(inversedBy: 'comment')]
+    private ?Painting $painting = null;
+
+
 
     public function __construct()
     {
@@ -58,35 +60,19 @@ class Comment
         return $this;
     }
 
-    /**
-     * @return Collection<int, Painting>
-     */
-    public function getPaintings(): Collection
+    public function getPainting(): ?Painting
     {
-        return $this->paintings;
+        return $this->painting;
     }
 
-    public function addPainting(Painting $painting): self
+    public function setPainting(?Painting $painting): self
     {
-        if (!$this->paintings->contains($painting)) {
-            $this->paintings->add($painting);
-            $painting->setComment($this);
-        }
+        $this->painting = $painting;
 
         return $this;
     }
 
-    public function removePainting(Painting $painting): self
-    {
-        if ($this->paintings->removeElement($painting)) {
-            // set the owning side to null (unless already changed)
-            if ($painting->getComment() === $this) {
-                $painting->setComment(null);
-            }
-        }
 
-        return $this;
-    }
 
 
 }

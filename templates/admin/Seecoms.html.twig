@@ -4,28 +4,54 @@
 {% block body %}
 
     <main class="container">
-    <div class="row">
-            <div class="col-md-12 offset-1">
-                <h2 class="display-4 py-4 ">Commentaires</h2>
-            </div>
-            <div class="col-md-8">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Tableau</th>
+                <th scope="col">commentaire</th>
+                <th scope="col">Visibilité</th>
 
-                {% for coms in comments %}
-                <div class="d-flex flex-column comment-section">
-                    <div class="bg-white p-2">
-                        <div class="mt-2">
+            </tr>
+            </thead>
+            <tbody>
 
-                            <p class="comment-text"> {{coms.content}}</p>
+            {% for coms in paints.comment %}
+            <tr>
 
-                        </div>
-                    </div>
-                </div>
+                <td>{{ paints.title }}</td>
 
+
+
+                   <td> {{ coms.content }} </td>
+                    {% if coms.isPubliched %}
+                    <td class="text"><a href="{{ path('publish',{id:coms.id}) }}"><i class="icofont-eye text-success fs-2"></i></a></td>
+                    {% else %}
+                        <td class="text"><a href="{{ path('publish',{id:coms.id}) }}"><i class="icofont-eye text-danger fs-2"></i></a>
+                        </td>
+                    {% endif %}
                 {% endfor %}
+               {#  <td>{{paints.comment.content }}</td>
+
+                {% if  paints.comment.isPubliched %}
+                    <td class="text"><a href="{{ path('publish',{id:paints.comment.id}) }}"><i
+                                    class="icofont-eye text-success"></i></a></td>
+                {% else %}
+                    <td class="text"><a href="{{ path('publish',{id:paints.comment.id}) }}"><i class="icofont-eye text-danger"></i></a>
+                    </td>
+                {% endif %}
+
+               #}
+            </tr>
+
+
+
+            </tbody>
+        </table>
 
                 <a href="{{ path('admin') }}" class="btn btn-outline-dark"> retour </a>
             </div>
-    </div>
+        </div>
     </main>
+
 
 {% endblock %}

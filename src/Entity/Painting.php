@@ -6,6 +6,8 @@ namespace App\Entity;
 
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -77,8 +79,15 @@ class Painting
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'paintings')]
-    private ?Comment $comment = null;
+    #[ORM\OneToMany(mappedBy: 'painting', targetEntity: Comment::class)]
+    private Collection $comment;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+    }
+
+
 
 
     public function getId(): ?int
@@ -219,15 +228,35 @@ class Painting
 
     }
 
-    public function getComment(): ?Comment
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
     {
         return $this->comment;
     }
 
-    public function setComment(?Comment $comment): self
+    public function addComment(Comment $comment): self
     {
-        $this->comment = $comment;
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setPainting($this);
+        }
 
         return $this;
     }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPainting() === $this) {
+                $comment->setPainting(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

@@ -3,7 +3,7 @@
 {% block body %}
 
     <main class="container">
-            <div class="row">
+        <div class="row">
             <div class="col-md-12 ">
                 <h2 class="display-4 py-4 text-decoration-underline text-center">Détail de l'oeuvre</h2>
             </div>
@@ -14,47 +14,62 @@
                 <h3 class="display-5 py-4">{{ paint.title|capitalize }}</h3>
                 <h4>Création: {{ paint.createdAt|date('d/m/Y') }}</h4>
                 <p class="lead"> {{ paint.descrioption }}</p>
-                <a href="{{ path('paintings') }}" class="btn btn-outline-dark">retour a la Gallery</a>
+
+                <p class="lead">{{ paint.style.name }}</p>
+                <a href="{{ path('paintings') }}" class="btn btn-outline-dark my-5">retour a la Gallery</a>
             </div>
-            <div class="container mt-5">
-                {% for comment in comments  %}
-                <div class="d-flex justify-content-center row">
-                    <div class="col-md-8">
-                        <div class="d-flex flex-column comment-section">
-                            <div class="bg-white p-2">
-                                <div class="mt-2">
-                                    <p class="comment-text">{{ comment.content }}</p>
+
+        <h3 class="mx-2">Commentaire</h3>
+            {% for coms in comments %}
+                {% if coms.painting.id == paint.id %}
+                    <div class="container">
+
+                        <div class="row my-1">
+                            <div class="col-8">
+                                <div class="card card-white post">
+                                    <div class="post-heading">
+                                        <div class="float-left meta">
+                                            <div class="title h5">
+                                                <p class="text-decoration-underline">Visitor</p>
+                                            </div>
+                                            <h6 class="text-muted time">{{ '2019-08-07 23:39:12'|format_datetime('full', 'full', locale='fr') }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="post-description">
+                                        <p class="text">{{ coms.content }}</p>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-
-                <div class="container">
-
-                        <button type="button" class="btn btn-secondary mb-5" data-bs-toggle="collapse" data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
-                            Laisser un commentaire
-                        </button>
-
-                </div>
+                {% endif %}
+            {% endfor %}
 
 
-            <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="example">Laisser un commentaire</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            {{ form(form) }}
-                        </div>
+        <div class="container">
+
+            <button type="button" class="btn btn-secondary mb-3 my-4" data-bs-toggle="collapse"
+                    data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
+                Laisser un commentaire
+            </button>
+
+        </div>
+
+        <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
+            <div class="modal-dialog mx-3">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example">Laisser un commentaire</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form(form) }}
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
+        </div>
     </main>
 
 

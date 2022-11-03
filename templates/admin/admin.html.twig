@@ -34,12 +34,11 @@
                             <td><a href="{{ path('delete',{id:paint.id}) }}) }}"><i class="icofont-ui-delete text-danger"></i></a></td>
                             <td><a href="{{ path('edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
 
-                                {% if paint.comment %}
+                                {% if paint.getComment %}
                                  <td class="text-center"><a href="{{ path('comment',{id:paint.id}) }}"><i class="icofont-comment"></i></a></td>
                                 {% else %}
                                     <td class="text-center">/</td>
                                 {% endif %}
-
                         </tr>
                     {% endfor %}
 

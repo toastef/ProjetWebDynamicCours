@@ -7,6 +7,7 @@ use App\Entity\Painting;
 use App\Form\PaintType;
 use App\Repository\CommentRepository;
 use App\Repository\PaintingRepository;
+use Container8fiJicV\getCommentRepositoryService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,6 +15,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Vich\UploaderBundle\Naming\HashNamer;
@@ -31,7 +34,7 @@ class AdminController extends AbstractController
         $paint = $repository->findBy([],
             ['title' => 'ASC']);
        $commentaires = $comments->findAll();
-
+            dump($commentaires);
         return $this->render('admin/admin.html.twig', [
             'paints' => $paint,
             'comment' => $commentaires,
@@ -46,7 +49,7 @@ class AdminController extends AbstractController
      */
 
     #[Route('/admin/new', name: 'new')]
-    public function new(Request $request, EntityManagerInterface $manager): Response // la classe request est envoi les infos au controller
+    public function new(Request $request, EntityManagerInterface $manager): Response
     {
 
         $paint = new Painting();
@@ -105,23 +108,27 @@ class AdminController extends AbstractController
     }
 
   #[Route('admin/publish/{id}', name: 'publish')]
-    public function published(Comment $comment, EntityManagerInterface $manager): Response
+    public function published(Comment $comment, EntityManagerInterface $manager)
     {
         $comment->setIsPubliched(!$comment->isIsPubliched());// set le contraire de ce qu'il récupère
         $manager->flush();
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('admin',);
     }
 
 
         #[Route('admin/comment/{id}', name: 'comment')]
-        public function viewComment(CommentRepository $comments,PaintingRepository $painting , int $id): Response
+        public function viewComment(Painting $painting, CommentRepository $comments  ): Response
         {
+            $comments = $comments->findAll();
+            foreach ($comments as $com ){
+              dump($com);
+            }
 
-            $commentaires = $comments->findAll();
             return $this->render('admin/Seecoms.html.twig',[
-                'comments' => $commentaires,
                 'paints' => $painting,
+                'comments' => $comments,
             ]);
+
         }
 
 }
