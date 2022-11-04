@@ -56,7 +56,7 @@ public function paint(Painting $paints,CommentRepository $comment , Request $req
         $manager->persist($commentaire);
         $paints->addComment($commentaire);
         $manager->flush();
-
+        $this->addFlash('succes', 'Votre commentaire a bien été envoyé il sera validé par l\'administration');
         return $this->redirectToRoute('paint',['slug' => $paints->getSlug()]);
     }
     return $this->render('painting/detailPaint.html.twig', [

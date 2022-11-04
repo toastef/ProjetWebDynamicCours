@@ -1,12 +1,13 @@
 .containers {
-    width: 100%;
+    width: 95%;
     height: 50vh;
-    margin: 0;
-    padding-left: 25px;
+    margin-left: 25px;
+    padding-left: 110px;
+
 
 }
 .img3d_container {
-    height: 90%;
+    height: 100%;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -25,6 +26,7 @@
 }
 .img3d_container .img3d_container--image {
     max-width: 300px;
+    height: auto;
     perspective: 3000px;
     transform-style: preserve-3d;
 }

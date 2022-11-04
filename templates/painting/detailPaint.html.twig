@@ -1,25 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="container">
+        <img class="card-img my-3"
+             style="height: auto; border-radius: 7px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;"
+             src="{{ asset('img/oeuvres/' ~ paint.imageName) }}" alt="{{ paint.title }}">
+        <div class="card mb-3 my-3 ">
+            <div class="card-body my-2 ">
+                <h5 class="card-title">{{ paint.title|capitalize }}</h5>
+                <p class="card-text">{{ paint.descrioption }}</p>
+                <p class="lead">Style : {{ paint.style.name }}</p>
+                <p class="lead">Taille : {{ paint.width }} x {{ paint.height }}</p>
+                <p class="card-text"><small class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small></p>
+                <a href="{{ path('paintings') }}" class="btn btn-outline-dark ">retour a la Gallery</a>
+            </div>
+        </div>
+    </div>
+
 
     <main class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <div class="row">
-            <div class="col-md-12 ">
-                <h2 class="display-4 py-4 text-decoration-underline text-center">Détail de l'oeuvre</h2>
-            </div>
-            <div class="col-md-4 py-5 justify-content-center">
-                <img src="{{ asset('img/oeuvres/' ~ paint.imageName) }}" alt="{{ paint.title }}">
-            </div>
-            <div class="col-md-8 py-4">
-                <h3 class="display-5 py-4">{{ paint.title|capitalize }}</h3>
-                <h4>Création: {{ paint.createdAt|date('d/m/Y') }}</h4>
-                <p class="lead"> {{ paint.descrioption }}</p>
-
-                <p class="lead">{{ paint.style.name }}</p>
-                <a href="{{ path('paintings') }}" class="btn btn-outline-dark my-5">retour a la Gallery</a>
-            </div>
-
-        <h3 class="mx-2">Commentaire</h3>
+            <h3>Commentaire</h3>
             {% for coms in comments %}
                 {% if coms.painting.id == paint.id %}
                     <div class="container">
@@ -47,28 +53,28 @@
             {% endfor %}
 
 
-        <div class="container">
+            <div class="container">
 
-            <button type="button" class="btn btn-secondary mb-3 my-4" data-bs-toggle="collapse"
-                    data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
-                Laisser un commentaire
-            </button>
+                <button type="button" class="btn btn-secondary mb-3 my-4" data-bs-toggle="collapse"
+                        data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
+                    Laisser un commentaire
+                </button>
 
-        </div>
+            </div>
 
-        <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
-            <div class="modal-dialog mx-3">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="example">Laisser un commentaire</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ form(form) }}
+            <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
+                <div class="modal-dialog mx-3">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="example">Laisser un commentaire</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form(form) }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </main>
 

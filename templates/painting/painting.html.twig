@@ -9,12 +9,12 @@
             <div class="row">
                 <!-- FILTERIZER CONTROLS -->
                 <div class="col-md-12 controls-filter ">
-                    <ul>
+                    <ul class="px-0">
                         <!-- For filtering controls add -->
-                        <li data-filter="all" class="btn btn-outline-primary "> All items</li>
+                        <li data-filter="all" class="btn btn-outline-secondary "> All items</li>
                         <!--variable passée dans le controller-->
                         {% for style in styles %}
-                            <li data-filter="{{ style.id }}" class="btn btn-outline-primary"> {{ style.name }}</li>
+                            <li data-filter="{{ style.id }}" class="btn btn-outline-secondary"> {{ style.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -32,8 +32,13 @@
                                          style="height: 225px;">
                                     <p class="card-text">
                                     <h5 class="card-subtitle text-muted my-3">{{ paint.style.name }}</h5>
+                                    <h5 class="card-subtitle text-muted my-3"> Taille : {{ paint.width }}
+                                        x {{ paint.height }}</h5>
+                                    <p class="card-text"><small
+                                                class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
+                                    </p>
                                     <div class="text-center">
-                                        <a class="btn btn-primary btn-sm"
+                                        <a class="btn btn-secondary btn-sm"
                                            href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
                                     </div>
                                 </div>
