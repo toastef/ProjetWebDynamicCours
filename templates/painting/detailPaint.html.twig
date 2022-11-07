@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="container">
+
         <img class="card-img my-3"
              style="height: auto; border-radius: 7px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;"
              src="{{ asset('img/oeuvres/' ~ paint.imageName) }}" alt="{{ paint.title }}">
