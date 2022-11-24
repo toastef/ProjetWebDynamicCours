@@ -53,6 +53,7 @@ public function paint(Painting $paints,CommentRepository $comment , Request $req
 
     if($form->isSubmitted() && $form->isValid()) {
         $commentaire->setIsPubliched(false);
+        $commentaire->setCreatedAt(new \DateTimeImmutable());
         $manager->persist($commentaire);
         $paints->addComment($commentaire);
         $manager->flush();

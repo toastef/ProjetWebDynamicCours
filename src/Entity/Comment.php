@@ -24,6 +24,9 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comment')]
     private ?Painting $painting = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_At = null;
+
 
 
     public function __construct()
@@ -68,6 +71,18 @@ class Comment
     public function setPainting(?Painting $painting): self
     {
         $this->painting = $painting;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_At;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_At): self
+    {
+        $this->created_At = $created_At;
 
         return $this;
     }
