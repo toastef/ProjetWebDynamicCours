@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Painting;
 use App\Entity\Style;
 use Cocur\Slugify\Slugify;
@@ -21,7 +22,9 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
         $faker = Faker\Factory::create('fr_FR');
         $slugify = new Slugify();
         $style = $manager->getRepository(Style::class)->findAll();
+        $cate = $manager->getRepository(Category::class)->findAll();
         $sty = count($style);
+        $cat = count($cate);
         $nbHeight = count($this->height);
         $nbWidth = count($this->width);
         for ($i = 1; $i <= 26; $i++) {
@@ -35,7 +38,9 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setImageName($i.'.jpg')
                 ->setSlug($slugify->slugify($name))
-                ->setStyle($style[$faker->numberBetween(0, $sty - 1)]);
+                ->setPrice(mt_rand(150,2999))
+                ->setStyle($style[$faker->numberBetween(0, $sty - 1)])
+                ->setCategories($cate[$faker->numberBetween(0, $cat - 1)]);
             $manager->persist($paint);
         }
         $manager->flush();

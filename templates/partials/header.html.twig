@@ -21,6 +21,31 @@
                         <a class="nav-link" href="{{ path('team') }}">Team</a>
                     </li>
                 </ul>
+                <div class="d-flex">
+                    {% if not app.user %} <!-- si le user n'existe pas tu affiche le bouton ligin sinon le reste -->
+                        <a  href="{{ path('app_login') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-sign-in"></i> S'identifier</a>
+                        <a  href="{{ path('app_register') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-user-alt-4"></i> S'enregistrer</a>
+                    {% else %}
+                        <div class="dropdown" style="padding-right: 25px;">
+                            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="{{ asset('img/avatar/' ~  app.user.imageName) }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{path('app_user')}}">Voir profil</a></li>
+                                <li><a class="dropdown-item" href="{{path('app_edit_profile')}}">Modifier profil</a></li>
+                                <li><a class="dropdown-item" href="#">Modifier password</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                {#{% if is_granted('ROLE_ADMIN') %} #}{# si le role est admin #}{#
+                                    <li><a class="dropdown-item" href="{{ path("app_admin_course") }}">Admin</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                {% endif %}#}
+                                <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i class="icofont-sign-out"></i>Déconnexion</a></li>
+                            </ul>
+                        </div>
+
+                    {%endif%}
+
+                </div>
             </div>
         </div>
     </nav>

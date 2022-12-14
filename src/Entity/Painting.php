@@ -82,9 +82,18 @@ class Painting
     #[ORM\OneToMany(mappedBy: 'painting', targetEntity: Comment::class)]
     private Collection $comment;
 
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\ManyToOne(inversedBy: 'paintings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $categories = null;
+
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+
     }
 
 
@@ -257,6 +266,31 @@ class Painting
 
         return $this;
     }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCategories(): ?Category
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?Category $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
 
 
 }

@@ -27,6 +27,9 @@ class Comment
     #[ORM\Column]
     private ?\DateTimeImmutable $created_At = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?User $user = null;
+
 
 
     public function __construct()
@@ -83,6 +86,18 @@ class Comment
     public function setCreatedAt(\DateTimeImmutable $created_At): self
     {
         $this->created_At = $created_At;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

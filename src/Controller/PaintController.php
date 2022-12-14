@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Painting;
 use App\Entity\Style;
 use App\Form\CommentType;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\PaintingRepository;
 use App\Repository\StyleRepository;
@@ -24,8 +25,10 @@ class PaintController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route('/paintings', name: 'paintings')]
-    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository) : Response
+    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository) : Response
     {
+        $categorie = $categoryRepository->findAll();
+
         $styles = $styleRepository->findBy(
             [],
             ['name' => 'ASC']
@@ -36,7 +39,8 @@ class PaintController extends AbstractController
 
         return $this->render('painting/painting.html.twig' , [
             'styles' => $styles,
-            'paints' => $paints
+            'paints' => $paints,
+            'categories' => $categorie,
         ]);
     }
 
@@ -52,8 +56,10 @@ public function paint(Painting $paints,CommentRepository $comment , Request $req
     $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid()) {
-        $commentaire->setIsPubliched(false);
-        $commentaire->setCreatedAt(new \DateTimeImmutable());
+        $commentaire->setIsPubliched(false)
+                    ->setCreatedAt(new \DateTimeImmutable())
+                    ->setUser($this->getUser())
+                    ->setPainting($this->getPainting());
         $manager->persist($commentaire);
         $paints->addComment($commentaire);
         $manager->flush();

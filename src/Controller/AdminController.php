@@ -106,6 +106,11 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin');
     }
 
+    /**
+     * @param Comment $comment
+     * @param EntityManagerInterface $manager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     #[Route('admin/publish/{id}', name: 'publish')]
     public function published(Comment $comment, EntityManagerInterface $manager)
     {
@@ -115,6 +120,11 @@ class AdminController extends AbstractController
     }
 
 
+    /**
+     * @param Painting $painting
+     * @param CommentRepository $comments
+     * @return Response
+     */
     #[Route('admin/comment/{id}', name: 'comment')]
     public function viewComment(Painting $painting, CommentRepository $comments): Response
     {
@@ -127,6 +137,12 @@ class AdminController extends AbstractController
 
     }
 
+    /**
+     * @param Comment $comment
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     #[Route('/admin/delecom/{id}', name: 'delecom')]
     public function delcom(Comment $comment, EntityManagerInterface $manager, Request $request)
     {

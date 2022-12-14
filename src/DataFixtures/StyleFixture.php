@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class StyleFixture extends Fixture
 {
-    private array $styles = ['Pop-Art', 'Contemporain', 'Impressionnisme', 'Abstrait', 'Street-Art'];
+    private array $styles = ['A l\'huile', 'Aquarelle', 'Bombe', 'Acrilique', 'Pastel'];
     public function load(ObjectManager $manager): void
     {
         foreach($this->styles as $style) {

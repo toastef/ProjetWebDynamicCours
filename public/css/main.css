@@ -97,3 +97,21 @@ footer a:hover {
 .cursor:hover{color: blue}
 .cursor{cursor: pointer}
 .textarea{resize: none}
+
+
+.favi {
+    border-radius: 50%;
+}
+
+.img-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.uplImg  img{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+
+}
