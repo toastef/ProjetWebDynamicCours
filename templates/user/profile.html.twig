@@ -17,9 +17,9 @@
                     <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
                     <p>Mise à jour du compte: {{ app.user.updatedAt|date('d/m/Y') }}<p>
                     <p>Status:
-                        {% for role in app.user.roles %}
-                            {{ role | capitalize | replace({'_': ' '}) }} {# remplacer le souligner de la db par un espace avec le filtre replace #}
-                        {% endfor %}
+                        {#{% for role in app.user.roles %}
+                            {{ role | capitalize | replace({'_': ' '}) }} #}{# remplacer le souligner de la db par un espace avec le filtre replace #}{#
+                        {% endfor %}#}
                     </p>
                 </div>
             </div>

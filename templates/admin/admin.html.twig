@@ -35,11 +35,14 @@
                             <td><a href="{{ path('delete',{id:paint.id}) }}) }}"><i
                                             class="icofont-ui-delete text-danger"></i></a></td>
                             <td><a href="{{ path('edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
-
-                                {% if comment != null  %}
-                                    <td class="text-center"><a href="{{ path('comment',{id:paint.id}) }}"><i
+                                {% for coms in comment %}
+                                {% if paint.id is same as (coms.painting.id)  %}
+                                    <td class="text-center"><a href="{{ path('comment',{id:paint.id}) }} "><i
                                                     class="icofont-comment"></i></a></td>
+                                    {% else %}
+                                    <td class="text-center">...</td>
                                 {% endif %}
+                            {% endfor %}
                         </tr>
                     {% endfor %}
 

@@ -1,9 +1,9 @@
+## ajouter un vendeur a l'entité painting en relation avec les user qui on le role Vendeur 
+### Création de vue réservée au vendeur avec l'ajout d'une oeuvre et le détail des oeuvres qu'ils ont déja ajouté 
 
+## partie admin création d'une vrai partie admin avec les user et les tab dans un acordéon  
 
-## modif template de la gallerie pour :
-    - inserer les prix des oeuvres 
-    - button ajouter au panier 
+### ajouter knp paginator 
 
-## check si user peut laisser commentaire 
-
-## ajouter le panier User 
+# ajouter le panier User 
+ - vue sur le panier 

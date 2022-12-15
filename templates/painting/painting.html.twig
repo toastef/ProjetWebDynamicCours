@@ -31,12 +31,14 @@
                                     <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName) }}"
                                          style="height: 225px;">
                                     <p class="card-text">
+
                                     <h5 class="card-subtitle text-muted my-3">{{ paint.style.name }}</h5>
                                     <h5 class="card-subtitle text-muted my-3"> Taille : {{ paint.width }}
                                         x {{ paint.height }}</h5>
-                                    <p class="card-text"><small
-                                                class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
+                                    <p class="card-text">
+                                        <small class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
                                     </p>
+                                    <p class="card-text">Prix : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
                                     <div class="text-center">
                                         <a class="btn btn-secondary btn-sm"
                                            href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>

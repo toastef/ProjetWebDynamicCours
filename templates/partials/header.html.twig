@@ -35,10 +35,10 @@
                                 <li><a class="dropdown-item" href="{{path('app_edit_profile')}}">Modifier profil</a></li>
                                 <li><a class="dropdown-item" href="#">Modifier password</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                {#{% if is_granted('ROLE_ADMIN') %} #}{# si le role est admin #}{#
-                                    <li><a class="dropdown-item" href="{{ path("app_admin_course") }}">Admin</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a class="dropdown-item" href="{{ path("admin") }}">Admin</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                {% endif %}#}
+                                {% endif %}
                                 <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i class="icofont-sign-out"></i>Déconnexion</a></li>
                             </ul>
                         </div>
