@@ -28,7 +28,7 @@
                     {% else %}
                         <div class="dropdown" style="padding-right: 25px;">
                             <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('img/avatar/' ~  app.user.imageName) }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}
+                                <img src="{{ asset('img/avatar/' ~  app.user.imageName)|imagine_filter('miniature') }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{path('app_user')}}">Voir profil</a></li>

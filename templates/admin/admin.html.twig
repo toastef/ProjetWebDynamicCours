@@ -27,7 +27,7 @@
 
                     {% for paint in paints %}
                         <tr>
-                            <td><img src="{{ asset('/img/oeuvres/' ~ paint.imageName) }}" alt="{{ paint.title }}"
+                            <td><img src="{{ asset('/img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="{{ paint.title }}"
                                      class="img-post"></td>
                             <td><a href="{{ path('paint', {slug: paint.slug}) }} ">{{ paint.title|capitalize }}</a></td>
                             <td>{{ paint.createdAt|date('d/m/Y') }}</td>

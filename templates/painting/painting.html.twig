@@ -28,7 +28,7 @@
                                     <h5 class="text-center">{{ paint.title | capitalize }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName) }}"
+                                    <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
                                          style="height: 225px;">
                                     <p class="card-text">
 

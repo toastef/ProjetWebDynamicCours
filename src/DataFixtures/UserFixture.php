@@ -43,14 +43,14 @@ class UserFixture extends Fixture
 
         // Admin jhon doe
         $user = new User();
-        $user->setFirstName('John')
-            ->setLastName('Doe')
-            ->setEmail('john.doe@gmail.com')
-            ->setImageName('062m.jpg')
+        $user->setFirstName('Pat')
+            ->setLastName('Mar')
+            ->setEmail('patmar@gmail.com')
+            ->setImageName('024m.jpg')
             ->setPassword($this->hasher->hashPassword($user, 'password'))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable())
-            ->setRoles(['ROLE_ADMIN']);
+            ->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
         $manager->flush();
 

@@ -13,6 +13,8 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
         "fakerphp/faker": "^1.20",
+        "imagine/imagine": "^1.2",
+        "liip/imagine-bundle": "^2.10",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.13",
         "sensio/framework-extra-bundle": "^6.1",
@@ -46,7 +48,8 @@
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/intl-extra": "^3.4",
         "twig/twig": "^2.12|^3.0",
-        "vich/uploader-bundle": "^1.21"
+        "vich/uploader-bundle": "^1.21",
+        "victor-prdh/recaptcha-bundle": "^1.6"
     },
     "config": {
         "allow-plugins": {

@@ -47,6 +47,28 @@
             "./migrations/.gitignore"
         ]
     },
+    "google/recaptcha": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.1",
+            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
+        }
+    },
+    "liip/imagine-bundle": {
+        "version": "2.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.8",
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        },
+        "files": [
+            "./config/packages/liip_imagine.yaml",
+            "./config/routes/liip_imagine.yaml"
+        ]
+    },
     "phpunit/phpunit": {
         "version": "9.5",
         "recipe": {
@@ -301,6 +323,18 @@
         },
         "files": [
             "./config/packages/vich_uploader.yaml"
+        ]
+    },
+    "victor-prdh/recaptcha-bundle": {
+        "version": "1.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "f604d862b3ce4434d131a0e9b3a2eb7bb1784aff"
+        },
+        "files": [
+            "./config/packages/recaptcha.yaml"
         ]
     }
 }
