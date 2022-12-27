@@ -51,6 +51,10 @@ class Category
         return $this->paintings;
     }
 
+    /**
+     * @param Painting $painting
+     * @return $this
+     */
     public function addPainting(Painting $painting): self
     {
         if (!$this->paintings->contains($painting)) {
@@ -61,6 +65,10 @@ class Category
         return $this;
     }
 
+    /**
+     * @param Painting $painting
+     * @return $this
+     */
     public function removePainting(Painting $painting): self
     {
         if ($this->paintings->removeElement($painting)) {

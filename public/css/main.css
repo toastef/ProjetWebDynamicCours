@@ -1,9 +1,14 @@
 * {box-sizing:border-box}
 body {
+    min-height: 100vh;
     font-size: 100%;
     color: #737171;
 }
 
+footer{
+    position: relative;
+
+}
 
 .navbar-brand {
     padding-right: 28px;
@@ -119,4 +124,14 @@ footer a:hover {
     .containerb {
         display: none;
     }
+}
+
+.count {
+    position: absolute;
+    margin-right: 15%;
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 100%;
+    color: white;
 }

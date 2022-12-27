@@ -14,9 +14,14 @@ use Doctrine\Persistence\ObjectManager;
 class PaintFixture extends Fixture implements DependentFixtureInterface
 {
 
+
     private array $height = [114, 27, 81, 89, 50, 54, 97, 65];
     private array $width = [195, 27, 81, 92, 50, 73, 100, 146];
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('fr_FR');

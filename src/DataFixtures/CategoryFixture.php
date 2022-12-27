@@ -8,6 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixture extends Fixture
 {
+    /**
+     * @var array|string[]
+     */
     private array $categories = ['Pop-Art', 'Contemporain', 'Impressionnisme', 'Abstrait', 'Street-Art'];
     public function load(ObjectManager $manager): void
     {

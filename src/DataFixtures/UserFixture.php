@@ -20,6 +20,10 @@ class UserFixture extends Fixture
         $this->hasher = $hasher;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -41,7 +45,9 @@ class UserFixture extends Fixture
         }
 
 
-        // Admin jhon doe
+        /**
+         *  super admin Pat Mar
+         */
         $user = new User();
         $user->setFirstName('Pat')
             ->setLastName('Mar')
@@ -55,7 +61,10 @@ class UserFixture extends Fixture
         $manager->flush();
 
 
-        // super admin Stef Toad
+
+        /**
+         *  super admin Stef Toad
+         */
         $user = new User();
         $user->setFirstName('Stef')
             ->setLastName('Toad')

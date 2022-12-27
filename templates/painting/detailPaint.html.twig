@@ -17,9 +17,8 @@
                 <p class="lead"><span style="font-weight: bold ;">Prix</span> : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
                 <p class="card-text"><small class="text-muted">Date de mise en ligne: {{ paint.createdAt|date('d/m/Y') }}</small></p>
                 <div class="text-center">
-                    <button href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour a la Gallery</button>
-                    <button type="button" class="btn btn-outline-dark">Ajouter au panier</button>
-
+                    <a href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour a la Gallery</a>
+                    <a href="{{ path('paint_add', {'id': paint.id}) }}"  type="button" class="btn btn-outline-dark">Ajouter au panier</a>
                 </div>
             </div>
         </div>
@@ -85,9 +84,11 @@
                 </div>
             </div>
             {% else %}
-            <h4 class="my-4">Vous devez Vous connectez pour laisser un commentaire</h4>
-            <a href="{{ path('app_login') }}" class="btn btn-secondary mb-5">Login</a>
+            <h4 class="my-4">Vous devez vous connectez pour laisser un commentaire</h4>
+            <div class="text-center">
+            <a href="{{ path('app_login') }}" class="btn btn-secondary mb-5 mx-2">Login</a>
             <a href="{{ path('app_register') }}" class="btn btn-secondary mb-5">S'enregistrer</a>
+            </div>
             {% endif %}
         </div>
     </main>

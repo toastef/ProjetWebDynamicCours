@@ -20,12 +20,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('team') }}">Team</a>
                     </li>
+                  {% if is_granted('ROLE_USER') %}
+                        {{ render(controller( 'App\\Controller\\HomeController::panier')) }}
+                    {% endif %}
                 </ul>
                 <div class="d-flex">
                     {% if not app.user %} <!-- si le user n'existe pas tu affiche le bouton ligin sinon le reste -->
                         <a  href="{{ path('app_login') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-sign-in"></i> S'identifier</a>
                         <a  href="{{ path('app_register') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-user-alt-4"></i> S'enregistrer</a>
                     {% else %}
+
                         <div class="dropdown" style="padding-right: 25px;">
                             <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{{ asset('img/avatar/' ~  app.user.imageName)|imagine_filter('miniature') }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}

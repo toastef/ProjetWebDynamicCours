@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaintController extends AbstractController
@@ -25,7 +26,7 @@ class PaintController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route('/paintings', name: 'paintings')]
-    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository) : Response
+    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository ): Response
     {
         $categorie = $categoryRepository->findAll();
 
@@ -33,46 +34,57 @@ class PaintController extends AbstractController
             [],
             ['name' => 'ASC']
         );
-        $paints = $paintingRepository->findBy( [],
+        $paints = $paintingRepository->findBy([],
             ['title' => 'ASC']
         );
 
-        return $this->render('painting/painting.html.twig' , [
+
+
+        return $this->render('painting/painting.html.twig', [
             'styles' => $styles,
             'paints' => $paints,
             'categories' => $categorie,
+
         ]);
     }
 
-#[Route('/painting/{slug}', name: 'paint')]
-public function paint(Painting $paints,CommentRepository $comment , Request $request, EntityManagerInterface $manager,StyleRepository $styles): Response
-{
-    $style = $styles->find($paints->getId());
-    $comments = $comment->findBy(
-        ['isPubliched'=> true ],
-    );
-    $commentaire = new Comment();
-    $form = $this->createForm(CommentType::class , $commentaire);
-    $form->handleRequest($request);
+    /**
+     * @param Painting $paints
+     * @param CommentRepository $comment
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param StyleRepository $styles
+     * @return Response
+     */
+    #[Route('/painting/{slug}', name: 'paint')]
+    public function paint(Painting $paints, CommentRepository $comment, Request $request, EntityManagerInterface $manager, StyleRepository $styles): Response
+    {
+        $style = $styles->find($paints->getId());
+        $comments = $comment->findBy(
+            ['isPubliched' => true],
+        );
+        $commentaire = new Comment();
+        $form = $this->createForm(CommentType::class, $commentaire);
+        $form->handleRequest($request);
 
-    if($form->isSubmitted() && $form->isValid()) {
-        $commentaire->setIsPubliched(false)
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setUser($this->getUser());
-        $manager->persist($commentaire);
-        $paints->addComment($commentaire);
-        $manager->flush();
-        $this->addFlash('success', 'Votre commentaire a bien été envoyé il sera validé par l\'administration');
-        return $this->redirectToRoute('paint',['slug' => $paints->getSlug()]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setIsPubliched(false)
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUser($this->getUser());
+            $manager->persist($commentaire);
+            $paints->addComment($commentaire);
+            $manager->flush();
+            $this->addFlash('success', 'Votre commentaire a bien été envoyé il sera validé par l\'administration');
+            return $this->redirectToRoute('paint', ['slug' => $paints->getSlug()]);
+        }
+        return $this->render('painting/detailPaint.html.twig', [
+            'paint' => $paints,
+            'styles' => $style,
+            'form' => $form->createView(),
+            'comments' => $comments,
+
+        ]);
     }
-    return $this->render('painting/detailPaint.html.twig', [
-        'paint' => $paints,
-        'styles' => $style,
-        'form'  => $form->createView(),
-        'comments' => $comments,
-
-    ]);
-}
 
 
 }
