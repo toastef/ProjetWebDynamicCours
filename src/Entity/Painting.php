@@ -89,10 +89,14 @@ class Painting
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $categories = null;
 
+    #[ORM\OneToMany(mappedBy: 'paintlike', targetEntity: Like::class)]
+    private Collection $likes;
+
 
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->likes = new ArrayCollection();
 
     }
 
@@ -287,6 +291,36 @@ class Painting
     public function setCategories(?Category $categories): self
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setPaintlike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getPaintlike() === $this) {
+                $like->setPaintlike(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Courses{{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <h4 class="my-5 text-muted">Gestion des formations</h4>
+
+
+
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>CreatedAT</th>
+
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in users %}
+            <tr>
+                <td><img src="{{ asset('img/avatar/' ~ user.imageName) }}" alt="{{ user.firstname }} "
+                         style="width: 60px; height: 60px"></td>
+                <td>{{ user.firstname|capitalize }}</td>
+                <td>{{ user.lastname|capitalize }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt | date('d/m/Y')}}</td>
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}

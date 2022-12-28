@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+    <h4 class="my-5 text-muted">Gestion des formations</h4>
+
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <td>Image</td>
+            <td>Title</td>
+            <td>Date de création</td>
+            <td>Style</td>
+            <td>Delete</td>
+            <td>Edit</td>
+            <td class="text-center">Commentaire</td>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for paint in paints %}
+            <tr>
+                <td><img src="{{ asset('/img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="{{ paint.title }}"
+                         style="width: 60px; height: 60px;"></td>
+                <td><a href="{{ path('paint', {slug: paint.slug}) }} ">{{ paint.title|capitalize }}</a></td>
+                <td>{{ paint.createdAt|date('d/m/Y') }}</td>
+                <td>{{ paint.style.name }}</td>
+                <td><a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}"><i
+                                class="icofont-ui-delete text-danger"></i></a></td>
+                <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
+                {% for coms in comment %}
+                    {% if paint.id is same as (coms.painting.id)  %}
+                        <td class="text-center"><a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i
+                                        class="icofont-comment"></i></a></td>
+                    {% else %}
+                        <td class="text-center">...</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+{% endblock %}
+

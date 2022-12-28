@@ -38,9 +38,10 @@
                                 <li><a class="dropdown-item" href="{{path('app_user')}}">Voir profil</a></li>
                                 <li><a class="dropdown-item" href="{{path('app_edit_profile')}}">Modifier profil</a></li>
                                 <li><a class="dropdown-item" href="#">Modifier password</a></li>
+                                {#<li><a href="{{ path('user_liked_paintings') }}">Mes tableaux likés</a></li>#}
                                 <li><hr class="dropdown-divider"></li>
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a class="dropdown-item" href="{{ path("admin") }}">Admin</a></li>
+                                    <li><a class="dropdown-item" href="{{ path("app_admin_paint") }}">Admin</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                 {% endif %}
                                 <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i class="icofont-sign-out"></i>Déconnexion</a></li>

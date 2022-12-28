@@ -39,6 +39,7 @@
                                         <small class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
                                     </p>
                                     <p class="card-text">Prix : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+
                                     <div class="text-center">
                                         <a class="btn btn-secondary btn-sm"
                                            href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>

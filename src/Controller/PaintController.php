@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Like;
 use App\Entity\Painting;
 use App\Entity\Style;
+use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
+use App\Repository\LikeRepository;
 use App\Repository\PaintingRepository;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +29,7 @@ class PaintController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route('/paintings', name: 'paintings')]
-    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository ): Response
+    public function painting(LikeRepository $likeRepository,PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository ): Response
     {
         $categorie = $categoryRepository->findAll();
 
@@ -34,9 +37,7 @@ class PaintController extends AbstractController
             [],
             ['name' => 'ASC']
         );
-        $paints = $paintingRepository->findBy([],
-            ['title' => 'ASC']
-        );
+        $paints = $paintingRepository->findAll();
 
 
 
@@ -44,6 +45,8 @@ class PaintController extends AbstractController
             'styles' => $styles,
             'paints' => $paints,
             'categories' => $categorie,
+
+
 
         ]);
     }
@@ -63,6 +66,7 @@ class PaintController extends AbstractController
         $comments = $comment->findBy(
             ['isPubliched' => true],
         );
+        $like = count($paints->getLikes());
         $commentaire = new Comment();
         $form = $this->createForm(CommentType::class, $commentaire);
         $form->handleRequest($request);
@@ -82,9 +86,37 @@ class PaintController extends AbstractController
             'styles' => $style,
             'form' => $form->createView(),
             'comments' => $comments,
+            'like'=> $like,
 
         ]);
     }
 
+
+    #[Route('/like/{id}', name: 'paint_like')]
+    public function like(int $id, EntityManagerInterface $entityManager, Request $request,LikeRepository $likeRepository):Response
+    {
+
+        $painting = $entityManager->getRepository(Painting::class)->find($id);
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+
+        $like =  $likeRepository->findOneBy([
+            'user' => $user,
+            'paintlike' => $painting,
+        ]);
+        if ( $like === null) {
+            $like = new Like();
+            $like   ->setUser($user)
+                    ->setPaintlike($painting);
+            $entityManager->persist($like);
+        }else {
+            $entityManager->remove($like);
+        }
+
+        $entityManager->flush();
+
+        $route = $request->headers->get('referer');
+
+        return $this->redirect($route);
+    }
 
 }

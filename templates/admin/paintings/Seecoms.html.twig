@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
 
 {% block body %}
@@ -28,14 +28,14 @@
 
                 <td> {{ coms.content }} </td>
                 {% if coms.isPubliched %}
-                    <td class="text"><a href="{{ path('publish',{id:coms.id}) }}" class="text-decoration-none"><i
+                    <td class="text"><a href="{{ path('app_admin_publish',{id:coms.id}) }}" class="text-decoration-none"><i
                                     class="icofont-eye text-success fs-2 mx-3"></i></a></td>
                 {% else %}
-                    <td class="text"><a href="{{ path('publish',{id:coms.id}) }}" class="text-decoration-none"><i
+                    <td class="text"><a href="{{ path('app_admin_publish',{id:coms.id}) }}" class="text-decoration-none"><i
                                     class="icofont-eye text-danger fs-2 mx-3"></i></a>
                     </td>
                 {% endif %}
-                <td><a href="{{ path('delecom', { id:coms.id }) }}"> <i class="icofont-ui-delete"></i></a>
+                <td><a href="{{ path('app_admin_delecom', { id:coms.id }) }}"> <i class="icofont-ui-delete"></i></a>
                 </td>
                 {% endfor %}
 

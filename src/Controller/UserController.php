@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\EditProfileType;;
 
+use App\Repository\LikeRepository;
 use App\Repository\PaintingRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -121,6 +124,14 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_panier');
     }
+
+/*    #[Route('/user/liked-paintings', name: 'user_liked_paintings')]
+    public function viewLikedPaintings(EntityManagerInterface $manager): Response
+    {
+
+
+    }*/
+
 }
 
 

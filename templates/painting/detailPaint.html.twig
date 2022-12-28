@@ -9,7 +9,8 @@
              src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('detail_oeuvre') }}" alt="{{ paint.title }}">
         <div class="card mb-3 my-3 ">
             <div class="card-body my-2 ">
-                <h4 class="card-title">{{ paint.title|capitalize }}</h4>
+                <h4 class="card-title">{{ paint.title|capitalize }} <span class="mx-5"><a href="{{ path('paint_like',{id:paint.id}) }}"><i class="icofont-like">&nbsp;{{ like }}</i></a> </span></h4>
+
                 <h5 class="card-subtitle text-muted my-3">Catégorie : {{ paint.categories.name }}</h5>
                 <p class="card-text">{{ paint.descrioption }}</p>
                 <p class="lead">Style : {{ paint.style.name }}</p>

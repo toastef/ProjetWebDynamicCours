@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tableaux likés</h1>
+
+    {% for painting in likedPaintings %}
+        <div>
+            {{ painting.name }}
+        </div>
+    {% endfor %}
+{% endblock %}
