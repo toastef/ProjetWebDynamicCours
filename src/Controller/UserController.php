@@ -82,7 +82,7 @@ class UserController extends AbstractController
          * @param SessionInterface $session
          * @return Response
          */
-     #[Route('/panier', name: 'user_panier')]
+    #[Route('/panier', name: 'user_panier')]
      public function panier(PaintingRepository $paintingRepository,SessionInterface $session)
      {
          $panier = $session->get('panier', []);

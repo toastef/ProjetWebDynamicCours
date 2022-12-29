@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Painting;
 use App\Entity\Style;
+use App\Entity\User;
 use Cocur\Slugify\Slugify;
 use Faker;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -28,6 +29,8 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
         $slugify = new Slugify();
         $style = $manager->getRepository(Style::class)->findAll();
         $cate = $manager->getRepository(Category::class)->findAll();
+        $vendeur = $manager->getRepository(User::class)->findByRole('ROLE_SELLER');
+        $vendeurcount = count($vendeur);
         $sty = count($style);
         $cat = count($cate);
         $nbHeight = count($this->height);
@@ -44,6 +47,7 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
                 ->setImageName($i.'.jpg')
                 ->setSlug($slugify->slugify($name))
                 ->setPrice(mt_rand(150,2999))
+                ->setVendeur($vendeur[$faker->numberBetween(0, $vendeurcount-1)])
                 ->setStyle($style[$faker->numberBetween(0, $sty - 1)])
                 ->setCategories($cate[$faker->numberBetween(0, $cat - 1)]);
             $manager->persist($paint);
@@ -53,7 +57,9 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return [StyleFixture::class,
+        return [
+            StyleFixture::class,
+            UserFixture::class,
         ];
     }
 }

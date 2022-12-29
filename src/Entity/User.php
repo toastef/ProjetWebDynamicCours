@@ -58,10 +58,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Like::class)]
     private Collection $likes;
 
+    #[ORM\OneToMany(mappedBy: 'vendeur', targetEntity: Painting::class)]
+    private Collection $paintings;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->paintings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -265,6 +269,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($like->getUser() === $this) {
                 $like->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Painting>
+     */
+    public function getPaintings(): Collection
+    {
+        return $this->paintings;
+    }
+
+    public function addPainting(Painting $painting): self
+    {
+        if (!$this->paintings->contains($painting)) {
+            $this->paintings->add($painting);
+            $painting->setVendeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePainting(Painting $painting): self
+    {
+        if ($this->paintings->removeElement($painting)) {
+            // set the owning side to null (unless already changed)
+            if ($painting->getVendeur() === $this) {
+                $painting->setVendeur(null);
             }
         }
 

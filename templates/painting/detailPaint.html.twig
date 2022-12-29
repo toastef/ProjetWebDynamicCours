@@ -14,6 +14,7 @@
                 <h5 class="card-subtitle text-muted my-3">Catégorie : {{ paint.categories.name }}</h5>
                 <p class="card-text">{{ paint.descrioption }}</p>
                 <p class="lead">Style : {{ paint.style.name }}</p>
+                <p class="lead">Vendeur : {{ paint.vendeur.firstName }}</p>
                 <p class="lead">Taille : {{ paint.width }} x {{ paint.height }}</p>
                 <p class="lead"><span style="font-weight: bold ;">Prix</span> : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
                 <p class="card-text"><small class="text-muted">Date de mise en ligne: {{ paint.createdAt|date('d/m/Y') }}</small></p>

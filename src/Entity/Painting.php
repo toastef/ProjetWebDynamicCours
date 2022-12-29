@@ -92,6 +92,10 @@ class Painting
     #[ORM\OneToMany(mappedBy: 'paintlike', targetEntity: Like::class)]
     private Collection $likes;
 
+    #[ORM\ManyToOne(inversedBy: 'paintings')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $vendeur = null;
+
 
     public function __construct()
     {
@@ -321,6 +325,18 @@ class Painting
                 $like->setPaintlike(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVendeur(): ?User
+    {
+        return $this->vendeur;
+    }
+
+    public function setVendeur(?User $vendeur): self
+    {
+        $this->vendeur = $vendeur;
 
         return $this;
     }
