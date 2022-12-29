@@ -12,9 +12,14 @@
     {# icofont #}
     <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}">
     {# datatable #}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.6/dist/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" >
+    {% block stylesheets %}
+
+    {% endblock %}
+
+    {% block javascripts %}
+
+    {% endblock %}
 
 </head>
 <body>
@@ -22,19 +27,24 @@
 {% include 'admin/partials/menu.html.twig' %}
 {% block body %}{% endblock %}
 {% include 'admin/partials/footer.html.twig' %}
- <script src="{{ asset('js/jquery.min.js') }}"></script>
-
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+{# Bootstrap #}
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+{# DataTable #}
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#table-admin').DataTable(
-        {
-            "info": false,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+    $(document).ready(function() {
+        $('#table-admin').DataTable(
+            {
+                "info": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                }
             }
-        }
-    );
-} );
+        );
+    } );
 </script>
+
 </body>
 </html>

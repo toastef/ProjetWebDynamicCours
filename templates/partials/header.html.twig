@@ -1,5 +1,4 @@
-{# Navbar #}
-{% block navbar %}
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Art-Gallery</a>
@@ -55,4 +54,10 @@
         </div>
     </nav>
 
-{% endblock %}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }} ">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}

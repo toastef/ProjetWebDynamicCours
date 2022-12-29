@@ -36,9 +36,11 @@ security:
         - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN } # pour accéder a ce chemin la il faut avoir le role super admin
         - { path: ^/admin, roles: ROLE_ADMIN } # Toutes les routes commencant par admin, il faut le role admin
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }
         - { path: ^/panier, roles: ROLE_USER }
 
     role_hierarchy:
+        ROLE_SELLER: ROLE_USER
         ROLE_ADMIN: ROLE_USER  # le role admin hérite du role user
         ROLE_SUPER_ADMIN: ROLE_ADMIN # Le role superadmin va hériter du role admin ainsi que du role user
 

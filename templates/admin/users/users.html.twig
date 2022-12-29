@@ -4,9 +4,7 @@
 
 {% block body %}
 
-    <h4 class="my-5 text-muted">Gestion des formations</h4>
-
-
+    <h4 class="my-5 text-muted">Gestion des Utilisateurs</h4>
 
     <table id="table-admin" class="table table-hover ">
         <thead>
@@ -15,7 +13,9 @@
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Email</th>
+            <th>Role</th>
             <th>CreatedAT</th>
+
 
 
         </tr>
@@ -29,6 +29,17 @@
                 <td>{{ user.firstname|capitalize }}</td>
                 <td>{{ user.lastname|capitalize }}</td>
                 <td>{{ user.email }}</td>
+                <td>
+                {% for role in user.roles %}
+                        {% if role is same as 'ROLE_USER' %}
+                           Utilisateur
+                        {% elseif role is same as 'ROLE_SELLER' %}
+                            Vendeur
+                        {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
+                            Super Admin
+                        {% endif %}
+                {% endfor %}
+                </td>
                 <td>{{ user.createdAt | date('d/m/Y')}}</td>
 
             </tr>

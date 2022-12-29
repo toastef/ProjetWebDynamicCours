@@ -21,11 +21,12 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/profile', name: 'app_user')]
-    public function user(): Response
+    public function user(PaintingRepository $repository,EntityManagerInterface $manager): Response
     {
-
+        $userId = $this->getUser();
+        $paintings = $repository->findLikedByUser($userId);
         return $this->render('user/profile.html.twig', [
-            'controller_name' => 'UserController',
+            'paintings' => $paintings,
         ]);
     }
 
@@ -34,7 +35,7 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    #[Route('/edit-profile', name: 'app_edit_profile')]
+    #[Route('/user/edit-profile', name: 'app_edit_profile')]
     public function editProfile(Request $request, EntityManagerInterface $manager)
     {
         $user = $this->getUser();
@@ -81,7 +82,7 @@ class UserController extends AbstractController
          * @param SessionInterface $session
          * @return Response
          */
-    /* #[Route('/panier', name: 'user_panier')]
+     #[Route('/panier', name: 'user_panier')]
      public function panier(PaintingRepository $paintingRepository,SessionInterface $session)
      {
          $panier = $session->get('panier', []);
@@ -104,7 +105,7 @@ class UserController extends AbstractController
              'items' => $panierWithData,
              'total' => $total,
          ]);
-     }*/
+     }
 
 
     /**
@@ -125,12 +126,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_panier');
     }
 
-/*    #[Route('/user/liked-paintings', name: 'user_liked_paintings')]
-    public function viewLikedPaintings(EntityManagerInterface $manager): Response
-    {
 
-
-    }*/
 
 }
 

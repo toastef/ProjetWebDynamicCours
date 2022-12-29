@@ -3,7 +3,11 @@
 {% block title %}Identification {{ parent() }}{% endblock %}
 
 {% block body %}
+{%  if is_granted('ROLE_USER') %}
 
+    <h3 class="text-center my-5">Vous êtes déja connecté ...</h3>
+
+    {% else %}
     <main class="container">
         <div class="row">
             <div class="col-md-6 offset-3">
@@ -28,5 +32,6 @@
             </div>
         </div>
     </main>
+    {% endif %}
 {% endblock %}
 

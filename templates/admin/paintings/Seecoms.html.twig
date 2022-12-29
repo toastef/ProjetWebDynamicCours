@@ -3,13 +3,7 @@
 
 {% block body %}
 
-    <main class="container">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        <table class="table">
+    <table id="table-admin" class="table table-hover ">
             <thead>
             <tr>
                 <th scope="col">Tableau</th>
@@ -45,9 +39,9 @@
             </tbody>
         </table>
 
-        <a href="{{ path('admin') }}" class="btn btn-outline-dark"> retour </a>
+        <a href="{{ path('app_admin_paint') }}" class="btn btn-outline-dark"> retour </a>
 
-    </main>
+
 
 
 {% endblock %}

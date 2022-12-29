@@ -6,7 +6,7 @@
         <main class="container my-5">
             <div class="row profile">
                 <div class="col-md-4">
-                    <img src="img/avatar/{{ app.user.imageName }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="" style="width: 100%; height: 100%;">
+                    <img src="img/avatar/{{ app.user.imageName }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="" style="width: 75%; height: 85%;">
                 </div>
                 <div class="col-md-8">
                     <h2>{{ app.user.firstName }} {{ app.user.lastName }}</h2>
@@ -17,11 +17,51 @@
                     <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
                     <p>Mise à jour du compte: {{ app.user.updatedAt|date('d/m/Y') }}<p>
                     <p>Status:
-                        {#{% for role in app.user.roles %}
-                            {{ role | capitalize | replace({'_': ' '}) }} #}{# remplacer le souligner de la db par un espace avec le filtre replace #}{#
-                        {% endfor %}#}
+                        {% for role in app.user.roles %}
+                            {{ role | capitalize | replace({'_': ' '}) }}
+                        {% endfor %}
                     </p>
+
+
+
                 </div>
             </div>
         </main>
+{#
+<h4>Tableaux likés</h4>
+
+
+{% for paint in paintings %}
+<div class="col-md-12 filter-container " style="overflow: hidden">
+    <!-- Card -->
+    <div class="col-md-4 filtr-item" data-category="{{ paint.categories.id }}" data-sort="value">
+        <div class="card m-3" style="min-height: 480px !important; height: auto;">
+            <div class="card-header bg-light">
+                <h5 class="text-center">{{ paint.title | capitalize }}</h5>
+            </div>
+            <div class="card-body">
+                <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                     style="height: 225px;">
+                <p class="card-text">
+
+                <h5 class="card-subtitle text-muted my-3">{{ paint.style.name }}</h5>
+                <h5 class="card-subtitle text-muted my-3"> Taille : {{ paint.width }}
+                    x {{ paint.height }}</h5>
+                <p class="card-text">
+                    <small class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
+                </p>
+                <p class="card-text">Prix : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+
+                <div class="text-center">
+                    <a class="btn btn-secondary btn-sm"
+                       href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    {% endfor %}
+#}
     {% endblock %}

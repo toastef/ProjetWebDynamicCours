@@ -23,6 +23,22 @@
 {% include 'partials/footer.html.twig' %}
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('js/canvas.js') }}"></script>
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+{# DataTable #}
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#table-admin').DataTable(
+            {
+                "info": false,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                }
+            }
+        );
+    } );
+</script>
 
 
 </body>

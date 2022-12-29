@@ -39,6 +39,18 @@ class PaintingRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLikedByUser($userId)
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p
+             FROM App\Entity\Painting p
+             JOIN p.likes l
+             WHERE l.user = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
 //    /**
 //     * @return Painting[] Returns an array of Painting objects
 //     */

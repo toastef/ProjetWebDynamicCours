@@ -61,7 +61,7 @@ class AdminController extends AbstractController
             $this->addFlash('success', 'Oeuvre enregistrée avec succes!');
             return $this->redirectToRoute('app_admin_paint');
         }
-        return $this->renderForm('admin/new.html.twig', [
+        return $this->renderForm('admin/paintings/new.html.twig', [
             'form' => $form
         ]);
     }
@@ -85,7 +85,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('app_admin_paint');
         }
 
-        return $this->renderForm('admin/edit.html.twig', [
+        return $this->renderForm('admin/paintings/edit.html.twig', [
             'form' => $form
         ]);
     }
@@ -131,7 +131,7 @@ class AdminController extends AbstractController
     public function viewComment(Painting $painting, CommentRepository $comments): Response
     {
 
-        return $this->render('admin/Seecoms.html.twig', [
+        return $this->render('admin/paintings/Seecoms.html.twig', [
             'paints' => $painting,
             'comments' => $comments,
 
