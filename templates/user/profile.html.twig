@@ -3,15 +3,19 @@
     {% block title %}{{ app.user.firstName }} {{ app.user.lastName }}{% endblock %}
 
     {% block body %}
+
         <main class="container my-5">
+            <h3>Votre profile</h3>
             <div class="row profile">
                 <div class="col-md-4">
-                    <img src="img/avatar/{{ app.user.imageName }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}" class="" style="width: 75%; height: 85%;">
+                    <img src="img/avatar/{{ app.user.imageName }}"
+                         alt="{{ app.user.firstName }} {{ app.user.lastName }}"
+                         class="" style="width: 75%; height: 85%;">
                 </div>
                 <div class="col-md-8">
                     <h2>{{ app.user.firstName }} {{ app.user.lastName }}</h2>
                     <div class="my-3">
-                        <a href="{{ path('app_edit_profile') }}" class="btn btn-dark">Modifier mon compte</a>
+                        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier mon compte</a>
                     </div>
                     <p>Votre Email: {{ app.user.email }}</p>
                     <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
@@ -21,47 +25,36 @@
                             {{ role | capitalize | replace({'_': ' '}) }}
                         {% endfor %}
                     </p>
-
-
-
                 </div>
             </div>
+            <hr>
         </main>
-{#
-<h4>Tableaux likés</h4>
 
-
-{% for paint in paintings %}
-<div class="col-md-12 filter-container " style="overflow: hidden">
-    <!-- Card -->
-    <div class="col-md-4 filtr-item" data-category="{{ paint.categories.id }}" data-sort="value">
-        <div class="card m-3" style="min-height: 480px !important; height: auto;">
-            <div class="card-header bg-light">
-                <h5 class="text-center">{{ paint.title | capitalize }}</h5>
-            </div>
-            <div class="card-body">
-                <img alt="" src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
-                     style="height: 225px;">
-                <p class="card-text">
-
-                <h5 class="card-subtitle text-muted my-3">{{ paint.style.name }}</h5>
-                <h5 class="card-subtitle text-muted my-3"> Taille : {{ paint.width }}
-                    x {{ paint.height }}</h5>
-                <p class="card-text">
-                    <small class="text-muted">Création: {{ paint.createdAt|date('d/m/Y') }}</small>
-                </p>
-                <p class="card-text">Prix : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
-
-                <div class="text-center">
-                    <a class="btn btn-secondary btn-sm"
-                       href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+        <section class="container">
+            <h3 class="mx-2">Tableau liké</h3>
+            <div class="col-md-12 filtr-container">
+                <div class="row">
+                    {% for paint in paintings %}
+                        <div class="col-md-4">
+                            <div class="card m-3">
+                                <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                                     class="card-img-top"
+                                     alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ paint.title | capitalize }}</h5>
+                                    <p class="card-text">Prix
+                                        : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                                    <div class="text-center">
+                                        <a class="btn btn-secondary btn-sm"
+                                           href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                        <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
+                                           class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-
-    {% endfor %}
-#}
+        </section>
     {% endblock %}

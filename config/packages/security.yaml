@@ -41,7 +41,7 @@ security:
 
     role_hierarchy:
         ROLE_SELLER: ROLE_USER
-        ROLE_ADMIN: ROLE_USER  # le role admin hérite du role user
+        ROLE_ADMIN: ROLE_SELLER  # le role admin hérite du role user
         ROLE_SUPER_ADMIN: ROLE_ADMIN # Le role superadmin va hériter du role admin ainsi que du role user
 
 when@test:
