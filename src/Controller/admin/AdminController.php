@@ -170,4 +170,18 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('admin/slider/{id}/{selected}', name: 'app_admin_slider')]
+    public function slider( EntityManagerInterface $manager, Request $request, Painting $painting, $selected)
+    {
+
+        $painting->setSelected($selected);
+
+        // Enregistrer les modifications dans la base de données
+        $manager->persist($painting);
+        $manager->flush();
+
+        // Rediriger vers la page précédente
+        return $this->redirect($request->headers->get('referer'));
+    }
+
 }

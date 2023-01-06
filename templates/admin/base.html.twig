@@ -5,14 +5,14 @@
     <title>{% block title %} Admin{% endblock %}</title>
     {# favicon #}
     <link rel="icon" class="favi" href="{{ asset('img/favicon.png') }}">
-    {#bootstrap#}
+    {# bootstrap #}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    {#Custom #}
+    {# Custom #}
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     {# icofont #}
     <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}">
     {# datatable #}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
     {% block stylesheets %}
 
     {% endblock %}
@@ -27,6 +27,7 @@
 {% include 'admin/partials/menu.html.twig' %}
 {% block body %}{% endblock %}
 {% include 'admin/partials/footer.html.twig' %}
+<script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/jquery.min.js') }}"></script>
 {# Bootstrap #}
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
@@ -34,8 +35,8 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#table-admin').DataTable(
+    $(document).ready(function () {
+        const table = $('#table-admin').DataTable(
             {
                 "info": false,
                 "language": {
@@ -43,7 +44,7 @@
                 }
             }
         );
-    } );
+    });
 </script>
 
 </body>

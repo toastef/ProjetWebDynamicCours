@@ -11,6 +11,7 @@
             <td>Title</td>
             <td>Date de création</td>
             <td>Style</td>
+            <td>Slider/Max 3</td>
             <td>Delete</td>
             <td>Edit</td>
             <td class="text-center">Commentaire</td>
@@ -26,22 +27,28 @@
                 <td><a href="{{ path('paint', {slug: paint.slug}) }} ">{{ paint.title|capitalize }}</a></td>
                 <td>{{ paint.createdAt|date('d/m/Y') }}</td>
                 <td>{{ paint.style.name }}</td>
+                <td><a href="{{ path('app_admin_slider', {'id': paint.id, 'selected': paint.selected ? 0 : 1}) }}" class="update-selection">{{ paint.selected ? 'Désélectionner' : 'Sélectionner' }}</a>
+
+                    {#<input type="checkbox" {% if paint.selected %}  checked {% endif %}" href="{{ path('app_admin_slider', {'id': paint.id, 'selected': paint.selected ? 1 : 0}) }}"></td>#}
                 <td><a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}"><i
                                 class="icofont-ui-delete text-danger"></i></a></td>
                 <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
+                <td class="text-center">
                 {% for coms in comment %}
                     {% if paint.id is same as (coms.painting.id)  %}
-                        <td class="text-center"><a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i
-                                        class="icofont-comment"></i></a></td>
+                        <a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i
+                                        class="icofont-comment"></i></a>
                     {% else %}
-                        <td class="text-center">...</td>
+                        ...
                     {% endif %}
                 {% endfor %}
+                </td>
             </tr>
         {% endfor %}
 
         </tbody>
     </table>
+
 
 
 {% endblock %}
