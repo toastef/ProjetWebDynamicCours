@@ -25,6 +25,7 @@
                             {{ role | capitalize | replace({'_': ' '}) }}
                         {% endfor %}
                     </p>
+                    <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un Tableau</a>
                 </div>
             </div>
             <hr>
@@ -60,7 +61,7 @@
         {% if is_granted('ROLE_SELLER') %}
             <section class="container">
 
-                <h3 class="mx-2">Tableau mis en vente</h3> <a href="{{ path('app_admin_new') }}">Ajouter un Tableau</a>
+                <h3 class="mx-2">Tableau mis en vente</h3>
                 <div class="col-md-12 filtr-container">
                     <div class="row">
                         {% for paint in vendeur %}

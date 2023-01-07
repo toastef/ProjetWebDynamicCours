@@ -28,7 +28,7 @@ class UserFixture extends Fixture
     {
         $faker = Factory::create();
         $slug = new Slugify(); // uniquement pour nettoyer le prefixe du mail
-        $countroles = count($this->role);
+       $countroles = count($this->role);
         for ($i = 1; $i <= 15; $i++) {
             $user = new User();
             $gender = $faker->randomElement($this->genders);

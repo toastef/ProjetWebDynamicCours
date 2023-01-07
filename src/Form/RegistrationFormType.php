@@ -40,13 +40,6 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => 'Votre email',
                 ]
             ])
-           /* ->add('role', ChoiceType::class, [
-                'choices' => [
-                    'Vendeur' => 'SELLER',
-                    'Utilisateur' => 'USER',
-                ],
-                'expanded' => true,
-            ])*/
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,

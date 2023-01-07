@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Painting;
 use App\Entity\Style;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -44,7 +45,16 @@ class PaintType extends AbstractType
                 'class' => Style::class,
                 'choice_label' => 'name',
                 'placeholder' => 'choisir un Style'
-            ]);
+            ])
+            ->add('Categories', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => 'choisir une Catégorie'
+            ])
+            ->add('Price', MoneyType::class, [
+                'currency' => 'EUR',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

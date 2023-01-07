@@ -50,7 +50,7 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
                 ->setVendeur($vendeur[$faker->numberBetween(0, $vendeurcount-1)])
                 ->setStyle($style[$faker->numberBetween(0, $sty - 1)])
                 ->setCategories($cate[$faker->numberBetween(0, $cat - 1)])
-                ->setSelected(false)
+                ->setSelected($faker->boolean(30))
                 ->setVendu(false);
 
             $manager->persist($paint);

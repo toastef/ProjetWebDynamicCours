@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Painting;
+use App\Entity\User;
 use App\Form\EditProfileType;;
 use App\Form\PaintType;
 use App\Repository\PaintingRepository;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class UserController extends AbstractController
 {
@@ -147,23 +149,31 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/vendeur/new', name: 'app_seller_new')]
-    public function new(Request $request, EntityManagerInterface $manager): Response
+    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security): Response
     {
-
+        $user = $security->getUser();
+        // Mise à jour du rôle de l'utilisateur
+        $user->setRoles(['ROLE_SELLER']);
+        $manager->persist($user);
+        //
         $paint = new Painting();
         $form = $this->createForm(PaintType::class, $paint);  // creation du formulaire
         $form->handleRequest($request);  // récupéeration des données du formulaire
-
+         //nouvelle peinture
         if ($form->isSubmitted() && $form->isValid()) {
             $paint->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable())
                 ->setImageName('image')
+                ->setVendu(false)
+                ->setVendeur($user)
+                ->setSelected(false)
                 ->createSlug();
             $manager->persist($paint);
             $manager->flush();
             $this->addFlash('success', 'Oeuvre enregistrée avec succes!');
-            return $this->redirectToRoute('app_admin_paint');
+            return $this->redirectToRoute('app_user');
         }
-        return $this->renderForm('admin/paintings/new.html.twig', [
+        return $this->renderForm('painting/new.html.twig', [
             'form' => $form
         ]);
     }
