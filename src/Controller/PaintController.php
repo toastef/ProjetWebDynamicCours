@@ -29,7 +29,7 @@ class PaintController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route('/paintings', name: 'paintings')]
-    public function painting(LikeRepository $likeRepository,PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository ): Response
+    public function painting(PaintingRepository $paintingRepository, StyleRepository $styleRepository, CategoryRepository $categoryRepository ): Response
     {
         $categorie = $categoryRepository->findAll();
 

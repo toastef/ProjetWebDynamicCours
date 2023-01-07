@@ -15,39 +15,41 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'home')]
-    public function index(PaintingRepository $paintingRepository): Response
+    public function indexSlider(PaintingRepository $paintingRepository): Response
     {
-
-
-
-        $paintLimit = $paintingRepository->findBy(
+        $paints = $paintingRepository->findby(
+            ['selected' => true],
             [],
-            [],
-            9
         );
 
         return $this->render('page/index.html.twig',
-        [
-            'paints' => $paintLimit,
-        ]);
+            [
+                'paints' => $paints,
+            ]);
     }
 
 
+    /**
+     * @param SessionInterface $session
+     * @param PaintingRepository $paintingRepository
+     * @return Response
+     */
     #[Route('/panier', name: 'user_panier')]
-        public function panier(SessionInterface $session,PaintingRepository $paintingRepository){
+    public function panier(SessionInterface $session, PaintingRepository $paintingRepository)
+    {
         $panier = $session->get('panier', []);
         $total = count($panier);
         $panierWithData = [];
 
-        foreach ($panier as $id => $quantity){
+        foreach ($panier as $id => $quantity) {
             $panierWithData[] = [
                 'product' => $paintingRepository->find($id),
                 'quantity' => $quantity
             ];
         }
 
-        $totalachat = 0 ;
-        foreach($panierWithData as $item){
+        $totalachat = 0;
+        foreach ($panierWithData as $item) {
             $totalItem = $item['product']->getPrice() * $item['quantity'];
             $totalachat += $totalItem;
 
@@ -56,7 +58,7 @@ class HomeController extends AbstractController
             [
                 'total' => $total,
                 'items' => $panierWithData,
-                'totalAchat'=>  $totalachat,
+                'totalAchat' => $totalachat,
             ]);
     }
 

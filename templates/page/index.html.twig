@@ -5,10 +5,31 @@
 {% block body %}
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/animG.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/card-test.css') }}">
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
     {% endblock %}
+
     {% block javascripts %}
-        <script src="{{ asset('js/canvas.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.carousel').slick({
+                    slidesToShow: 3,
+                    arroxs:false,
+                    slidesToScroll:1,
+                    dots:false,
+                    centerMode: true,
+                    draggable: true,
+                    respondTo: 'slider',
+                    autoplay:true,
+                    mobileFirst:true,
+                    scroll:1,
+                });
+            });</script>
     {% endblock %}
+
 
     <div class="index">
         <div class="containerb" >
@@ -29,8 +50,15 @@
         </div>
     </div>
     <div class="containers mt-5">
-        <h2 class="text-center fs-1 px-2 "><a class="text-decoration-none" href="{{ path('paintings') }}">Gallery</a></h2>
-        {% include 'partials/carousel.html.twig' %}
+        <h2 class="text-center fs-1 mt-4"><a class="text-decoration-none" href="{{ path('paintings') }}">Gallery</a></h2>
     </div>
-
+        <div class="wrapper">
+            <div class="carousel">
+                {% for paint in paints %}
+                    <div>
+                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
 {% endblock %}
