@@ -57,4 +57,39 @@
                 </div>
             </div>
         </section>
+        {% if is_granted('ROLE_SELLER') %}
+            <section class="container">
+
+                <h3 class="mx-2">Tableau mis en vente</h3> <a href="{{ path('app_admin_new') }}">Ajouter un Tableau</a>
+                <div class="col-md-12 filtr-container">
+                    <div class="row">
+                        {% for paint in vendeur %}
+                            <div class="col-md-4">
+                                <div class="card m-3">
+                                    <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                                         class="card-img-top"
+                                         alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ paint.title | capitalize }}</h5>
+                                        <p class="card-text text-muted ">
+                                            {% if paint.vendu %}
+                                            Vendu
+                                            {% else %}
+                                            Prix
+                                            : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                                            {% endif %}
+                                        <div class="text-center">
+                                            <a class="btn btn-secondary btn-sm"
+                                               href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                            <a href="{{ path('app_seller_vendu', {'id': paint.id}) }}" type="button"
+                                               class="btn btn-outline-dark btn-sm">Vendu</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% endif %}
     {% endblock %}

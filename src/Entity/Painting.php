@@ -96,18 +96,18 @@ class Painting
     #[ORM\JoinColumn(nullable: false)]
     private ?User $vendeur = null;
 
-    #[ORM\ManyToMany(targetEntity: Slider::class, mappedBy: 'picture')]
-    private Collection $sliders;
 
     #[ORM\Column]
     private ?bool $selected = null;
+
+    #[ORM\Column]
+    private ?bool $vendu = null;
 
 
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->likes = new ArrayCollection();
-        $this->sliders = new ArrayCollection();
 
     }
 
@@ -348,32 +348,6 @@ class Painting
         return $this;
     }
 
-    /**
-     * @return Collection<int, Slider>
-     */
-    public function getSliders(): Collection
-    {
-        return $this->sliders;
-    }
-
-    public function addSlider(Slider $slider): self
-    {
-        if (!$this->sliders->contains($slider)) {
-            $this->sliders->add($slider);
-            $slider->addPicture($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSlider(Slider $slider): self
-    {
-        if ($this->sliders->removeElement($slider)) {
-            $slider->removePicture($this);
-        }
-
-        return $this;
-    }
 
     public function isSelected(): ?bool
     {
@@ -383,6 +357,18 @@ class Painting
     public function setSelected(bool $selected): self
     {
         $this->selected = $selected;
+
+        return $this;
+    }
+
+    public function isVendu(): ?bool
+    {
+        return $this->vendu;
+    }
+
+    public function setVendu(bool $vendu): self
+    {
+        $this->vendu = $vendu;
 
         return $this;
     }

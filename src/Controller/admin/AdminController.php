@@ -105,6 +105,7 @@ class AdminController extends AbstractController
         }
         $manager->remove($painting);
         $manager->flush();
+        $this->addFlash('success', 'Peinture supprimée avec succès!');
         return $this->redirectToRoute('app_admin_paint');
     }
 

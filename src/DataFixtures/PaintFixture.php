@@ -49,7 +49,10 @@ class PaintFixture extends Fixture implements DependentFixtureInterface
                 ->setPrice(mt_rand(150,2999))
                 ->setVendeur($vendeur[$faker->numberBetween(0, $vendeurcount-1)])
                 ->setStyle($style[$faker->numberBetween(0, $sty - 1)])
-                ->setCategories($cate[$faker->numberBetween(0, $cat - 1)]);
+                ->setCategories($cate[$faker->numberBetween(0, $cat - 1)])
+                ->setSelected(false)
+                ->setVendu(false);
+
             $manager->persist($paint);
         }
         $manager->flush();

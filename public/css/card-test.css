@@ -11,7 +11,7 @@
 .carousel {
     width: 90%;
     margin: auto;
-    background: linear-gradient(to bottom, rgba(255, 255, 225, 0) 0%, rgb(248, 248, 242) 100%);
+    background: linear-gradient(to bottom, rgba(134, 134, 131, 0) 0%, rgb(126, 124, 124) 100%);
 }
 
 .slick-slider {

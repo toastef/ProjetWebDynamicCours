@@ -39,8 +39,8 @@ class RegistrationController extends AbstractController
             );
             if(empty($user->getImageFile())) $user->setImageName('default.jpg');
             $user->setCreatedAt(new \DateTimeImmutable())
-                ->setUpdatedAt(new \DateTimeImmutable())
-                ->setRoles(['ROLE_USER']);
+                ->setUpdatedAt(new \DateTimeImmutable());
+                /*->setRoles([$form['role']->getData()]);*/
 
             $entityManager->persist($user); // persist un nouvel utilisateur
             $entityManager->flush();

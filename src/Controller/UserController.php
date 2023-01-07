@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Painting;
 use App\Form\EditProfileType;;
-
-use App\Repository\LikeRepository;
+use App\Form\PaintType;
 use App\Repository\PaintingRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,12 +19,14 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/profile', name: 'app_user')]
-    public function user(PaintingRepository $repository,EntityManagerInterface $manager): Response
+    public function user(PaintingRepository $repository): Response
     {
         $userId = $this->getUser();
         $paintings = $repository->findLikedByUser($userId);
+        $seller = $repository->findTablesBySellerRole($userId);
         return $this->render('user/profile.html.twig', [
             'paintings' => $paintings,
+            'vendeur' => $seller,
         ]);
     }
 
@@ -127,6 +127,46 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     * @param Painting $painting
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('/vendeur/vendu/{id}', name: 'app_seller_vendu')]
+    public function delete(Painting $painting, EntityManagerInterface $manager): Response
+    {
+        $painting->setVendu(!$painting->isVendu());// set le contraire de ce qu'il récupère
+        $manager->flush();
+        return $this->redirectToRoute('app_user');
+    }
+
+
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('/vendeur/new', name: 'app_seller_new')]
+    public function new(Request $request, EntityManagerInterface $manager): Response
+    {
+
+        $paint = new Painting();
+        $form = $this->createForm(PaintType::class, $paint);  // creation du formulaire
+        $form->handleRequest($request);  // récupéeration des données du formulaire
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $paint->setCreatedAt(new \DateTimeImmutable())
+                ->setImageName('image')
+                ->createSlug();
+            $manager->persist($paint);
+            $manager->flush();
+            $this->addFlash('success', 'Oeuvre enregistrée avec succes!');
+            return $this->redirectToRoute('app_admin_paint');
+        }
+        return $this->renderForm('admin/paintings/new.html.twig', [
+            'form' => $form
+        ]);
+    }
 
 }
 

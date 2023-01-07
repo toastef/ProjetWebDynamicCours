@@ -51,6 +51,18 @@ class PaintingRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public function findTablesBySellerRole($userId)
+    {
+        $em = $this->getEntityManager();
+         $query = $em->createQuery(
+             'SELECT t 
+             FROM App\Entity\Painting t
+              WHERE t.vendeur = :seller '
+         )->setParameter('seller', $userId);
+
+        return $query->getResult();
+    }
 //    /**
 //     * @return Painting[] Returns an array of Painting objects
 //     */
