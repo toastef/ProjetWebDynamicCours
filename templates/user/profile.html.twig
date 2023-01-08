@@ -8,7 +8,7 @@
 <div class="container-fluid my-4 " >
     <p class="text-center ">
         {# Profile #}
-        <button class="btn btn-secondary px-5 mx-3 " type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary px-5 mx-3  " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Profil"
                 aria-expanded="false" aria-controls="collapseExample">
             Profil
@@ -37,30 +37,26 @@
 
     {#Profile#}
     <div class="collapse show" id="Profil">
-        <div class="card card-body">
+        <div class="card card-body align-items-center">
             <h2 class="text-center">Votre profile</h2>
-            <div class="container center">
-                <div class="user-detail-container">
+            <div class="container  " style="display:flex;">
+                <div class="user-detail-container  " >
                     <div class="user-detail">
-                        <div class="upper-card">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card user-profile-card" data-mh="card-one">
+                        <div class="upper-card mx-5">
+                            <div class="row ">
+                                <div class="container" style="width: 70%">
+                                    <div class="card user-detail-card mx-5 " data-mh="card-one">
                                         <div class="card-img-top">
                                             <img src="img/avatar/{{ app.user.imageName }}"
                                                  alt="{{ app.user.firstName }} {{ app.user.lastName }}"
-                                                 class="" style="width: 450px; height: 322px; ">
+                                                 class="" style="max-width: 100%; height: auto; ">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card user-detail-card " data-mh="card-one">
                                         <h3 class="text-center mx-3 my-3">{{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h3>
                                         <div class="px-3">
-                                        <p ><span>Email :</span> {{ app.user.email }}</p>
-                                        <p><span>created :</span> {{ app.user.createdAt|date('d/m/Y') }} </p>
-                                        <p><span>Updated :</span>{{ app.user.updatedAt|date('d/m/Y') }}</p>
-                                        <p><span>Status: :</span> {% for role in app.user.roles %}
+                                        <p>Email : {{ app.user.email }}</p>
+                                        <p>Created : {{ app.user.createdAt|date('d/m/Y') }} </p>
+                                        <p>Updated :{{ app.user.updatedAt|date('d/m/Y') }}</p>
+                                        <p>Status: : {% for role in app.user.roles %}
                                                 {{ role | capitalize | replace({'_': ' '}) }}
                                             {% endfor %}</p>
                                         </div>
@@ -124,23 +120,25 @@
                             <table class="table">
                                 <thead>
                                 <tr>
+                                    <th>image</th>
                                     <th>Tableau</th>
                                     <th>Prix</th>
                                     <th>Quantité</th>
                                     <th>Total</th>
-                                    <th></th>
+                                    <th>Retirer</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for item in items %}
                                     <tr>
-                                        <td>{{ item.product.title }}</td>
+                                        <td><img  src="{{ asset('img/oeuvres/' ~ item.product.imageName)|imagine_filter('mini_oeuvre') }}" style="width: 35px; height: 30px; margin-left: 5px;" alt="image oeuvre"></td>
+                                        <td><a href="{{ path('paint', {slug: item.product.slug}) }}">{{ item.product.title }}</a></td>
                                         <td>{{ item.product.price|format_currency('EUR', locale='fr') }}</td>
                                         <td>{{ item.quantity }}</td>
                                         <td>{{ (item.product.price * item.quantity)|format_currency('EUR', locale='fr') }}</td>
                                         <td>
                                             <a href="{{ path('paint_remove', {'id' : item.product.id}) }}"
-                                               class="btn btn-danger btn-sm">
+                                               class="btn btn-danger btn-sm mx-2">
                                                 <i class="icofont-trash"></i>
                                             </a>
                                         </td>
@@ -150,7 +148,7 @@
                                 </tbody>
                                 <tfoot >
                                 <tr>
-                                    <td colspan="3" class="text-end" style="border: none">Total :</td>
+                                    <td colspan="4" class="text-end" style="border: none">Total :</td>
                                     <td style="border: none" > {{ total|format_currency('EUR', locale='fr') }}</td>
 
                                 </tr>

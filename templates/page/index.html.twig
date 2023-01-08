@@ -13,6 +13,23 @@
     {% block javascripts %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('.carousel').slick({
+                    slidesToShow: 3,
+                    arrows:false,
+                    autoplaySpeed: 2000,
+                    slidesToScroll:1,
+                    dots:false,
+                    centerMode: true,
+                    draggable: true,
+                    respondTo: 'slider',
+                    autoplay:true,
+                    mobileFirst:true,
+                    scroll:1,
+                });
+            });
+        </script>
 
     {% endblock %}
 
@@ -39,7 +56,7 @@
         <h2 class="text-center fs-1 mt-4"><a class="text-decoration-none" href="{{ path('paintings') }}">Gallery</a></h2>
     </div>
         <div class="wrapper">
-            <div class="carousel" style=" ">
+            <div class="carousel" >
                 {% for paint in paints %}
                     <div>
                         <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="">

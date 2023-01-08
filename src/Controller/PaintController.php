@@ -37,14 +37,10 @@ class PaintController extends AbstractController
         $paints = $paintingRepository->findAll();
 
 
-
         return $this->render('painting/painting.html.twig', [
             'styles' => $styles,
             'paints' => $paints,
             'categories' => $categorie,
-
-
-
         ]);
     }
 

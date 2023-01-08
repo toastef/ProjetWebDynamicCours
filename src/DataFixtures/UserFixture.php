@@ -71,7 +71,7 @@ class UserFixture extends Fixture
         $user->setFirstName('Stef')
             ->setLastName('Toad')
             ->setEmail('stef.toad@gmail.com')
-            ->setImageName('067m.jpg')
+            ->setImageName('022m.jpg')
             ->setPassword($this->hasher->hashPassword($user, 'password'))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable())

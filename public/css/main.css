@@ -167,7 +167,6 @@ footer a:hover {
 .user-detail .card .card-img-top img {
     height: 150px;
     width: 150px;
-
     border-radius: 7px;
 }
 
@@ -181,8 +180,8 @@ footer a:hover {
 }
 
 .user-detail .user-detail-card span {
-    font-size: 18px;
-    color: blue;
+    font-size: 22px;
+    color: #0a0a0a;
     font-weight: 300;
 }
 
