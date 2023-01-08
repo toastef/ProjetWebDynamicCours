@@ -37,24 +37,20 @@
 
     {#Profile#}
     <div class="collapse show" id="Profil">
-        <div class="card card-body">
+        <div class="card card-body align-items-center">
             <h2 class="text-center">Votre profile</h2>
-            <div class="container center">
-                <div class="user-detail-container">
+            <div class="container  " style="display:flex;">
+                <div class="user-detail-container  " >
                     <div class="user-detail">
-                        <div class="upper-card">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card user-profile-card" data-mh="card-one">
+                        <div class="upper-card mx-5">
+                            <div class="row ">
+                                <div class="container" style="width: 70%">
+                                    <div class="card user-detail-card mx-5 " data-mh="card-one">
                                         <div class="card-img-top">
                                             <img src="img/avatar/{{ app.user.imageName }}"
                                                  alt="{{ app.user.firstName }} {{ app.user.lastName }}"
-                                                 class="" style="width: 450px; height: 322px; ">
+                                                 class="" style="max-width: 100%; height: auto; ">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card user-detail-card " data-mh="card-one">
                                         <h3 class="text-center mx-3 my-3">{{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h3>
                                         <div class="px-3">
                                         <p ><span>Email :</span> {{ app.user.email }}</p>
