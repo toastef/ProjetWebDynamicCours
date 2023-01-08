@@ -27,10 +27,10 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request); // récup des données du formulaire
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setRoles(['ROLE_USER']);
 
-            $entityManager->persist($user); // persist un nouvel utilisateur
+            $entityManager->persist($user);
             $entityManager->flush();
 
             // email de confirmation

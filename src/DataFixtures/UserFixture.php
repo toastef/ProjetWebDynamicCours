@@ -15,6 +15,8 @@ class UserFixture extends Fixture
     private array $genders = ['male', 'female'];
     private array $role = [['ROLE_USER'], ['ROLE_SELLER']];
 
+
+   
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;

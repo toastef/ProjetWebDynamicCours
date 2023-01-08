@@ -39,6 +39,11 @@ class PaintingRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Va permettre de retrouver les peintures liké par un user
+     * @param $userId
+     * @return float|int|mixed|string
+     */
     public function findLikedByUser($userId)
     {
         $em = $this->getEntityManager();
@@ -52,31 +57,20 @@ class PaintingRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    /**
+     * Permet de retrouver les tableaux d'un vendeur
+     * @param $userId
+     * @return float|int|mixed|string
+     */
     public function findTablesBySellerRole($userId)
     {
         $em = $this->getEntityManager();
-         $query = $em->createQuery(
-             'SELECT t 
+        $query = $em->createQuery(
+            'SELECT t 
              FROM App\Entity\Painting t
               WHERE t.vendeur = :seller '
-         )->setParameter('seller', $userId);
+        )->setParameter('seller', $userId);
 
         return $query->getResult();
     }
-//    /**
-//     * @return Painting[] Returns an array of Painting objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-
 }

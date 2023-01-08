@@ -37,7 +37,9 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN } # Toutes les routes commencant par admin, il faut le role admin
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_SELLER }
         - { path: ^/panier, roles: ROLE_USER }
+        - { path: ^/like, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_SELLER: ROLE_USER

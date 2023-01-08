@@ -2,95 +2,205 @@
 
     {% block title %}{{ app.user.firstName }} {{ app.user.lastName }}{% endblock %}
 
-    {% block body %}
+    {% block body  %}
 
-        <main class="container my-5">
-            <h3>Votre profile</h3>
-            <div class="row profile">
-                <div class="col-md-4">
-                    <img src="img/avatar/{{ app.user.imageName }}"
-                         alt="{{ app.user.firstName }} {{ app.user.lastName }}"
-                         class="" style="width: 75%; height: 85%;">
-                </div>
-                <div class="col-md-8">
-                    <h2>{{ app.user.firstName }} {{ app.user.lastName }}</h2>
-                    <div class="my-3">
-                        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier mon compte</a>
-                    </div>
-                    <p>Votre Email: {{ app.user.email }}</p>
-                    <p>Création du compte: {{ app.user.createdAt|date('d/m/Y') }}</p>
-                    <p>Mise à jour du compte: {{ app.user.updatedAt|date('d/m/Y') }}<p>
-                    <p>Status:
-                        {% for role in app.user.roles %}
-                            {{ role | capitalize | replace({'_': ' '}) }}
-                        {% endfor %}
-                    </p>
-                    <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un Tableau</a>
-                </div>
-            </div>
-            <hr>
-        </main>
 
-        <section class="container">
-            <h3 class="mx-2">Tableau liké</h3>
-            <div class="col-md-12 filtr-container">
-                <div class="row">
-                    {% for paint in paintings %}
-                        <div class="col-md-4">
-                            <div class="card m-3">
-                                <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
-                                     class="card-img-top"
-                                     alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ paint.title | capitalize }}</h5>
-                                    <p class="card-text">Prix
-                                        : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
-                                    <div class="text-center">
-                                        <a class="btn btn-secondary btn-sm"
-                                           href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
-                                        <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
-                                           class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+<div class="container-fluid my-4 " >
+    <p class="text-center ">
+        {# Profile #}
+        <button class="btn btn-secondary px-5 mx-3 " type="button" data-bs-toggle="collapse"
+                data-bs-target="#Profil"
+                aria-expanded="false" aria-controls="collapseExample">
+            Profil
+        </button>
+        {# //like #}
+        <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#Like"
+                aria-expanded="false" aria-controls="collapseExample">
+            Like
+        </button>
+
+        <button id="panier" class="btn btn-secondary px-5 mx-3 " type="button" data-bs-toggle="collapse"
+                data-bs-target="#Achat"
+                aria-expanded="false" aria-controls="collapseExample">
+            Panier
+        </button>
+        {% if is_granted('ROLE_SELLER') %}
+            <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#Vente"
+                    aria-expanded="false" aria-controls="collapseExample">
+                En vente
+            </button>
+        {% endif %}
+    </p>
+
+
+    {#Profile#}
+    <div class="collapse show" id="Profil">
+        <div class="card card-body">
+            <h2 class="text-center">Votre profile</h2>
+            <div class="container center">
+                <div class="user-detail-container">
+                    <div class="user-detail">
+                        <div class="upper-card">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card user-profile-card" data-mh="card-one">
+                                        <div class="card-img-top">
+                                            <img src="img/avatar/{{ app.user.imageName }}"
+                                                 alt="{{ app.user.firstName }} {{ app.user.lastName }}"
+                                                 class="" style="width: 450px; height: 322px; ">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-        {% if is_granted('ROLE_SELLER') %}
-            <section class="container">
-
-                <h3 class="mx-2">Tableau mis en vente</h3>
-                <div class="col-md-12 filtr-container">
-                    <div class="row">
-                        {% for paint in vendeur %}
-                            <div class="col-md-4">
-                                <div class="card m-3">
-                                    <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
-                                         class="card-img-top"
-                                         alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ paint.title | capitalize }}</h5>
-                                        <p class="card-text text-muted ">
-                                            {% if paint.vendu %}
-                                            Vendu
-                                            {% else %}
-                                            Prix
-                                            : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
-                                            {% endif %}
-                                        <div class="text-center">
-                                            <a class="btn btn-secondary btn-sm"
-                                               href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
-                                            <a href="{{ path('app_seller_vendu', {'id': paint.id}) }}" type="button"
-                                               class="btn btn-outline-dark btn-sm">Vendu</a>
+                                <div class="col-md-6">
+                                    <div class="card user-detail-card " data-mh="card-one">
+                                        <h3 class="text-center mx-3 my-3">{{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h3>
+                                        <div class="px-3">
+                                        <p ><span>Email :</span> {{ app.user.email }}</p>
+                                        <p><span>created :</span> {{ app.user.createdAt|date('d/m/Y') }} </p>
+                                        <p><span>Updated :</span>{{ app.user.updatedAt|date('d/m/Y') }}</p>
+                                        <p><span>Status: :</span> {% for role in app.user.roles %}
+                                                {{ role | capitalize | replace({'_': ' '}) }}
+                                            {% endfor %}</p>
+                                        </div>
+                                        <div class="my-4 text-center ">
+                                            <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un
+                                                Tableau</a>
+                                            <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier
+                                                mon
+                                                Profile</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </section>
-        {% endif %}
-    {% endblock %}
+
+            </div>
+        </div>
+    </div>
+
+            {# Like #}
+            <div class="collapse" id="Like">
+                <div class="card card-body">
+                    <h2 class="mx-3 text-center">Tableau liké</h2>
+                    <div class="col-md-12">
+                        <div class="row">
+                            {% for paint in paintings %}
+                                <div class="col-md-3">
+                                    <div class="card m-3">
+                                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                                             class="card-img-top"
+                                             alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ paint.title | capitalize }}</h5>
+                                            <p class="card-text">Prix
+                                                : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                                            <div class="text-center">
+                                                <a class="btn btn-secondary btn-sm"
+                                                   href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                                <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
+                                                   class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse show" id="Achat">
+                <div class="card card-body">
+                    <div class="container">
+                        <div class="text-center">
+                            <h2>Votre Panier</h2>
+                        </div>
+
+                        {% if items | length > 0 %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Tableau</th>
+                                    <th>Prix</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in items %}
+                                    <tr>
+                                        <td>{{ item.product.title }}</td>
+                                        <td>{{ item.product.price|format_currency('EUR', locale='fr') }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ (item.product.price * item.quantity)|format_currency('EUR', locale='fr') }}</td>
+                                        <td>
+                                            <a href="{{ path('paint_remove', {'id' : item.product.id}) }}"
+                                               class="btn btn-danger btn-sm">
+                                                <i class="icofont-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+                                </tbody>
+                                <tfoot >
+                                <tr>
+                                    <td colspan="3" class="text-end" style="border: none">Total :</td>
+                                    <td style="border: none" > {{ total|format_currency('EUR', locale='fr') }}</td>
+
+                                </tr>
+                                </tfoot>
+                            </table>
+                        {% else %}
+                            <p> Panier vide</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapse" id="Vente">
+                <div class="card card-body">
+                    <h2 class="mx-3 text-center ">Tableau mis en vente</h2>
+                    <div class="col-md-12 filtr-container">
+                        <div class="row">
+                            {% for paint in vendeur %}
+                                <div class="col-md-3">
+                                    <div class="card m-3">
+                                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                                             class="card-img-top"
+                                             alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ paint.title | capitalize }}</h5>
+                                            <p class="card-text text-muted ">
+                                                {% if paint.vendu %}
+                                                Vendu
+                                                {% else %}
+                                                Prix
+                                                : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                                            {% endif %}
+                                            <div class="text-center">
+                                                <a class="btn btn-secondary btn-sm"
+                                                   href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                                <a href="{{ path('app_seller_vendu', {'id': paint.id}) }}"
+                                                   type="button"
+                                                   class="btn btn-outline-dark btn-sm">Vendu</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+        {% endblock %}

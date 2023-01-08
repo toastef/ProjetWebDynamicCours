@@ -1,6 +1,6 @@
 * {box-sizing:border-box}
 body {
-    min-height: 100vh;
+
     font-size: 100%;
     color: #737171;
 }
@@ -27,7 +27,6 @@ body {
 img {
     width: 350px;
     height: 300px;
-
 }
 a{
     text-decoration: none;
@@ -54,7 +53,6 @@ a{
 
 /* Footer */
 footer {
-    bottom: 0;
     margin-top: 20px;
     padding: 20px 0;
     border-top: 1px solid #dfdfdf;
@@ -134,5 +132,61 @@ footer a:hover {
 
 .cont {
     display: flex;
+}
 
+/*profil*/
+.upper-card {
+    padding: 0 40px;
+}
+
+.user-detail-container {
+    width: 70vw;
+}
+
+.user-detail {
+    padding: 20px;
+}
+
+.user-detail .card {
+    box-sizing: border-box;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+    border: 0;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.user-detail .card .card-body {
+    padding: 0;
+}
+
+.user-detail .card .card-img-top {
+    width: 100%;
+    text-align: center;
+}
+
+.user-detail .card .card-img-top img {
+    height: 150px;
+    width: 150px;
+
+    border-radius: 7px;
+}
+
+.user-detail .user-profile-card {
+    text-align: center;
+}
+
+
+.user-detail .user-profile-card h3 {
+    margin: 5px 0;
+}
+
+.user-detail .user-detail-card span {
+    font-size: 18px;
+    color: blue;
+    font-weight: 300;
+}
+
+
+.login {
+    border-radius: 7px;
 }

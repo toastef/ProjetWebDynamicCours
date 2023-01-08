@@ -5,18 +5,21 @@
     padding-top: 45px;
     text-align: center;
 
-
 }
 
 .carousel {
     width: 90%;
     margin: auto;
-    background: linear-gradient(to bottom, rgba(134, 134, 131, 0) 0%, rgb(126, 124, 124) 100%);
+    background: linear-gradient(to bottom, rgba(255, 254, 246, 0.97) 0%, rgba(117, 115, 115, 0.49) 100%);
+    box-shadow: 12px 0 15px -4px rgba(61, 62, 63, 0.8), -12px 0 8px -4px rgba(73, 74, 75, 0.8);
+
+
 }
 
 .slick-slider {
     height: auto;
-    padding-top: 20px;
+
+    border-radius: 10px;
 }
 
 .slick-slide {
@@ -38,122 +41,3 @@
 }
 
 
-/*
-*, ::before, ::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background: #111;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.slider-1 {
-    max-width: 800px;
-    margin: 70px auto;
-    overflow: hidden;
-    border: 1px solid #f1f1f1;
-
-}
-.slider-1 .slider {
-    animation: slider-1 !*15s*! infinite !*ease-in-out*!;
-    display: flex;
-
-
-    !* Si on veut faire glisser vers la droite *!
-    !* Il faut aussi changer l'animation(transform) en valeurs positives *!
-    !* flex-direction: row-reverse; *!
-}
-.slider-1 .oeuvre {
-    background: #000;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-    padding: 20px ;
-    width: 100%;
-    font-size: 45px;
-    color: #f1f1f1;
-    border: 1px solid yellow;
-}
-
-img{
-    align-items: center;
-    justify-content: center;
-}
-
-
-@keyframes slider-1 {
-    0%{
-        transform: translateX(0);
-    }
-    !*10% {
-        transform: translateX(0);
-    }
-    20%,
-    35% {
-        transform: translateX(-100%);
-    }
-    45%,
-    60% {
-        transform: translateX(-200%);
-    }
-    75%,
-    80% {
-        transform: translateX(-300%);
-    }
-    90%,*!
-    100% {
-        transform: translateX(-400%);
-    }
-}
-*/
-
-
-/* 3 card 3d carousel
-.containers {
-    width: 95%;
-    height: 50vh;
-    margin-left: 25px;
-    padding-left: 110px;
-
-
-}
-.img3d_container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-}
-.img3d_container .img3d_container--title {
-    font-size: 30px;
-    font-weight: 100;
-    color: #fff;
-    text-align: center;
-    margin-bottom: 35px;
-}
-.img3d_container .img3d_container--title span#typewriter {
-    font-weight: 600;
-}
-.img3d_container .img3d_container--image {
-    max-width: 300px;
-    height: auto;
-    perspective: 3000px;
-    transform-style: preserve-3d;
-}
-.img3d_container .img3d_container--image img {
-    width: 100%;
-    transform: rotateX(70deg) rotateZ(-60deg) translate3d(-140px, 0px, 70px);
-    box-shadow: inset 10px 10px 15px 5px rgba(0, 0, 0, 0.4), -80px 60px 15px 5px rgba(0, 0, 0, 0.4);
-    transition: all 0.5s;
-    transform-style: preserve-3d;
-    border-radius: 25px;
-}
-.img3d_container .img3d_container--image img:hover {
-    transform: rotateX(0deg) rotateZ(0) translate3d(0, 0, 0);
-    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
-}*/

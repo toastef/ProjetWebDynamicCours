@@ -41,19 +41,7 @@ class LikeRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLikedPaintingsByUser(User $user): array
-    {
-        $entityManager = $this->getEntityManager();
 
-        $query = $entityManager->createQuery(
-            'SELECT l.painting
-            FROM App\Entity\Like l
-            WHERE l.user = :user'
-        )->setParameter('user', $user);
-
-        // Exécution de la requête et récupération du résultat
-        return $query->getResult();
-    }
 
 //    /**
 //     * @return Like[] Returns an array of Like objects

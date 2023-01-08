@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\Like;
 use App\Entity\Painting;
-use App\Entity\Style;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Repository\CategoryRepository;
@@ -17,8 +16,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PaintController extends AbstractController
@@ -92,6 +89,13 @@ class PaintController extends AbstractController
     }
 
 
+    /**
+     * @param int $id
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @param LikeRepository $likeRepository
+     * @return Response
+     */
     #[Route('/like/{id}', name: 'paint_like')]
     public function like(int $id, EntityManagerInterface $entityManager, Request $request,LikeRepository $likeRepository):Response
     {
