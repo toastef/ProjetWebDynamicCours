@@ -6,11 +6,14 @@ use App\Entity\Painting;
 use App\Form\EditProfileType;
 use App\Form\PaintType;
 use App\Repository\PaintingRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -139,7 +142,7 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/vendeur/new', name: 'app_seller_new')]
-    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security): Response
+    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository ): Response
     {
         $user = $security->getUser();
         // Mise à jour du rôle de l'utilisateur
@@ -161,14 +164,30 @@ class UserController extends AbstractController
             $manager->persist($paint);
             $manager->flush();
             $this->addFlash('success', 'Oeuvre enregistrée avec succes!');
+
+                // email
+            $userse = $userRepository->findAll();
+            foreach ($userse as $users) {
+                $email = (new TemplatedEmail())
+                    ->from('info@Gallery.be')
+                    ->to( 'info@gall.be')
+                    ->subject('Nouveau tableau ajouté')
+                    ->htmlTemplate('contact/new_painting.html.twig',)
+                    ->context([
+                        'title'=> "Nouveau tableau Ajouté a notre Gallery",
+                        'firstName' => $user->getFirstName(),
+                        'lastName'  => $user->getLastName(),
+                        'paint' => $paint->getImageName(),
+                        'prix' => $paint->getPrice(),
+                    ]);
+                $mailer->send($email);
+            }
             return $this->redirectToRoute('app_user');
         }
         return $this->renderForm('painting/new.html.twig', [
             'form' => $form
         ]);
     }
-
-
 }
 
 
