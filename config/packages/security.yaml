@@ -38,6 +38,7 @@ security:
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_SELLER }
+        - { path: ^/vendeur, roles: ROLE_USER }
         - { path: ^/panier, roles: ROLE_USER }
         - { path: ^/like, roles: ROLE_USER }
 

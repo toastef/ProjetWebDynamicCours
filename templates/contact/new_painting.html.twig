@@ -1,19 +1,23 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-<div style="width: 100%; height: 100%; display: flex; flex-direction: row; justify-content: center; text-align: center">
+{% apply inline_css(source('@style/bootstrap.min.css')) %}
 
-    <h3 style="width: 30%;">{{ title }}</h3>
-    <hr>
-
-    <p> Tableau ajouté par : {{ firstName|capitalize }} {{ lastName|capitalize  }}</p>
-    <div style="width: 650px; height: auto; border-radius: 7px; text-align: center; box-shadow: rgba(0,0,0,0.89) 0 2px 4px, rgba(0,0,0,0.6) 0 7px 13px -3px, rgba(0,0,0,0.56) 0 -3px 0 inset;">
-        <img style="width: 100%; height: auto;"
-             src="{{ email.image('@image/' ~ paint) }}" alt="image de l'oeuvre">
+    <div class="container ">
+        <div class="card mb-3 my-3 ">
+            <div class="card-body my-2 ">
+                <h3 class="card-title text-center my-3">{{ title }}</h3>
+                <hr class="my-4 ">
+                <h5 class="card-subtitle text-center">Tableau ajouté par
+                    : {{ firstName|capitalize }} {{ lastName|capitalize }}</h5>
+                <p class="lead text-center my-2">Au prix de : {{ prix|format_currency('EUR', locale='fr') }}</p>
+                <div class="my-5">
+                    <h4 class="card-title text-center my-3">{{ titreOeuvre|capitalize }}</h4>
+                    <div class="text-center">
+                        <img class="card-img  my-3 align-items-center"
+                             style="width: 450px; height: 300px; border-radius: 7px; box-shadow: rgba(0,0,0,0.89) 0 2px 4px, rgba(0,0,0,0.6) 0 7px 13px -3px, rgba(0,0,0,0.56) 0 -3px 0 inset;"
+                             src="{{ email.image('@image/' ~ paint) }}" alt="image du tableau ajouté">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <p>Au prix de : {{ prix|format_currency('EUR', locale='fr') }}</p>
-</div>
-{% endblock %}
 
-
-
-
+{% endapply %}

@@ -111,11 +111,23 @@ class PaintController extends AbstractController
         }else {
             $entityManager->remove($like);
         }
-
         $entityManager->flush();
-
         $route = $request->headers->get('referer');
+        return $this->redirect($route);
+    }
 
+    #[Route('/unlike/{id}', name: 'paint_unlike')]
+    public function unlike(int $id, EntityManagerInterface$entityManager, Request $request, LikeRepository $likeRepository): Response
+    {
+        $painting = $entityManager->getRepository(Painting::class)->find($id);
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
+        $like =  $likeRepository->findOneBy([
+            'user' => $user,
+            'paintlike' => $painting,
+        ]);
+        $entityManager->remove($like);
+        $entityManager->flush();
+        $route = $request->headers->get('referer');
         return $this->redirect($route);
     }
 

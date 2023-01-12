@@ -99,6 +99,8 @@
                                                    href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
                                                 <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
                                                    class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+                                                <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
+                                                   class="btn btn-outline-dark btn-sm">retirer</a>
                                             </div>
                                         </div>
                                     </div>
@@ -109,6 +111,8 @@
                 </div>
             </div>
 
+
+         {#Panier#}
             <div class="collapse show" id="Achat">
                 <div class="card card-body">
                     <div class="container">

@@ -31,8 +31,15 @@
                 <td><a href="{{ path('app_admin_slider', {'id': paint.id, 'selected': paint.selected ? 0 : 1}) }}"
                        class="update-selection btn btn-outline-secondary">{{ paint.selected ? 'Désélectionner' : 'Sélectionner' }}</a>
 
-                <td><a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}"><i
-                                class="icofont-ui-delete text-danger"></i></a></td>
+                <td>
+                    <a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}">
+                        {% if paint.vendu %}
+                        <i class="icofont-ui-delete text-danger"></i>
+                        {% else %}
+                        <i class="icofont-ui-delete"></i>
+                        {% endif %}
+                    </a>
+                </td>
                 <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
                 <td class="text-center">
                     {% for coms in comment %}

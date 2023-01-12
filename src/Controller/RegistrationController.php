@@ -24,7 +24,7 @@ class RegistrationController extends AbstractController
      * @return Response
      */
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,MailerInterface $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,7 +38,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            if(empty($user->getImageFile())) $user->setImageName('default.jpg');
+            if (empty($user->getImageFile())) $user->setImageName('default.jpg');
             $user->setCreatedAt(new \DateTimeImmutable())
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setRoles(['ROLE_USER']);
@@ -55,9 +55,9 @@ class RegistrationController extends AbstractController
                 ->htmlTemplate('contact/email.html.twig')
                 ->context([
                     'firstName' => $user->getFirstName(),
-                    'lastName'  => $user->getLastName(),
+                    'lastName' => $user->getLastName(),
                     'title' => 'Inscription réussie',
-                    'message' => 'Vous vous êtes bien inscrit sur notre compte avec le nom '. $user->getFirstName(),
+                    'message' => 'Vous êtes bien inscrit sur notre site avec le nom ' . $user->getFirstName(),
                 ]);
             $mailer->send($email);
             return $this->redirectToRoute('home'); // redirection

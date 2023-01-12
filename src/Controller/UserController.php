@@ -74,15 +74,15 @@ class UserController extends AbstractController
             [
                 'form' => $form,
             ]);
-
-
     }
 
 
     /**
+     * ajout d'un element au panier
      * @param $id
      * @param SessionInterface $session
-     * @return void
+     * @param Request $request
+     * @return Response
      */
     #[Route('/user/add/{id}', name: 'paint_add')]
     public function add($id, SessionInterface $session, Request $request): Response
@@ -96,14 +96,12 @@ class UserController extends AbstractController
         }
 
         $session->set('panier', $panier);
-
-
         return $this->redirectToRoute('paintings');
-
     }
 
 
     /**
+     * Suppression d'un element du panier
      * @param $id
      * @param SessionInterface $session
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -123,6 +121,7 @@ class UserController extends AbstractController
 
 
     /**
+     * Ajouter la mention Vendu a un tableau
      * @param Painting $painting
      * @param EntityManagerInterface $manager
      * @return Response
@@ -130,19 +129,24 @@ class UserController extends AbstractController
     #[Route('/vendeur/vendu/{id}', name: 'app_seller_vendu')]
     public function delete(Painting $painting, EntityManagerInterface $manager): Response
     {
-        $painting->setVendu(!$painting->isVendu());// set le contraire de ce qu'il récupère
+        $painting->setVendu(!$painting->isVendu());
         $manager->flush();
         return $this->redirectToRoute('app_user');
     }
 
 
     /**
+     * Ajout d'une peinture par l'utilisateur avec envoi de l'info par mail a tous les utilisateurs
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Security $security
+     * @param MailerInterface $mailer
+     * @param UserRepository $userRepository
      * @return Response
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     #[Route('/vendeur/new', name: 'app_seller_new')]
-    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository ): Response
+    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository): Response
     {
         $user = $security->getUser();
         // Mise à jour du rôle de l'utilisateur
@@ -163,21 +167,22 @@ class UserController extends AbstractController
                 ->createSlug();
             $manager->persist($paint);
             $manager->flush();
-            $this->addFlash('success', 'Oeuvre enregistrée avec succes!');
+            $this->addFlash('success', 'Tableau enregistré avec succes!');
 
-                // email
+            // email
             $userse = $userRepository->findAll();
             foreach ($userse as $users) {
                 $email = (new TemplatedEmail())
                     ->from('info@Gallery.be')
-                    ->to( 'info@gall.be')
+                    ->to($users->getEmail())
                     ->subject('Nouveau tableau ajouté')
                     ->htmlTemplate('contact/new_painting.html.twig',)
                     ->context([
-                        'title'=> "Nouveau tableau Ajouté a notre Gallery",
+                        'title' => "Nouveau tableau ajouté à notre Gallery",
                         'firstName' => $user->getFirstName(),
-                        'lastName'  => $user->getLastName(),
+                        'lastName' => $user->getLastName(),
                         'paint' => $paint->getImageName(),
+                        'titreOeuvre' => $paint->getTitle(),
                         'prix' => $paint->getPrice(),
                     ]);
                 $mailer->send($email);
