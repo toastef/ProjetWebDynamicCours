@@ -10,6 +10,7 @@ composer install
 npm i 
 ```
 
+
 ## Lancement de l'application et création base de donnée
 Création de la base de donnée Art2022, modifier le fichier .env L31 si pas de mot de passe en localhost, retirer le 2eme root dans le lien
 ```bash
@@ -46,6 +47,7 @@ maildev --hide-extensions STARTTLS
 #transfert async des mail
 php bin/console messenger:consume async 
 ```
-
+## phpDocumentor
+[Ouvrir](http://localhost:63342/Gallery/Gallery/doc/api/index.html)
 
 
