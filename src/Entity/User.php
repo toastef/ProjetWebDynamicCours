@@ -10,8 +10,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Imagine\Gd\Imagine;
-use Imagine\Image\Box;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Vich\Uploadable]
@@ -34,9 +33,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[Assert\Length(
+        min:2,
+        minMessage:'Votre firstname doit contenir au min{{ limit }} characters ',
+    )]
     #[ORM\Column(length: 120)]
     private ?string $firstName = null;
 
+    #[Assert\Length(
+        min:2,
+        minMessage:'Votre flastName doit contenir au min{{ limit }} characters ',
+    )]
     #[ORM\Column(length: 120)]
     private ?string $lastName = null;
 

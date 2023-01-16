@@ -4,13 +4,12 @@
 {% block stylesheets %}
     <style>
         footer{
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+           display: none;
         }
     </style>
 {% endblock %}
 {% block body %}
+
     <div class="px-2 pt-5 my-3 text-center border-bottom">
         <h1 class="display-4 fw-bold">About Us</h1>
         <div class="col-lg-6 mx-auto">
@@ -23,9 +22,27 @@
             <img src="{{ asset('img/ban04.jpeg') }}" class="img-fluid border rounded-3 shadow-lg mb-4"
                  alt="Example image" width="700" height="600" loading="lazy">
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 mx-5">
-                <a href="{{ path('app_contact') }}"  type="button" class="btn btn-secondary btn-lg px-4 me-sm-3 mx-2">Nous contacter</a>
+                <button  type="button" class="btn btn-secondary btn-lg px-4 me-sm-3 mx-2"
+                         data-bs-toggle="collapse"
+                         data-bs-target="#contact"
+                         aria-expanded="false" aria-controls="collapseExample">Nous contacter</button>
             </div>
         </div>
+
+        <div class="collapse" id="contact">
+            <main class="container">
+                <section class="row">
+                    <div class="col-md-8 offset-md-2 my-3">
+                        <h2 class="display-4 my-3">Nous contacter</h2>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button type="submit" class="btn btn-outline-dark">Envoyer</button>
+                        {{ form_end(form) }}
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
+
 {% endblock %}
 

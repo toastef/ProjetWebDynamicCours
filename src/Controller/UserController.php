@@ -16,10 +16,10 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
 class UserController extends AbstractController
 {
     /**
+     * Variable Utilisé dans section profile
      * @param PaintingRepository $repository
      * @param SessionInterface $session
      * @return Response
@@ -55,6 +55,7 @@ class UserController extends AbstractController
     }
 
     /**
+     * Modification profile
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
@@ -78,7 +79,7 @@ class UserController extends AbstractController
 
 
     /**
-     * ajout d'un element au panier
+     * Ajout d'un element au panier
      * @param $id
      * @param SessionInterface $session
      * @param Request $request
@@ -150,8 +151,11 @@ class UserController extends AbstractController
     {
         $user = $security->getUser();
         // Mise à jour du rôle de l'utilisateur
-        $user->setRoles(['ROLE_SELLER']);
-        $manager->persist($user);
+        if($user->getRoles() !== ['ROLE_SUPER_ADMIN'] || $user->getRoles() !== ['ROLE_ADMIN']){
+            $user->setRoles(['ROLE_SELLER']);
+            $manager->persist($user);
+        }
+
         //Nouvelle peinture
         $paint = new Painting();
         $form = $this->createForm(PaintType::class, $paint);
@@ -193,6 +197,7 @@ class UserController extends AbstractController
             'form' => $form
         ]);
     }
+
 }
 
 

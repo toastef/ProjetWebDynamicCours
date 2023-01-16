@@ -44,11 +44,10 @@
                 <td class="text-center">
                     {% for coms in comment %}
                         {% if paint.id is same as (coms.painting.id) %}
-                        <a href="{{ path('app_admin_comment',{id:paint.id}) }} ">
                             {% if coms.isPubliched %}
-                                <i class="icofont-comment "></i></a>
+                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i class="icofont-comment "></i></a>
                             {% else %}
-                                <i class="icofont-comment text-danger "></i></a>
+                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "> <i class="icofont-comment text-danger "></i></a>
                             {% endif %}
                         {% else %}
                             ...

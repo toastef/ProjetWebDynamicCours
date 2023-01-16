@@ -8,7 +8,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use App\Repository\PaintingRepository;
@@ -17,10 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaintingRepository::class)]
 #[Vich\Uploadable]
-#[UniqueEntity(
-    fields: ['title'],
-    message: 'ce titre existe déja'
-)]
+
 class Painting
 {
     #[ORM\Id]

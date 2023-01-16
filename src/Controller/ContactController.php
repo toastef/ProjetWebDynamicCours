@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/about', name: 'app_contact')]
     public function email(MailerInterface $mailer , Request $request): Response
     {
         $contact = new Contact();
@@ -32,10 +32,10 @@ class ContactController extends AbstractController
                         <p><small>'. $contact->getFirstName().'</small></p>'
                 );
             $mailer->send($email);
-            $this->addFlash('success', 'Votre message a bien été envoyé Vous recevrez une réponse bientôt');
+            $this->addFlash('success', 'Votre message a bien été envoyé vous recevrez une réponse bientôt');
             return $this->redirectToRoute('home');
         }
-        return $this->renderForm('contact/contact.html.twig', [
+        return $this->renderForm('page/About.html.twig', [
             'form' => $form,
         ]);
     }
