@@ -38,7 +38,7 @@ symfony serve
 `Pass: password`
 
 
-##Server Email dans terminaux séparés
+## Server Email dans terminaux séparés
 ```bash
 #lancement du server
 maildev --hide-extensions STARTTLS  
