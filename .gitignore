@@ -23,5 +23,4 @@
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
-
-/phpDocumentor.phar/
+phpDocumentor.phar

@@ -29,10 +29,11 @@ symfony serve
 ```
 
 ## Authentification ROLE_ADMIN
+
 `Email: stef.toad@gmail.com` <br>
 `Pass: password`
 
-##SUPER_ADMIN
+## SUPER_ADMIN <br>
 `Email: patmar@gmail.com` <br>
 `Pass: password`
 
