@@ -1,0 +1,115 @@
+{% apply inline_css(source('@style/bootstrap.min.css')) %}
+
+
+    <style>
+
+        .invoice {
+            background: #fff;
+            width: 100%;
+
+        }
+
+        .logo {
+            width: 2.5cm;
+        }
+
+        .conditions {
+            margin-top: 70px;
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        .bottom-page {
+            margin-top: 170px;
+            font-size: 0.7em;
+        }
+    </style>
+<body>
+
+
+<div class="container-fluid">
+    <div class="invoice">
+        <div class="row">
+            <div class="col-md-5">
+                <img src="{{ base64Image }} "   class="logo">
+            </div>
+            <div class="col-md-3">
+                <h1 class="text-center">FACTURE</h1>
+                <p class="float-end"><strong>N°90T-17-01-0123</strong></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    <strong>Gallery SAS</strong><br>
+                    Rue Saint Maurice 99<br>
+                    5300 Sclayn
+                </p>
+            </div>
+            <div class="col-md-4 ">
+                <h6>Client :</h6>
+                <p>
+                    <strong>{{ app.user.firstName }} {{ app.user.lastName }}</strong><br>
+                    Réf. Client <em>{{ app.user.id }}</em><br>
+                    {{ app.user.email }}<br>
+                </p>
+            </div>
+        </div>
+        <br>
+        <br>
+        <h6 class="mx-2">Facture concernant l'achat de vos Tableau en date du {{ date }}</h6>
+        <br>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Quantité</th>
+                <th>PU</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-center">{{ item.product.price }} €</td>
+                    <td class="text-center">{{ (item.product.price * item.quantity) }} €</td>
+                </tr>
+
+            {% endfor %}
+            <tr class="border-light">
+                <td colspan="3"><strong>Total </strong></td>
+                <td class="text-center">{{ total }}€</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <p class="conditions">
+            En votre aimable règlement
+            <br>
+            Et avec nos remerciements.
+            <br><br>
+            Conditions de paiement : paiement à réception de facture, à 15 jours.
+            <br>
+            Aucun escompte consenti pour règlement anticipé.
+            <br>
+            Règlement par virement bancaire.
+            <br><br>
+            En cas de retard de paiement,<br>
+            indemnité forfaitaire pour frais de recouvrement :<br>
+            40 euros (art. L.4413 et L.4416 code du commerce).
+        </p>
+
+
+
+        <p class="bottom-page text-center">
+            Gallery SAS - N° SIRET 80897753200015 RCS Sclayn<br>
+            99/1 Rue saint maurice 5300 - www.127.0.0.1:8000<br>
+            Code APE 6201Z - N° TVA Intracom. be 77 808977532<br>
+        </p>
+    </div>
+</div>
+<script src="public/{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+{% endapply %}

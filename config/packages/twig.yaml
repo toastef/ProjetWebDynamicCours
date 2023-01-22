@@ -3,6 +3,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
     paths:
         '%kernel.project_dir%/public/img/oeuvres': image
+        '%kernel.project_dir%/public/img': fav
         '%kernel.project_dir%/public/css': style
 
 when@test:

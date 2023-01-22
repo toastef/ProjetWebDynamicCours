@@ -8,6 +8,7 @@ use App\Form\PaintType;
 use App\Repository\PaintingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -86,7 +87,7 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/user/add/{id}', name: 'paint_add')]
-    public function add($id, SessionInterface $session, Request $request): Response
+    public function add($id, SessionInterface $session): Response
     {
         $panier = $session->get('panier', []);
 
@@ -197,6 +198,63 @@ class UserController extends AbstractController
             'form' => $form
         ]);
     }
+
+
+
+   //Generate pdf----------------------------------------
+
+    /**
+     * @param SessionInterface $session
+     * @param PaintingRepository $repository
+     * @return void
+     */
+       #[Route('user/facture', name: 'app_facture')]
+        public function generatePDF( SessionInterface $session,PaintingRepository $repository): Response
+       {
+            $path = realpath('../public/img/favicon.png');
+            $image = file_get_contents($path);
+            $base64Image = 'data:image/png;base64,' . base64_encode($image);
+            $dompdf = new Dompdf();
+            $date= new \DateTimeImmutable();
+            $formattedDate = $date->format('d/m/Y');
+            $panier = $session->get('panier', []);
+            $panierWithData = [];
+
+            foreach ($panier as $id => $quantity) {
+                $panierWithData[] = [
+                    'product' => $repository->find($id),
+                    'quantity' => $quantity
+                ];
+            }
+           $total = 0;
+           foreach ($panierWithData as $item) {
+               $totalItem = $item['product']->getPrice() * $item['quantity'];
+               $total += $totalItem;
+
+           }
+            $html = ( $this->renderView('user/facture.html.twig', [
+                'items'  => $panierWithData,
+                'total' => $total,
+                'date' => $formattedDate,
+                'base64Image' => $base64Image,
+            ]));
+
+         // Charger le HTML dans Dompdf
+            $dompdf->loadHtml($html);
+            /*dd($dompdf);*/
+            // (Optionnel) Configurer les options de rendu
+            $dompdf->setPaper('A4', 'portrait');
+            // Render the HTML as PDF
+
+            $dompdf->render();
+
+            // Output the generated PDF to Browser (inline view)
+           return new Response($dompdf->output(), 200, [
+               'Content-Type'        => 'application/pdf',
+               'Content-Disposition' => sprintf('attachment; filename="%s"', 'facture.pdf'),
+           ]);
+
+        }
 
 }
 
