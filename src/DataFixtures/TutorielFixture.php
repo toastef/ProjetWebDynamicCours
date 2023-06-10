@@ -27,7 +27,7 @@ class TutorielFixture extends Fixture
             $title = $faker->words(3,true);
             $tuto->setTitle($title)
                 ->setDescription($faker->paragraphs(2, true))
-                ->setImage($i.'.jpg')
+                ->setImage($faker->numberBetween(1, $sty ).'.jpg')
                 ->setCategory($cate[$faker->numberBetween(0, $cat - 1)])
                 ->setStyleId($style[$faker->numberBetween(0, $sty - 1)])
                 ->setSlug($slugify->slugify($title))

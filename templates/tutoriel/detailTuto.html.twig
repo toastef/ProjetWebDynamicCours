@@ -9,11 +9,12 @@
         }
 
 
-
     </style>
     <div class="container my-5 text-center">
-        <iframe  id="video-player" width="960" height="520" src="{{ tuto.content }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
+        <iframe id="video-player" width="960" height="520" src="{{ tuto.content }}" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
 
     </div>
     <main class="container">
@@ -22,47 +23,46 @@
                 {{ message }}
             </div>
         {% endfor %}
-    {#    <div class="row">
-            <h3>Commentaire</h3>
-            {% for coms in comments %}
-                {% if coms.tutorialId.id == tuto.id %}
-                    <div class="container">
 
-                        <div class="row my-3 ">
-                            <div class="col-8 ">
-                                <div class="card card-white post pt-3 px-2">
-                                    <div class="post-heading">
-                                        <div class="float-left meta">
-                                            <div class="title h5">
-                                                <p class="icofont-user">  {{ coms.user.firstName }} </p>
-                                            </div>
-                                            <h6 class="text-muted time">Ajouter
-                                                le {{ coms.createdAt|date('d/m/Y') }}</h6>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center">Commentaire</h3>
+            </div>
+        </div>
+
+        {% for coms in comments %}
+            {% if coms.tutorialId.id == tuto.id %}
+                <div class="container">
+                    <div class="row my-3">
+                        <div class="col-8 mx-auto">
+                            <div class="card card-white post pt-3 px-2">
+                                <div class="post-heading">
+                                    <div class="float-left meta">
+                                        <div class="title h5">
+                                            <p class="icofont-user">{{ coms.userId.firstName }}</p>
                                         </div>
-                                    </div>
-                                    <div class="post-description">
-
-                                        <p class="text">{{ coms.content }}</p>
+                                        <h6 class="text-muted time">Ajouter le {{ coms.createdAt|date('d/m/Y') }}</h6>
                                     </div>
                                 </div>
+                                <div class="post-description">
+                                    <p class="text">{{ coms.content }}</p>
+                                </div>
                             </div>
-
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
-#}
+                </div>
+            {% endif %}
+        {% endfor %}
 
-            <div class="container">
+        <div class="container ">
+            <button type="button" class="btn btn-secondary mb-3 my-4 mx-5" data-bs-toggle="collapse"
+                    data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
+                Laisser un commentaire
+            </button>
 
-                <button type="button" class="btn btn-secondary mb-3 my-4" data-bs-toggle="collapse"
-                        data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
-                    Laisser un commentaire
-                </button>
-
-            </div>
             {% if is_granted('ROLE_USER') %}
-             {#   <div class="col fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaire" aria-hidden="true">
+                <div class="col fade  mx-5" id="Commentaire" tabindex="-1" aria-labelledby="commentaire"
+                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -75,9 +75,9 @@
                             </div>
                         </div>
                     </div>
-                </div>#}
+                </div>
             {% else %}
-                <h4 class="my-4">Vous devez vous connectez pour laisser un commentaire</h4>
+                <h4 class="my-4">Vous devez vous connecter pour laisser un commentaire</h4>
                 <div class="text-center">
                     <a href="{{ path('app_login') }}" class="btn btn-secondary mb-5 mx-2">Login</a>
                     <a href="{{ path('app_register') }}" class="btn btn-secondary mb-5">S'enregistrer</a>

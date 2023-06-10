@@ -12,10 +12,10 @@
                 <div class="col-md-12 controls-filter ">
                     <ul class="px-0">
                         <!-- For filtering controls add -->
-                        <li data-filter="all" class="btn btn-outline-secondary "> All items</li>
+                        <li data-filter="all" class="btn btn-outline-secondary filter-item active"> All items</li>
                         <!--variable passée dans le controller-->
                         {% for cat in categories %}
-                            <li data-filter="{{ cat.id }}" class="btn btn-outline-secondary"> {{ cat.name }}</li>
+                            <li data-filter="{{ cat.id }}" class="btn btn-outline-secondary  filter-item"> {{ cat.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -56,6 +56,10 @@
     <script>
         let filterizd = $('.filter-container').filterizr({
             // options here
+        });
+        $('.filter-item').click(function () {
+            $('.filter-item').removeClass('active');
+            $(this).addClass('active');
         });
     </script>
 {% endblock %}

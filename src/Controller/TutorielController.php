@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Painting;
 use App\Entity\TutoComment;
 use App\Entity\Tutoriel;
+use App\Form\CommentTutoType;
 use App\Form\CommentType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
@@ -37,29 +38,29 @@ class TutorielController extends AbstractController
     public function tuto(Tutoriel $tutoriel, TutoCommentRepository $comment, Request $request, EntityManagerInterface $manager, StyleRepository $styles): Response
     {
         $style = $styles->find($tutoriel->getId());
-      /*  $comments = $comment->findBy(
-            ['isPublished' => true],
-        );*/
+        $comments = $comment->findBy(
+            ['is_published' => true],
+        );
 
-        /*$commentaire = new TutoComment();
-        $form = $this->createForm(CommentType::class, $commentaire);
-        $form->handleRequest($request);*/
+        $commentaire = new TutoComment();
+        $form = $this->createForm(CommentTutoType::class, $commentaire);
+        $form->handleRequest($request);
 
-        /*if ($form->isSubmitted() && $form->isValid()) {
-            $commentaire->setIsPubliched(false)
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentaire->setIsPublished(false)
                 ->setCreatedAt(new \DateTimeImmutable())
-                ->setUser($this->getUser());
+                ->setUserId($this->getUser())
+                ->setTutorialId($tutoriel);
             $manager->persist($commentaire);
-            $tutoriel->addComment($commentaire);
             $manager->flush();
             $this->addFlash('success', 'Votre commentaire a bien été envoyé il sera validé par l\'administration');
-            return $this->redirectToRoute('paint', ['slug' => $tutoriel->getSlug()]);
-        }*/
+            return $this->redirectToRoute('tuto', ['slug' => $tutoriel->getSlug()]);
+        }
         return $this->render('tutoriel/detailTuto.html.twig', [
             'tuto' => $tutoriel,
             'styles' => $style,
-            /*'form' => $form->createView(),
-            'comments' => $comments,*/
+            'form' => $form->createView(),
+            'comments' => $comments,
 
         ]);
     }
