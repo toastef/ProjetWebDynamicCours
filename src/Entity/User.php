@@ -68,11 +68,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'vendeur', targetEntity: Painting::class)]
     private Collection $paintings;
 
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: TutoComment::class)]
+    private Collection $tutoComments;
+
+    #[ORM\ManyToMany(targetEntity: Tutoriel::class)]
+    private Collection $tutorielsSuivis;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->paintings = new ArrayCollection();
+        $this->tutoComments = new ArrayCollection();
+        $this->tutorielsSuivis = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -308,6 +316,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $painting->setVendeur(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TutoComment>
+     */
+    public function getTutoComments(): Collection
+    {
+        return $this->tutoComments;
+    }
+
+    public function addTutoComment(TutoComment $tutoComment): self
+    {
+        if (!$this->tutoComments->contains($tutoComment)) {
+            $this->tutoComments->add($tutoComment);
+            $tutoComment->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTutoComment(TutoComment $tutoComment): self
+    {
+        if ($this->tutoComments->removeElement($tutoComment)) {
+            // set the owning side to null (unless already changed)
+            if ($tutoComment->getUserId() === $this) {
+                $tutoComment->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tutoriel>
+     */
+    public function getTutorielsSuivis(): Collection
+    {
+        return $this->tutorielsSuivis;
+    }
+
+    public function addTutorielsSuivi(Tutoriel $tutorielsSuivi): self
+    {
+        if (!$this->tutorielsSuivis->contains($tutorielsSuivi)) {
+            $this->tutorielsSuivis->add($tutorielsSuivi);
+        }
+
+        return $this;
+    }
+
+    public function removeTutorielsSuivi(Tutoriel $tutorielsSuivi): self
+    {
+        $this->tutorielsSuivis->removeElement($tutorielsSuivi);
 
         return $this;
     }

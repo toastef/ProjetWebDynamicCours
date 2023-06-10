@@ -21,9 +21,13 @@ class Style
     #[ORM\OneToMany(mappedBy: 'style', targetEntity: Painting::class)]
     private Collection $paintings;
 
+    #[ORM\OneToMany(mappedBy: 'style_id', targetEntity: Tutoriel::class)]
+    private Collection $tutoriels;
+
     public function __construct()
     {
         $this->paintings = new ArrayCollection();
+        $this->tutoriels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Style
             // set the owning side to null (unless already changed)
             if ($painting->getStyle() === $this) {
                 $painting->setStyle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tutoriel>
+     */
+    public function getTutoriels(): Collection
+    {
+        return $this->tutoriels;
+    }
+
+    public function addTutoriel(Tutoriel $tutoriel): self
+    {
+        if (!$this->tutoriels->contains($tutoriel)) {
+            $this->tutoriels->add($tutoriel);
+            $tutoriel->setStyleId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTutoriel(Tutoriel $tutoriel): self
+    {
+        if ($this->tutoriels->removeElement($tutoriel)) {
+            // set the owning side to null (unless already changed)
+            if ($tutoriel->getStyleId() === $this) {
+                $tutoriel->setStyleId(null);
             }
         }
 
