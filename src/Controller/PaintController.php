@@ -117,7 +117,7 @@ class PaintController extends AbstractController
     }
 
     #[Route('/unlike/{id}', name: 'paint_unlike')]
-    public function unlike(int $id, EntityManagerInterface$entityManager, Request $request, LikeRepository $likeRepository): Response
+    public function unlike(int $id, EntityManagerInterface $entityManager, Request $request, LikeRepository $likeRepository): Response
     {
         $painting = $entityManager->getRepository(Painting::class)->find($id);
         $user = $entityManager->getRepository(User::class)->find($this->getUser());

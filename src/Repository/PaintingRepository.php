@@ -73,4 +73,5 @@ class PaintingRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
 }

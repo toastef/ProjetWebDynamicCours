@@ -34,15 +34,15 @@ class Tutoriel
     #[ORM\Column(type: 'string')]
     private ?string $image = null;
 
-    #[ORM\OneToMany(mappedBy: 'tutorial_id', targetEntity: TutoComment::class)]
-    private Collection $comment_id;
+    #[ORM\OneToMany(mappedBy: 'tutorial', targetEntity: TutoComment::class)]
+    private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'tutoriels')]
-    private ?Style $style_id = null;
+    private ?Style $style = null;
 
     public function __construct()
     {
-        $this->comment_id = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,41 +126,41 @@ class Tutoriel
     /**
      * @return Collection<int, TutoComment>
      */
-    public function getCommentId(): Collection
+    public function getComment(): Collection
     {
-        return $this->comment_id;
+        return $this->comments;
     }
 
-    public function addUserId(TutoComment $commentId): self
+    public function addUser(TutoComment $comments): self
     {
-        if (!$this->comment_id->contains($commentId)) {
-            $this->comment_id->add($commentId);
-            $commentId->setTutorialId($this);
+        if (!$this->comments->contains($comments)) {
+            $this->comments->add($comments);
+            $comments->setTutorial($this);
         }
 
         return $this;
     }
 
-    public function removeUserId(TutoComment $commentId): self
+    public function removeUser(TutoComment $comments): self
     {
-        if ($this->comment_id->removeElement($commentId)) {
+        if ($this->comments->removeElement($comments)) {
             // set the owning side to null (unless already changed)
-            if ($commentId->getTutorialId() === $this) {
-                $commentId->setTutorialId(null);
+            if ($comments->getTutorial() === $this) {
+                $comments->setTutorial(null);
             }
         }
 
         return $this;
     }
 
-    public function getStyleId(): ?Style
+    public function getStyle(): ?Style
     {
-        return $this->style_id;
+        return $this->style;
     }
 
-    public function setStyleId(?Style $style_id): self
+    public function setStyle(?Style $style): self
     {
-        $this->style_id = $style_id;
+        $this->style = $style;
 
         return $this;
     }

@@ -13,13 +13,13 @@ class TutoComment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user_id')]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Tutoriel $tutorial_id = null;
+    private ?Tutoriel $tutorial = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tutoComments')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tutoComments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user_id = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
@@ -35,26 +35,26 @@ class TutoComment
         return $this->id;
     }
 
-    public function getTutorialId(): ?Tutoriel
+    public function getTutorial(): ?Tutoriel
     {
-        return $this->tutorial_id;
+        return $this->tutorial;
     }
 
-    public function setTutorialId(?Tutoriel $tutorial_id): self
+    public function setTutorial(?Tutoriel $tutorial): self
     {
-        $this->tutorial_id = $tutorial_id;
+        $this->tutorial = $tutorial;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

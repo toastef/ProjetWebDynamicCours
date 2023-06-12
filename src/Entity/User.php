@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'vendeur', targetEntity: Painting::class)]
     private Collection $paintings;
 
-    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: TutoComment::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TutoComment::class)]
     private Collection $tutoComments;
 
     #[ORM\ManyToMany(targetEntity: Tutoriel::class)]
@@ -332,7 +332,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tutoComments->contains($tutoComment)) {
             $this->tutoComments->add($tutoComment);
-            $tutoComment->setUserId($this);
+            $tutoComment->setUser($this);
         }
 
         return $this;
@@ -342,8 +342,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->tutoComments->removeElement($tutoComment)) {
             // set the owning side to null (unless already changed)
-            if ($tutoComment->getUserId() === $this) {
-                $tutoComment->setUserId(null);
+            if ($tutoComment->getUser() === $this) {
+                $tutoComment->setUser(null);
             }
         }
 

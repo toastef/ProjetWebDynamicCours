@@ -29,7 +29,7 @@ class TutorielFixture extends Fixture
                 ->setDescription($faker->paragraphs(2, true))
                 ->setImage($faker->numberBetween(1, $sty ).'.jpg')
                 ->setCategory($cate[$faker->numberBetween(0, $cat - 1)])
-                ->setStyleId($style[$faker->numberBetween(0, $sty - 1)])
+                ->setStyle($style[$faker->numberBetween(0, $sty - 1)])
                 ->setSlug($slugify->slugify($title))
                 ->setContent($videoLink);
             $manager->persist($tuto);

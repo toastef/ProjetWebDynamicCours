@@ -8,14 +8,106 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
+        .related-tutorials {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 460px; /* hauteur maximale */
+            overflow-y: auto;
+        }
 
+        .related-tutorials h3 {
+            margin-bottom: 20px;
+        }
+
+        .related-tutorials .list-group-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .related-tutorials .list-group-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .related-tutorials .media img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .related-tutorials .media .media-body {
+            flex-grow: 1;
+        }
+
+        .related-tutorials .media .media-body h5 {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .related-tutorials .media .btn-secondary {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: none;
+            text-align: left;
+            padding-left: 0;
+            color: #737171;
+            background-color: unset;
+        }
+
+        .related-tutorials .media .btn-secondary:hover {
+            color: #007bff;
+        }
+        .related-tutorials::-webkit-scrollbar {
+            display: none;
+        }
     </style>
-    <div class="container my-5 text-center">
-        <iframe id="video-player" width="960" height="520" src="{{ tuto.content }}" title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="video-container">
+                    <iframe id="video-player" data-tuto-id="{{ tuto.id }}" width="850" height="460"
+                            src="{{ tuto.content }}" title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="col-md-4 ">
+                <div class="related-tutorials">
+                    <h3 class="text-center">Tutoriels similaires</h3>
+                    <ul class="list-group">
+                        {% for tutorial in tutoriels %}
+                            {% if tutorial.style == tuto.style %}
+                                {% if tutorial.id != tuto.id %}
+                                    <li class="list-group-item">
+                                        <div class="media">
+                                            <a href="{{ path('tuto', {slug: tutorial.slug}) }}"
+                                               class="btn btn-secondary btn-sm">
+                                                <img src="{{ asset('img/tutos/' ~ tutorial.image) }}" class="mr-3"
+                                                     alt="image of tutorial" >
+                                                <div class="media-body">
+                                                    <h5 class="mt-0">{{ tutorial.title | capitalize }}</h5>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     <main class="container">
         {% for message in app.flashes('success') %}
@@ -31,7 +123,7 @@
         </div>
 
         {% for coms in comments %}
-            {% if coms.tutorialId.id == tuto.id %}
+            {% if coms.tutorial.id == tuto.id %}
                 <div class="container">
                     <div class="row my-3">
                         <div class="col-8 mx-auto">
@@ -39,7 +131,7 @@
                                 <div class="post-heading">
                                     <div class="float-left meta">
                                         <div class="title h5">
-                                            <p class="icofont-user">{{ coms.userId.firstName }}</p>
+                                            <p class="icofont-user">{{ coms.user.firstName }}</p>
                                         </div>
                                         <h6 class="text-muted time">Ajouter le {{ coms.createdAt|date('d/m/Y') }}</h6>
                                     </div>
@@ -85,6 +177,49 @@
             {% endif %}
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let timer = null;
+        let timeThreshold = 5000;
+        let tutoId = document.getElementById('video-player').dataset.tutoId;
+
+        function startTimer() {
+            timer = setTimeout(sendAjaxRequest, timeThreshold);
+            console.log('coucou');
+        }
+
+        function resetTimer() {
+            clearTimeout(timer);
+            timer = null;
+        }
 
 
+        window.addEventListener("load", startTimer);
+
+        function sendAjaxRequest() {
+            $.ajax({
+                url: '{{ path('tutosU', { 'slug' : tuto.slug }) }}',
+                method: 'POST',
+                data: {id: tutoId},
+                success: function (response) {
+                    if (response) {
+                        console.log(response);
+                    }
+                },
+
+            });
+            console.log("Requête AJAX envoyée après 15 secondes");
+        }
+
+
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "visible") {
+                resetTimer();
+                startTimer();
+            } else {
+                resetTimer();
+            }
+        });
+
+    </script>
 {% endblock %}

@@ -39,6 +39,14 @@ class TutorielRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByStyle($style)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere(':style MEMBER OF t.styles')
+            ->setParameter('style', $style)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Tutoriel[] Returns an array of Tutoriel objects
 //     */

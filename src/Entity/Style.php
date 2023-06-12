@@ -21,7 +21,7 @@ class Style
     #[ORM\OneToMany(mappedBy: 'style', targetEntity: Painting::class)]
     private Collection $paintings;
 
-    #[ORM\OneToMany(mappedBy: 'style_id', targetEntity: Tutoriel::class)]
+    #[ORM\OneToMany(mappedBy: 'style', targetEntity: Tutoriel::class)]
     private Collection $tutoriels;
 
     public function __construct()
@@ -89,7 +89,7 @@ class Style
     {
         if (!$this->tutoriels->contains($tutoriel)) {
             $this->tutoriels->add($tutoriel);
-            $tutoriel->setStyleId($this);
+            $tutoriel->setStyle($this);
         }
 
         return $this;
@@ -99,8 +99,8 @@ class Style
     {
         if ($this->tutoriels->removeElement($tutoriel)) {
             // set the owning side to null (unless already changed)
-            if ($tutoriel->getStyleId() === $this) {
-                $tutoriel->setStyleId(null);
+            if ($tutoriel->getStyle() === $this) {
+                $tutoriel->setStyle(null);
             }
         }
 

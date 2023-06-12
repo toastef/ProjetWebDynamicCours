@@ -23,7 +23,7 @@
                 <div class="col-md-12 filter-container " style="overflow: hidden">
                     <!-- Card -->
                     {% for tuto in tutorials %}
-                        <div class="col-md-4 filtr-item" data-category="{{ tuto.styleId.id }}" data-sort="value">
+                        <div class="col-md-4 filtr-item" data-category="{{ tuto.style.id }}" data-sort="value">
                             <div class="card m-3" style="min-height: 480px !important; height: auto;">
                                 <div class="card-header bg-light">
                                     <h5 class="text-center">{{ tuto.title | capitalize }}</h5>

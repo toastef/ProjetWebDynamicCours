@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Painting;
+use App\Entity\User;
 use App\Form\EditProfileType;
 use App\Form\PaintType;
 use App\Repository\PaintingRepository;
+use App\Repository\TutorielRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
@@ -26,7 +28,7 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/profile', name: 'app_user')]
-    public function user(PaintingRepository $repository, SessionInterface $session): Response
+    public function user(PaintingRepository $repository,EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $panier = $session->get('panier', []);
         $panierWithData = [];
@@ -45,13 +47,16 @@ class UserController extends AbstractController
         }
 
         $userId = $this->getUser();
+        $user = $entityManager->getRepository(User::class)->find($this->getUser());
         $paintings = $repository->findLikedByUser($userId);
         $seller = $repository->findTablesBySellerRole($userId);
+        $tutos = $user->getTutorielsSuivis();
         return $this->render('user/profile.html.twig', [
             'paintings' => $paintings,
             'vendeur' => $seller,
             'items' => $panierWithData,
             'total' => $total,
+            'tutos' => $tutos,
         ]);
     }
 

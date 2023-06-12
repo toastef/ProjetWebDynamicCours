@@ -19,7 +19,14 @@
                 aria-expanded="false" aria-controls="collapseExample">
             Like
         </button>
+        {# //tutos #}
+        <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#tutos"
+                aria-expanded="false" aria-controls="collapseExample">
+            Tutos
+        </button>
 
+        {# panier #}
         <button id="panier" class="btn btn-secondary px-5 mx-3 " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Achat"
                 aria-expanded="false" aria-controls="collapseExample">
@@ -101,6 +108,39 @@
                                                    class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
                                                 <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
                                                    class="btn btn-outline-dark btn-sm">retirer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    {# Tutos #}
+            <div class="collapse" id="tutos">
+                <div class="card card-body">
+                    <h2 class="mx-3 text-center">Tutoriels Suivis</h2>
+                    <div class="col-md-12">
+                        <div class="row">
+                            {% for tuto in tutos %}
+                                <div class="col-md-3">
+                                    <div class="card m-3" style="min-height: 480px !important; height: auto;">
+                                        <div class="card-header bg-light">
+                                            <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
+                                                 style="height: 225px;">
+
+                                            <p class="card-text">
+                                                <small class="text-muted">{{ tuto.description }}</small>
+                                            </p>
+
+                                            <div class="text-center">
+                                                <a class="btn btn-secondary btn-sm"
+                                                   href="{{ path('tuto', {slug: tuto.slug}) }}">Détail</a>
                                             </div>
                                         </div>
                                     </div>
