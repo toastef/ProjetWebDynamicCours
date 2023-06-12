@@ -4,13 +4,18 @@ namespace App\Controller\admin;
 
 use App\Entity\Comment;
 use App\Entity\Painting;
+use App\Entity\TutoComment;
+use App\Entity\Tutoriel;
 use App\Form\PaintType;
 use App\Repository\CommentRepository;
 use App\Repository\PaintingRepository;
+use App\Repository\TutoCommentRepository;
+use App\Repository\TutorielRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,6 +37,25 @@ class AdminController extends AbstractController
         $commentaires = $comments->findAll();
         return $this->render('admin/paintings/paintings.html.twig', [
             'paints' => $paint,
+            'comment' => $commentaires,
+
+        ]);
+    }
+
+
+    /**
+     * @param TutorielRepository $repository
+     * @return Response
+     */
+    #[Route('/admin/tutos', name: 'app_admin_tutos')]
+    public function tutos(TutorielRepository $repository, TutoCommentRepository $comments): Response
+    {
+
+        $tutos = $repository->findBy([],
+            ['title' => 'ASC']);
+        $commentaires = $comments->findAll();
+        return $this->render('admin/tutoriels/tutoriels.html.twig', [
+            'tutos' => $tutos,
             'comment' => $commentaires,
 
         ]);
@@ -122,6 +146,24 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_paint',);
     }
 
+    /**
+     * @param TutoComment $tutoComment
+     * @param EntityManagerInterface $manager
+     * @return JsonResponse
+     */
+    #[Route('admin/tutoCom/publish/{id}', name: 'app_admin_tutoComment')]
+    public function publishedTutoComs(TutoComment $tutoComment, EntityManagerInterface $manager)
+    {
+
+        $tutoComment->setIsPublished(!$tutoComment->isIsPublished());
+        $manager->flush();
+        $data = [
+            'visibility' => $tutoComment->isIsPublished()
+        ];
+
+        return $this->json($data);
+    }
+
 
     /**
      * @param Painting $painting
@@ -134,6 +176,22 @@ class AdminController extends AbstractController
 
         return $this->render('admin/paintings/Seecoms.html.twig', [
             'paints' => $painting,
+            'comments' => $comments,
+
+        ]);
+
+    }
+    /**
+     * @param Tutoriel $tutoriel
+     * @param TutoCommentRepository $comments
+     * @return Response
+     */
+    #[Route('admin/tutoCom/{id}', name: 'app_admin_comment')]
+    public function viewTutoComment(Tutoriel $tutoriel, TutoCommentRepository $comments): Response
+    {
+
+        return $this->render('admin/tutoriels/Seecoms.html.twig', [
+            'tutos' => $tutoriel,
             'comments' => $comments,
 
         ]);
@@ -171,18 +229,30 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('admin/slider/{id}/{selected}', name: 'app_admin_slider')]
-    public function slider( EntityManagerInterface $manager, Request $request, Painting $painting, $selected)
+
+    /**
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @param Painting $painting
+     * @param $selected
+     * @return JsonResponse
+     */
+    #[Route('admin/slider/{id}', name: 'app_admin_slider')]
+    public function slider( EntityManagerInterface $manager, Request $request, Painting $painting)
     {
 
-        $painting->setSelected($selected);
+        $painting->setSelected(!$painting->isSelected());
 
         // Enregistrer les modifications dans la base de données
         $manager->persist($painting);
         $manager->flush();
 
-        // Rediriger vers la page précédente
-        return $this->redirect($request->headers->get('referer'));
+        $data = [
+            'selected' => $painting->isSelected()
+        ];
+
+
+        return $this->json($data);
     }
 
 }

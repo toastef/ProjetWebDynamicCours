@@ -12,8 +12,8 @@
             <td>Date de création</td>
             <td>Style</td>
             <td>Slider</td>
-            <td>Delete</td>
-            <td>Edit</td>
+            {# <td>Delete</td>
+            <td>Edit</td> #}
             <td class="text-center">Commentaire</td>
 
         </tr>
@@ -28,10 +28,16 @@
                 <td><a href="{{ path('paint', {slug: paint.slug}) }} ">{{ paint.title|capitalize }}</a></td>
                 <td>{{ paint.createdAt|date('d/m/Y') }}</td>
                 <td>{{ paint.style.name }}</td>
-                <td><a href="{{ path('app_admin_slider', {'id': paint.id, 'selected': paint.selected ? 0 : 1}) }}"
-                       class="update-selection btn btn-outline-secondary">{{ paint.selected ? 'Désélectionner' : 'Sélectionner' }}</a>
-
                 <td>
+                    <a href="{{ path('app_admin_slider', {'id': paint.id}) }}"
+                       class="update-selection btn btn-outline-secondary ajax-link"
+                       >
+
+                        {{ paint.selected ? 'Désélectionner' : 'Sélectionner' }}
+                    </a>
+                </td>
+
+                {# <td>
                     <a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}">
                         {% if paint.vendu %}
                         <i class="icofont-ui-delete text-danger"></i>
@@ -39,15 +45,17 @@
                         <i class="icofont-ui-delete"></i>
                         {% endif %}
                     </a>
-                </td>
-                <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>
+                </td> #}
+                {# <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td> #}
                 <td class="text-center">
                     {% for coms in comment %}
                         {% if paint.id is same as (coms.painting.id) %}
                             {% if coms.isPubliched %}
-                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i class="icofont-comment "></i></a>
+                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i
+                                            class="icofont-comment "></i></a>
                             {% else %}
-                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "> <i class="icofont-comment text-danger "></i></a>
+                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "> <i
+                                            class="icofont-comment text-danger "></i></a>
                             {% endif %}
                         {% else %}
                             ...
@@ -60,6 +68,41 @@
         </tbody>
     </table>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.ajax-link').on('click', function (event) {
+                event.preventDefault();
+
+                var link = $(this); // Stocker la référence à l'élément .ajax-link
+                var url = link.attr('href');
+                var isSelected = link.data('selected');
+                console.log(isSelected);
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function (response) {
+                        console.log('Requête AJAX réussie');
+
+                        isSelected = response.selected === true ? 1 : 0;
+
+                        // Update the button text based on the new isSelected value
+                        var buttonText = isSelected === 1 ? 'Désélectionner' : 'Sélectionner';
+                        link.text(buttonText);
+
+                        // Update the data-selected attribute with the new isSelected value
+                        link.data('selected', isSelected);
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erreur lors de la requête AJAX');
+                    }
+                });
+            });
+        });
+    </script>
 
 
 {% endblock %}

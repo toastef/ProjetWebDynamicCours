@@ -4,7 +4,7 @@
     <div class="col-md-3 border-end " >
         <h4 class="my-5 text-muted ">Options</h4>
         <div class="accordion" id="accordionExample">
-            {# Courses #}
+            {# table #}
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -16,7 +16,21 @@
                      data-bs-parent="#accordionExample" style="">
                     <div class="accordion-body">
                         <a href="{{ path('app_admin_paint') }}">Gestion des tableaux</a><br>
-                        <a href="{{ path('app_admin_new') }}">Ajouter un Tableau</a>
+                    </div>
+                </div>
+            </div>
+            {# tutos #}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingtwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
+                        Les Tutoriels
+                    </button>
+                </h2>
+                <div id="collapsetwo" class="accordion-collapse collapse" aria-labelledby="headingtwo"
+                     data-bs-parent="#accordionExample" style="">
+                    <div class="accordion-body">
+                        <a href="{{ path('app_admin_tutos') }}">Gestion des tutoriels</a><br>
                     </div>
                 </div>
             </div>

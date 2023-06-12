@@ -1,0 +1,83 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+    <h4 class="my-5 text-muted">Gestion des Tableaux</h4>
+
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <td>Image</td>
+            <td>Title</td>
+            <td>Link</td>
+            <td>Style</td>
+            {#<td>Delete</td>
+            <td>Edit</td>#}
+            <td class="text-center">Commentaire</td>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for tuto in tutos %}
+            <tr>
+                <td><img src="{{ asset('/img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
+                         alt="{{ tuto.title }}"
+                         style="width: 60px; height: 60px;"></td>
+                <td><a class="ajax-link" href="{{ path('tuto', {slug: tuto.slug}) }} ">{{ tuto.title|capitalize }}</a></td>
+                <td>{{ tuto.content }}</td>
+                <td>{{ tuto.style.name }}</td>
+                    {# <td>
+                    <a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}">
+                        {% if paint.vendu %}
+                        <i class="icofont-ui-delete text-danger"></i>
+                        {% else %}
+                        <i class="icofont-ui-delete"></i>
+                        {% endif %}
+                    </a>
+                </td>#}
+                    {# <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>#}
+                <td class="text-center">
+                    {% for coms in comment %}
+                        {% if tuto.id is same as (coms.tutorial.id) %}
+
+                            <a href="{{ path('app_admin_comment', {id: tuto.id}) }}">
+                                <i class="{% if coms.isPublished %}icofont-comment{% else %}icofont-comment text-danger{% endif %}"></i>
+                            </a>
+
+                        {% else %}
+                            ...
+                        {% endif %}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.ajax-link').on('click', function(event) {
+                event.preventDefault();
+
+                var url = $(this).attr('href');
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response) {
+                        // Traitez la réponse de la requête AJAX ici
+                        console.log('Requête AJAX réussie');
+                    },
+                    error: function(xhr, status, error) {
+                        // Traitez les erreurs de la requête AJAX ici
+                        console.error('Erreur lors de la requête AJAX');
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+

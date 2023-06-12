@@ -1,0 +1,77 @@
+{% extends 'admin/base.html.twig' %}
+
+
+{% block body %}
+
+    <table id="table-admin" class="table table-hover ">
+        <thead>
+        <tr>
+            <th scope="col">Tableau</th>
+            <th scope="col">commentaire</th>
+            <th scope="col">Visibilité</th>
+            <th scope="col">Supprimer</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for coms in tutos.comment %}
+        <tr>
+
+            <td>{{ tutos.title }}</td>
+
+
+            <td> {{ coms.content }} </td>
+            <td class="text ajax-link">
+                <a href="{{ path('app_admin_tutoComment', {id: coms.id}) }}" class="text-decoration-none ajax-trigger" data-id="{{ coms.id }}">
+                    <i class="icofont-eye fs-2 mx-3 {% if coms.isPublished %}text-success{% else %}text-danger{% endif %}"></i>
+                </a>
+            </td>
+            <td><a class="ajax-link" href="{{ path('app_admin_delecom', { id:coms.id }) }}"> <i class="icofont-ui-delete"></i></a>
+            </td>
+            {% endfor %}
+
+        </tr>
+
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_tutos') }}" class="btn btn-outline-dark"> retour </a>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.ajax-trigger').on('click', function(event) {
+                event.preventDefault();
+
+                var link = $(this);
+                var url = link.attr('href');
+                var id = link.data('id'); // Récupérer la valeur de l'attribut data-id
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    data: { id: id }, // Passer l'identifiant en tant que paramètre dans la requête
+                    success: function(response) {
+                        console.log('Requête AJAX réussie');
+                        var visibility = response.visibility;
+                        var icon = link.find('.icofont-eye');
+
+                        if (visibility) {
+                            icon.removeClass('text-danger').addClass('text-success');
+                        } else {
+                            icon.removeClass('text-success').addClass('text-danger');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors de la requête AJAX');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+{% endblock %}
