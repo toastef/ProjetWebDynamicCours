@@ -100,6 +100,9 @@ class Painting
     #[ORM\Column]
     private ?bool $vendu = null;
 
+    #[ORM\Column]
+    private ?bool $published = null;
+
 
     public function __construct()
     {
@@ -370,6 +373,16 @@ class Painting
         return $this;
     }
 
+    public function isPublished(): ?bool
+    {
+        return $this->published;
+    }
 
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
+
+        return $this;
+    }
 
 }

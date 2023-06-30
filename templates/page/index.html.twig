@@ -3,11 +3,18 @@
 {% block title %}Accueil{{ parent() }}{% endblock %}
 
 {% block body %}
-    {% block stylesheets %}
+
+        {% block stylesheets %}
+            {{ parent() }}
         <link rel="stylesheet" href="{{ asset('css/animG.css') }}">
         <link rel="stylesheet" href="{{ asset('css/card-test.css') }}">
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+        <style>
+            body{
+                overflow-x: hidden !important;
+            }
+        </style>
     {% endblock %}
 
     {% block javascripts %}
@@ -27,6 +34,23 @@
                     autoplay:true,
                     mobileFirst:true,
                     scroll:1,
+
+                });
+            });
+            $(document).ready(function(){
+                $('.carousel2').slick({
+                    slidesToShow: 1,
+                    arrows:false,
+                    autoplaySpeed: 2000,
+                    slidesToScroll:1,
+                    dots:false,
+                    centerMode: true,
+                    draggable: true,
+                    respondTo: 'slider',
+                    autoplay:true,
+                    mobileFirst:true,
+                    scroll:1,
+
                 });
             });
         </script>
@@ -56,10 +80,19 @@
         <h2 class="text-center fs-1 mt-4"><a class="text-decoration-none" href="{{ path('paintings') }}">Gallery</a></h2>
     </div>
         <div class="wrapper">
-            <div class="carousel" >
+            <div class="carousel carousel-wrapper" >
                 {% for paint in paints %}
                     <div>
-                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="">
+                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="image des différents lableau défilant dans un slider">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    <div class="wrapper2">
+            <div class="carousel2 carousel-wrapper" >
+                {% for paint in paints %}
+                    <div>
+                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="image des différents lableau défilant dans un slider">
                     </div>
                 {% endfor %}
             </div>

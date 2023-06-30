@@ -1,9 +1,16 @@
+body {
+    overflow-x: hidden;
+}
+.wrapper .slick-initialized  {
+    overflow-x: hidden;
+}
 
 canvas{
     background: transparent;
     width: 100vh;
     height: 50%;
     margin-top: 13%;
+
 }
 input{
     display: none;
@@ -21,3 +28,5 @@ input{
     border: 1px solid white;
     background: rgba(255,255,255,0.2);
 }
+
+

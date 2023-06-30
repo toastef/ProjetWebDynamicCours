@@ -1,65 +1,94 @@
+<style>
+    #nav {
+        color: white;
+    }
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Art-Gallery</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor05" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="navbarColor05">
+    #nav:hover {
+        color: #48d3bb !important;
+    }
+</style>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" style="background-color: #404040!important; padding: 10px 0 ;"
+
+>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="{{ asset('img/logo.png') }}" alt="logo-site"
+                                              style="width: 150px; height: auto;"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor05"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navbarColor05">
+
                 <ul class="navbar-nav me-auto fs-5">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('home') }}">Home</a>
+                    <li class="nav-item px-2">
+                        <a class="nav-link" id="nav" href="{{ path('home') }}">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('paintings') }}">Gallery</a>
+                    <li class="nav-item px-2">
+                        <a class="nav-link" id="nav" href="{{ path('paintings') }}">Gallery</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_tutoriel') }}">Tutoriels</a>
+                    {% if is_granted('ROLE_USER') and not app.user.suspendu  %}
+                        <li class="nav-item px-2">
+                            <a class="nav-link" id="nav" href="{{ path('app_tutoriel') }}">Tutoriels</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item px-2">
+                        <a class="nav-link" id="nav" href="{{ path('about') }}">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('about') }}">About</a>
+                    <li class="nav-item px-2">
+                        <a class="nav-link" id="nav" href="{{ path('team') }}">Team</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('team') }}">Team</a>
-                    </li>
-                  {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_USER') and not app.user.suspendu %}
                         {{ render(controller( 'App\\Controller\\HomeController::panier')) }}
                     {% endif %}
 
                 </ul>
-                <div class="d-flex">
-                    {% if not app.user %} <!-- si le user n'existe pas tu affiche le bouton login sinon le reste -->
-                        <a  href="{{ path('app_login') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-sign-in"></i> S'identifier</a>
-                        <a  href="{{ path('app_register') }}" type="button" class="btn btn-dark btn-sm"><i class="icofont-user-alt-4"></i> S'enregistrer</a>
-                    {% else %}
+            <div class="d-flex">
+                {% if not app.user %} <!-- si le user n'existe pas tu affiche le bouton login sinon le reste -->
+                    <a href="{{ path('app_login') }}" type="button" id="nav" class="btn"><i class="icofont-sign-in"></i>
+                        S'identifier</a>
+                    <a href="{{ path('app_register') }}" type="button" id="nav" class="btn "><i
+                                class="icofont-user-alt-4"></i> S'enregistrer</a>
+                {% else %}
 
-                        <div class="dropdown" style="padding-right: 25px;">
-                            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('img/avatar/' ~  app.user.imageName)|imagine_filter('miniature') }}" class="img-avatar"> &nbsp; &nbsp; {{ app.user.firstname }} {{ app.user.lastname }}
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{path('app_user')}}">Voir profil</a></li>
-                                <li><a class="dropdown-item" href="{{path('app_edit_profile')}}">Modifier profil</a></li>
+                    <div class="dropdown" style="padding-right: 25px;">
+                        <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <img src="{{ asset('img/avatar/' ~  app.user.imageName)|imagine_filter('miniature') }}"
+                                 class="img-avatar" alt="image avatar"> &nbsp;
+                            &nbsp; <span class="userName">{{ app.user.firstname }} {{ app.user.lastname }}</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% if not app.user.suspendu %}
+                                <li><a class="dropdown-item" href="{{ path('app_user') }}">Voir profil</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_edit_profile') }}">Modifier profil</a>
+                                </li>
                                 {% if is_granted('ROLE_SELLER') %}
-                                    <li class="dropdown-item">
-                                        <a class="nav-link" href="{{ path('app_seller_new') }}">Vendre</a>
+                                    <li><a class="dropdown-item" href="{{ path('app_seller_new') }}">Vendre</a>
                                     </li>
                                 {% endif %}
-                                <li><hr class="dropdown-divider"></li>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a class="dropdown-item" href="{{ path("app_admin_paint") }}">Admin</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                {% endif %}
-                                <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i class="icofont-sign-out"></i>Déconnexion</a></li>
-                            </ul>
-                        </div>
+                            {% endif %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a class="dropdown-item" href="{{ path("app_admin_paint") }}">Admin</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                            {% endif %}
 
-                    {%endif%}
+                            <li><a class="dropdown-item " href="{{ path('app_logout') }}" type="button"><i
+                                            class="icofont-sign-out"></i>Déconnexion</a></li>
+                        </ul>
+                    </div>
 
-                </div>
+                {% endif %}
+
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
 {% for label, messages in app.flashes %}
     {% for message in messages %}

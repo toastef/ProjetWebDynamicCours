@@ -6,7 +6,7 @@
     <main class="container">
         <!-- Categories -->
         <section id="oeuvres">
-            <h2 class="my-5 text-black-50">Toutes nos catégories</h2>
+            <h2 class="my-5 text-black-50">Toutes nos Tutoriels</h2>
             <div class="row">
                 <!-- FILTERIZER CONTROLS -->
                 <div class="col-md-12 controls-filter ">
@@ -19,8 +19,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <!-- FILTERIZER COURSES -->
-                <div class="col-md-12 filter-container " style="overflow: hidden">
+                <!-- FILTERIZER Tutoriels -->
+                <div class="col-md-12 filter-container " >
                     <!-- Card -->
                     {% for tuto in tutorials %}
                         <div class="col-md-4 filtr-item" data-category="{{ tuto.style.id }}" data-sort="value">
@@ -29,8 +29,10 @@
                                     <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
                                 </div>
                                 <div class="card-body">
+                                    <div class="text-center">
                                     <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
-                                         style="height: 225px;">
+                                         style="height: 225px; width: 320px;"  class="img-fluid">
+                                    </div>
 
                                     <p class="card-text">
                                         <small class="text-muted">{{ tuto.description }}</small>

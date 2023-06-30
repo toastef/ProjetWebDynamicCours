@@ -14,6 +14,7 @@ use App\Repository\PaintingRepository;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,7 +35,7 @@ class PaintController extends AbstractController
             [],
             ['name' => 'ASC']
         );
-        $paints = $paintingRepository->findAll();
+        $paints = $paintingRepository->findBy(['published' => true]);
 
 
         return $this->render('painting/painting.html.twig', [
@@ -90,10 +91,10 @@ class PaintController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param Request $request
      * @param LikeRepository $likeRepository
-     * @return Response
+     * @return JsonResponse
      */
     #[Route('/like/{id}', name: 'paint_like')]
-    public function like(int $id, EntityManagerInterface $entityManager, Request $request,LikeRepository $likeRepository):Response
+    public function like(int $id, EntityManagerInterface $entityManager, Request $request,LikeRepository $likeRepository): JsonResponse
     {
 
         $painting = $entityManager->getRepository(Painting::class)->find($id);
@@ -112,8 +113,8 @@ class PaintController extends AbstractController
             $entityManager->remove($like);
         }
         $entityManager->flush();
-        $route = $request->headers->get('referer');
-        return $this->redirect($route);
+        $likeCount = count($painting->getLikes());
+        return new JsonResponse(['success' => true, 'likeCount' => $likeCount, 'paintId' => $id]);
     }
 
     #[Route('/unlike/{id}', name: 'paint_unlike')]
@@ -127,8 +128,8 @@ class PaintController extends AbstractController
         ]);
         $entityManager->remove($like);
         $entityManager->flush();
-        $route = $request->headers->get('referer');
-        return $this->redirect($route);
+        $likeCount = count($painting->getLikes());
+        return new JsonResponse(['success' => true, 'likeCount' => $likeCount, 'paintId' => $id]);
     }
 
 }

@@ -167,9 +167,9 @@
                                     <th>image</th>
                                     <th>Tableau</th>
                                     <th>Prix</th>
-                                    <th>Quantité</th>
-                                    <th>Total</th>
+
                                     <th>Retirer</th>
+                                    <th>Contacter Vendeur</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -178,28 +178,27 @@
                                         <td><img  src="{{ asset('img/oeuvres/' ~ item.product.imageName)|imagine_filter('mini_oeuvre') }}" style="width: 35px; height: 30px; margin-left: 5px;" alt="image oeuvre"></td>
                                         <td><a href="{{ path('paint', {slug: item.product.slug}) }}">{{ item.product.title }}</a></td>
                                         <td>{{ item.product.price|format_currency('EUR', locale='fr') }}</td>
-                                        <td>{{ item.quantity }}</td>
-                                        <td>{{ (item.product.price * item.quantity)|format_currency('EUR', locale='fr') }}</td>
+                                     {#   <td>{{ (item.product.price * item.quantity)|format_currency('EUR', locale='fr') }}</td>#}
                                         <td>
                                             <a href="{{ path('paint_remove', {'id' : item.product.id}) }}"
-                                               class="btn btn-danger btn-sm mx-2">
+                                               class="btn btn-danger btn-sm mx-2 delete-link">
                                                 <i class="icofont-trash"></i>
+                                            </a>
+                                        </td>
+                                        <td class="mx-5">
+                                            <a href="{{ path('contact_vendeur', {'id': item.product.id}) }}">
+                                                {{ item.product.vendeur.firstName }}
                                             </a>
                                         </td>
                                     </tr>
 
                                 {% endfor %}
                                 </tbody>
-                                <tfoot >
-                                <tr>
-                                    <td colspan="4" class="text-end" style="border: none">Total :</td>
-                                    <td style="border: none" > {{ total|format_currency('EUR', locale='fr') }}</td>
 
-                                </tr>
-                                </tfoot>
                             </table>
 
                             <a href="{{ path('app_facture') }}" class="btn btn-secondary">facture</a>
+
                         {% else %}
                             <p> Panier vide</p>
                         {% endif %}
@@ -246,4 +245,31 @@
             </div>
         </div>
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.delete-link').click(function(event) {
+                    event.preventDefault();
+
+                    var deleteLink = $(this);
+                    var url = deleteLink.attr('href');
+                    var id = deleteLink.data('id');
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(response) {
+
+                            deleteLink.closest('tr').remove();
+
+                        },
+                        error: function(xhr, status, error) {
+                            // Gérer les erreurs en conséquence
+                            console.error('Erreur lors de la suppression de l\'élément', error);
+                        }
+                    });
+                });
+            });
+        </script>
         {% endblock %}

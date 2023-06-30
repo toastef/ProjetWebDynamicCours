@@ -7,7 +7,7 @@ var canvas = document.querySelector("#scene");
         mouse = {x: 0, y: 0},
         radius = 1;
 
-    var colors = ["#020202", "#492222", "#000000", "#042a85", "#8E2800"];
+    var colors = ["#020202", "#ec4404", "#000000", "#012886", "#8E2800"];
 
     var copy = document.querySelector("#copy");
 

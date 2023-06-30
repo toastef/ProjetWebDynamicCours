@@ -13,12 +13,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+
 class UserController extends AbstractController
 {
     /**
@@ -28,7 +30,7 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/profile', name: 'app_user')]
-    public function user(PaintingRepository $repository,EntityManagerInterface $entityManager, SessionInterface $session): Response
+    public function user(PaintingRepository $repository, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $panier = $session->get('panier', []);
         $panierWithData = [];
@@ -96,9 +98,7 @@ class UserController extends AbstractController
     {
         $panier = $session->get('panier', []);
 
-        if (!empty($panier[$id])) {
-            $panier[$id]++;
-        } else {
+        if (empty($panier[$id])) {
             $panier[$id] = 1;
         }
 
@@ -111,7 +111,7 @@ class UserController extends AbstractController
      * Suppression d'un element du panier
      * @param $id
      * @param SessionInterface $session
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      */
     #[Route('/user/remove/{id}', name: 'paint_remove')]
     public function remove($id, SessionInterface $session)
@@ -123,7 +123,7 @@ class UserController extends AbstractController
         }
         $session->set('panier', $panier);
 
-        return $this->redirectToRoute('app_user');
+        return new JsonResponse(['success' => true]);
     }
 
 
@@ -157,7 +157,7 @@ class UserController extends AbstractController
     {
         $user = $security->getUser();
         // Mise à jour du rôle de l'utilisateur
-        if($user->getRoles() !== ['ROLE_SUPER_ADMIN'] || $user->getRoles() !== ['ROLE_ADMIN']){
+        if ($user->getRoles() !== ['ROLE_SUPER_ADMIN'] || $user->getRoles() !== ['ROLE_ADMIN']) {
             $user->setRoles(['ROLE_SELLER']);
             $manager->persist($user);
         }
@@ -174,6 +174,7 @@ class UserController extends AbstractController
                 ->setVendu(false)
                 ->setVendeur($user)
                 ->setSelected(false)
+                ->setPublished(true)
                 ->createSlug();
             $manager->persist($paint);
             $manager->flush();
@@ -206,60 +207,83 @@ class UserController extends AbstractController
 
 
 
-   //Generate pdf----------------------------------------
+    //Generate pdf----------------------------------------
 
     /**
      * @param SessionInterface $session
      * @param PaintingRepository $repository
      * @return void
      */
-       #[Route('user/facture', name: 'app_facture')]
-        public function generatePDF( SessionInterface $session,PaintingRepository $repository): Response
-       {
-            $path = realpath('../public/img/favicon.png');
-            $image = file_get_contents($path);
-            $base64Image = 'data:image/png;base64,' . base64_encode($image);
-            $dompdf = new Dompdf();
-            $date= new \DateTimeImmutable();
-            $formattedDate = $date->format('d/m/Y');
-            $panier = $session->get('panier', []);
-            $panierWithData = [];
+    #[Route('user/facture', name: 'app_facture')]
+    public function generatePDF(SessionInterface $session, PaintingRepository $repository): Response
+    {
+        $path = realpath('../public/img/favicon.png');
+        $image = file_get_contents($path);
+        $base64Image = 'data:image/png;base64,' . base64_encode($image);
+        $dompdf = new Dompdf();
+        $date = new \DateTimeImmutable();
+        $formattedDate = $date->format('d/m/Y');
+        $panier = $session->get('panier', []);
+        $panierWithData = [];
 
-            foreach ($panier as $id => $quantity) {
-                $panierWithData[] = [
-                    'product' => $repository->find($id),
-                    'quantity' => $quantity
-                ];
-            }
-           $total = 0;
-           foreach ($panierWithData as $item) {
-               $totalItem = $item['product']->getPrice() * $item['quantity'];
-               $total += $totalItem;
-
-           }
-            $html = ( $this->renderView('user/facture.html.twig', [
-                'items'  => $panierWithData,
-                'total' => $total,
-                'date' => $formattedDate,
-                'base64Image' => $base64Image,
-            ]));
-
-         // Charger le HTML dans Dompdf
-            $dompdf->loadHtml($html);
-            /*dd($dompdf);*/
-            // (Optionnel) Configurer les options de rendu
-            $dompdf->setPaper('A4', 'portrait');
-            // Render the HTML as PDF
-
-            $dompdf->render();
-
-            // Output the generated PDF to Browser (inline view)
-           return new Response($dompdf->output(), 200, [
-               'Content-Type'        => 'application/pdf',
-               'Content-Disposition' => sprintf('attachment; filename="%s"', 'facture.pdf'),
-           ]);
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'product' => $repository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+        $total = 0;
+        foreach ($panierWithData as $item) {
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $total += $totalItem;
 
         }
+        $html = ($this->renderView('user/facture.html.twig', [
+            'items' => $panierWithData,
+            'total' => $total,
+            'date' => $formattedDate,
+            'base64Image' => $base64Image,
+        ]));
+
+        // Charger le HTML dans Dompdf
+        $dompdf->loadHtml($html);
+        /*dd($dompdf);*/
+        // (Optionnel) Configurer les options de rendu
+        $dompdf->setPaper('A4', 'portrait');
+        // Render the HTML as PDF
+
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (inline view)
+        return new Response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => sprintf('attachment; filename="%s"', 'facture.pdf'),
+        ]);
+
+    }
+
+
+    /**
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
+     */
+    #[Route('/contactvendeur/{id}', name: 'contact_vendeur')]
+    public function contactVendeur($id,Request $request)
+    {
+        dd($id);
+
+
+        if ($request->isMethod('POST')) {
+
+            return new JsonResponse(['success' => true]);
+
+
+        }
+
+
+        return new JsonResponse(['erreur' => false]);
+    }
 
 }
 

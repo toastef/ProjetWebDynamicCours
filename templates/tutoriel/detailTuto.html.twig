@@ -124,20 +124,20 @@
 
         {% for coms in comments %}
             {% if coms.tutorial.id == tuto.id %}
-                <div class="container">
+                <div class="container text-start">
                     <div class="row my-3">
                         <div class="col-8 mx-auto">
                             <div class="card card-white post pt-3 px-2">
                                 <div class="post-heading">
                                     <div class="float-left meta">
                                         <div class="title h5">
-                                            <p class="icofont-user">{{ coms.user.firstName }}</p>
+                                            <p class="icofont-user">{{ coms.user.firstName }} &nbsp; <span class="text-muted time">({{ coms.createdAt|date('d/m/Y') }})</span></p>
                                         </div>
-                                        <h6 class="text-muted time">Ajouter le {{ coms.createdAt|date('d/m/Y') }}</h6>
+
                                     </div>
                                 </div>
                                 <div class="post-description">
-                                    <p class="text">{{ coms.content }}</p>
+                                    <p class="text">-> {{ coms.content }}</p>
                                 </div>
                             </div>
                         </div>
@@ -147,20 +147,18 @@
         {% endfor %}
 
         <div class="container ">
-            <button type="button" class="btn btn-secondary mb-3 my-4 mx-5" data-bs-toggle="collapse"
-                    data-bs-target="#Commentaire" aria-expanded="false" aria-controls="Commentaire">
+            <button type="button" class="btn btn-secondary mb-3 my-4 mx-5" data-bs-toggle="modal"
+                    data-bs-target="#Commentaire">
                 Laisser un commentaire
             </button>
 
             {% if is_granted('ROLE_USER') %}
-                <div class="col fade  mx-5" id="Commentaire" tabindex="-1" aria-labelledby="commentaire"
-                     aria-hidden="true">
+                <div class="modal fade" id="Commentaire" tabindex="-1" aria-labelledby="commentaireModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="example">Laisser un commentaire</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 {{ form(form) }}
@@ -177,7 +175,9 @@
             {% endif %}
         </div>
     </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         let timer = null;
         let timeThreshold = 5000;
@@ -220,6 +220,7 @@
                 resetTimer();
             }
         });
+
 
     </script>
 {% endblock %}

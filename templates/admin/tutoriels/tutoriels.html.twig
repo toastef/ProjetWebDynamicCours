@@ -2,7 +2,7 @@
 
 
 {% block body %}
-    <h4 class="my-5 text-muted">Gestion des Tableaux</h4>
+    <h4 class="my-5 text-muted">Gestion des Tutoriels</h4>
 
     <table id="table-admin" class="table table-hover ">
         <thead>
@@ -11,8 +11,8 @@
             <td>Title</td>
             <td>Link</td>
             <td>Style</td>
-            {#<td>Delete</td>
-            <td>Edit</td>#}
+            {#<td>Delete</td>#}
+            <td>Edit</td>
             <td class="text-center">Commentaire</td>
 
         </tr>
@@ -36,19 +36,21 @@
                         {% endif %}
                     </a>
                 </td>#}
-                    {# <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td>#}
+                    <td><a href="{{ path('app_admin_editTuto', {id:tuto.id}) }}"><i class="icofont-edit-alt"></i></a></td>
                 <td class="text-center">
+                    {% set hasComment = false %}
                     {% for coms in comment %}
                         {% if tuto.id is same as (coms.tutorial.id) %}
-
-                            <a href="{{ path('app_admin_comment', {id: tuto.id}) }}">
-                                <i class="{% if coms.isPublished %}icofont-comment{% else %}icofont-comment text-danger{% endif %}"></i>
+                            {% set hasComment = true %}
+                            <a href="{{ path('app_admin_commentTuto', {id: tuto.id , user: coms.user }) }}">
+                                <i class="icofont-comment{% if coms.isPublished %} {% else %} text-danger{% endif %}"></i>
                             </a>
-
-                        {% else %}
-                            ...
                         {% endif %}
                     {% endfor %}
+                    {% if not hasComment %}
+                        ...
+                    {% endif %}
+
                 </td>
             </tr>
         {% endfor %}

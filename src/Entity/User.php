@@ -74,6 +74,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Tutoriel::class)]
     private Collection $tutorielsSuivis;
 
+    #[ORM\Column]
+    private ?bool $suspendu = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -370,6 +373,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTutorielsSuivi(Tutoriel $tutorielsSuivi): self
     {
         $this->tutorielsSuivis->removeElement($tutorielsSuivi);
+
+        return $this;
+    }
+
+    public function isSuspendu(): ?bool
+    {
+        return $this->suspendu;
+    }
+
+    public function setSuspendu(bool $suspendu): self
+    {
+        $this->suspendu = $suspendu;
 
         return $this;
     }

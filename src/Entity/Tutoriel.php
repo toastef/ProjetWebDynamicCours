@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TutorielRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -163,5 +164,12 @@ class Tutoriel
         $this->style = $style;
 
         return $this;
+    }
+
+    public function createSlug()
+    {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->title);
+
     }
 }

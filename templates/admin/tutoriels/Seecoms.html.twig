@@ -6,9 +6,10 @@
     <table id="table-admin" class="table table-hover ">
         <thead>
         <tr>
-            <th scope="col">Tableau</th>
+            <th scope="col">Tutos</th>
             <th scope="col">commentaire</th>
             <th scope="col">Visibilité</th>
+            <th scope="col">Auteur</th>
             <th scope="col">Supprimer</th>
 
         </tr>
@@ -27,6 +28,7 @@
                     <i class="icofont-eye fs-2 mx-3 {% if coms.isPublished %}text-success{% else %}text-danger{% endif %}"></i>
                 </a>
             </td>
+            <td> {{ coms.user.firstName }} {{ coms.user.lastName }} </td>
             <td><a class="ajax-link" href="{{ path('app_admin_delecom', { id:coms.id }) }}"> <i class="icofont-ui-delete"></i></a>
             </td>
             {% endfor %}

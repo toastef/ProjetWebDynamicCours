@@ -12,8 +12,8 @@
             <td>Date de création</td>
             <td>Style</td>
             <td>Slider</td>
-            {# <td>Delete</td>
-            <td>Edit</td> #}
+            <td>Hide</td>
+            {# <td>Edit</td> #}
             <td class="text-center">Commentaire</td>
 
         </tr>
@@ -31,36 +31,35 @@
                 <td>
                     <a href="{{ path('app_admin_slider', {'id': paint.id}) }}"
                        class="update-selection btn btn-outline-secondary ajax-link"
-                       >
+                    >
 
                         {{ paint.selected ? 'Désélectionner' : 'Sélectionner' }}
                     </a>
                 </td>
-
-                {# <td>
-                    <a href="{{ path('app_admin_delete',{id:paint.id}) }}) }}">
-                        {% if paint.vendu %}
-                        <i class="icofont-ui-delete text-danger"></i>
-                        {% else %}
-                        <i class="icofont-ui-delete"></i>
-                        {% endif %}
-                    </a>
-                </td> #}
+                <td>
+                    {% if paint.vendu %}
+                        <a href="{{ path('app_admin_hide',{id:paint.id}) }}) }}">
+                            <i class="icofont-eye{% if paint.published %} text-success{% else %}text-danger{% endif %}"></i>
+                        </a>
+                    {% else %}
+                        <p>-</p>
+                    {% endif %}
+                </td>
                 {# <td><a href="{{ path('app_admin_edit', {id:paint.id}) }}"><i class="icofont-edit-alt"></i></a></td> #}
                 <td class="text-center">
+                    {% set hasComment = false %}
                     {% for coms in comment %}
                         {% if paint.id is same as (coms.painting.id) %}
-                            {% if coms.isPubliched %}
-                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "><i
-                                            class="icofont-comment "></i></a>
-                            {% else %}
-                                <a href="{{ path('app_admin_comment',{id:paint.id}) }} "> <i
-                                            class="icofont-comment text-danger "></i></a>
-                            {% endif %}
-                        {% else %}
-                            ...
+                            {% set hasComment = true %}
+
+                            <a href="{{ path('app_admin_comment',{id:paint.id}) }} ">
+                                <i class="icofont-comment{% if coms.isPubliched %} {% else %} text-danger{% endif %}"></i>
+                            </a>
                         {% endif %}
                     {% endfor %}
+                    {% if not hasComment %}
+                        ...
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

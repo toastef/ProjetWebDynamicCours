@@ -2,9 +2,9 @@
 
 
 <li class="nav-item">
-    <a class="nav-link" id="panier" href="{{ path('app_user') }}">
+    <a class="nav-link" id="panier" href="{{ path('app_user') }}"  data-update-url="{{ path('user_panier') }}">
         {% if total > 0 %}
-        <i class="icofont-cart-alt"><span class="count">{{ total }}</span></i>
+        <i class="icofont-cart-alt"><span class="count-panier">{{ total }}</span></i>
         {% else %}
             <i class="icofont-cart-alt"><span class="count"></span></i>
         {% endif %}

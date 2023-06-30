@@ -4,7 +4,7 @@
 {% block stylesheets %}
     <style>
         footer{
-           display: none;
+           /*display: none;*/
         }
     </style>
 {% endblock %}
@@ -21,8 +21,8 @@
                 Enim magni maxime necessitatibus odit sequi? Alias, ipsa.</p>
             <img src="{{ asset('img/ban04.jpeg') }}" class="img-fluid border rounded-3 shadow-lg mb-4"
                  alt="Example image" width="700" height="600" loading="lazy">
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 mx-5">
-                <button  type="button" class="btn btn-secondary btn-lg px-4 me-sm-3 mx-2"
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 ">
+                <button  type="button" class="btn btn-secondary btn-lg px-4 me-sm-3 "
                          data-bs-toggle="collapse"
                          data-bs-target="#contact"
                          aria-expanded="false" aria-controls="collapseExample">Nous contacter</button>
@@ -33,7 +33,7 @@
             <main class="container">
                 <section class="row">
                     <div class="col-md-8 offset-md-2 my-3">
-                        <h2 class="display-4 my-3">Nous contacter</h2>
+                        <h2 class="display-4 my-3 ">Nous contacter</h2>
                         {{ form_start(form) }}
                         {{ form_widget(form) }}
                         <button type="submit" class="btn btn-outline-dark">Envoyer</button>

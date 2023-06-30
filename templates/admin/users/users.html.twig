@@ -14,6 +14,7 @@
             <th>Lastname</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Suspendre</th>
             <th>CreatedAT</th>
 
 
@@ -30,16 +31,31 @@
                 <td>{{ user.lastname|capitalize }}</td>
                 <td>{{ user.email }}</td>
                 <td>
+                    {% set admin = false %}
                 {% for role in user.roles %}
                         {% if role is same as 'ROLE_USER' %}
                            Utilisateur
                         {% elseif role is same as 'ROLE_SELLER' %}
                             Vendeur
+                        {% elseif role is same as 'ROLE_ADMIN' %}
+                            Admin
                         {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
+                            {% set admin = true %}
                             Super Admin
                         {% endif %}
                 {% endfor %}
                 </td>
+
+                <td class="text ajax-link px-3">
+                    {% if admin %}
+                            admin
+                    {% else %}
+                        <a href="{{ path('app_admin_hideUser', {id: user.id}) }}" class="px-2 ajax-trigger" data-id="{{ user.id }}">
+                            <i class="icofont-skull-danger{% if user.suspendu %} text-danger{% else %} text-success{% endif %} "></i>
+                        </a>
+                    {% endif %}
+                </td>
+
                 <td>{{ user.createdAt | date('d/m/Y')}}</td>
 
             </tr>
@@ -47,5 +63,36 @@
 
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.ajax-trigger').on('click', function(event) {
+                event.preventDefault();
 
+                var link = $(this);
+                var url = link.attr('href');
+                var id = link.data('id'); // Récupérer la valeur de l'attribut data-id
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    data: { id: id }, // Passer l'identifiant en tant que paramètre dans la requête
+                    success: function(response) {
+                        console.log('Requête AJAX réussie');
+                        var visibility = response.visibility;
+                        var icon = link.find('.icofont-skull-danger');
+
+                        if (visibility) {
+                            icon.removeClass('text-success').addClass('text-danger');
+                        } else {
+                            icon.removeClass('text-danger').addClass('text-success');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors de la requête AJAX');
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

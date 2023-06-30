@@ -3,10 +3,17 @@
 {% block title %}Identification {{ parent() }}{% endblock %}
 {% block stylesheets %}
     <style>
+        body{
+            overflow-x: hidden;
+        }
         footer{
             position: absolute;
             bottom: 0;
             width: 100%;
+        }
+        #login{
+            border: 1px solid #e7e4e4;
+            box-shadow: 0 2px 6px 2px  #48d3bb;
         }
     </style>
 {% endblock %}
@@ -20,7 +27,7 @@
 
     <main class="container my-5 "  >
         <div class="row" >
-            <div class="col-md-6 offset-3 login"  style="border: 1px solid #e7e4e4;">
+            <div class="col-md-6 offset-3 login" id="login" >
                 <h2 class="display-4 my-3 text-center ">S'identifier</h2>
                 {% if error %}
                     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -33,6 +40,7 @@
                     <div class="form-group my-3 text-center">
                         <label for="password" class="form-label " style="font-size: 20px;">Password</label>
                         <input type="password" id="password" name="_password" class="form-control " style="width: 80%; margin-left: 10% ">
+                        <a href="{{ path('app_forgot_password') }}">Mot de passe oublié?</a>
                     </div>
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> {# va permettre de protéger contre les attaques #}
                     <div class="form-group my-3 pt-5 text-center">
