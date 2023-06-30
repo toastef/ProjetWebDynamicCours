@@ -34,9 +34,6 @@ a{
     text-decoration: none;
     color: black;
 }
-.wrapper2{
-    display: none;
-}
 .carousel-wrapper {
     display: flex;
     align-items: center;
@@ -202,13 +199,6 @@ img {
     .index {
         width: 100%;
         height: 550px;
-    }
-    .wrapper {
-        display: none;
-    }
-    .wrapper2{
-        display: block;
-        overflow-x: hidden;
     }
 
 }

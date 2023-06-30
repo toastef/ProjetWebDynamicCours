@@ -23,33 +23,44 @@
         <script>
             $(document).ready(function(){
                 $('.carousel').slick({
-                    slidesToShow: 3,
+                    slidesToShow: 6,
                     arrows:false,
                     autoplaySpeed: 2000,
                     slidesToScroll:1,
-                    dots:false,
+                    dots:true,
                     centerMode: true,
                     draggable: true,
                     respondTo: 'slider',
                     autoplay:true,
                     mobileFirst:true,
                     scroll:1,
-
-                });
-            });
-            $(document).ready(function(){
-                $('.carousel2').slick({
-                    slidesToShow: 1,
-                    arrows:false,
-                    autoplaySpeed: 2000,
-                    slidesToScroll:1,
-                    dots:false,
-                    centerMode: true,
-                    draggable: true,
-                    respondTo: 'slider',
-                    autoplay:true,
-                    mobileFirst:true,
-                    scroll:1,
+                    pauseOnHover:true,
+                    responsive: [
+                        {
+                        breakpoint: 800,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            slidesToShow: 4
+                        }
+                        },
+                        {
+                        breakpoint: 480,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            slidesToShow: 2
+                        }
+                        },
+                        {
+                        breakpoint: 300,
+                        settings: {
+                            arrows: false,
+                            centerMode: true,
+                            slidesToShow: 1
+                        }
+                        }
+                    ]
 
                 });
             });
@@ -79,22 +90,15 @@
     <div class="containers mt-5">
         <h2 class="text-center fs-1 mt-4"><a class="text-decoration-none" href="{{ path('paintings') }}">Gallery</a></h2>
     </div>
-        <div class="wrapper">
-            <div class="carousel carousel-wrapper" >
-                {% for paint in paints %}
-                    <div>
+    <div class="wrapper">
+        <div class="carousel carousel-wrapper" >
+            {% for paint in paints %}
+                <div>
+                    <a href="{{ path('paint', {slug: paint.slug}) }}">
                         <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="image des différents lableau défilant dans un slider">
-                    </div>
-                {% endfor %}
-            </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
-    <div class="wrapper2">
-            <div class="carousel2 carousel-wrapper" >
-                {% for paint in paints %}
-                    <div>
-                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}" alt="image des différents lableau défilant dans un slider">
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+    </div>
 {% endblock %}
