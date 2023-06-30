@@ -42,6 +42,7 @@ class UserFixture extends Fixture
                     ->setPassword($this->hasher->hashPassword($user, 'password'))
                     ->setCreatedAt(new \DateTimeImmutable())
                     ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setSuspendu(false)
                     ->setRoles($this->role[$faker->numberBetween(0, $countroles - 1)]);
             $manager->persist($user);
         }

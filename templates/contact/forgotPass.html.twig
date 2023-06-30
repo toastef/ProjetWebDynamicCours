@@ -1,22 +1,16 @@
 {% apply inline_css(source('@style/bootstrap.min.css')) %}
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card mt-4">
-                    <div class="card-header bg-danger text-white">
-                        Notification de suspension de compte
-                    </div>
-                    <div class="card-body">
-                        <p>Bonjour {{ firstName }} </p>
-                        <p>Votre compte a été suspendu par un administrateur.</p>
-                        <p>Pour plus d'informations et pour réactiver votre compte, veuillez contacter l'administrateur à l'adresse e-mail suivante :</p>
-                        <p><strong>info@Gallery.be</strong></p>
-                        <p>Merci de votre compréhension.</p>
-                        <p>Cordialement,</p>
-                        <p>L'équipe de Art-Gallery</p>
-                    </div>
-                </div>
+        <div class="card mt-4">
+            <div class="card-header bg-danger text-white">
+                <h2 class="text-center">Demande de nouveau mot de passe</h2>
+            </div>
+            <div class="card-body">
+                <p>Bonjour </p>
+                <p> {{ firstName|capitalize }} demande une réinitialisation de son mot de passe.</p>
+
+                <p>Merci,</p>
+                <p>L'équipe de Art-Gallery</p>
             </div>
         </div>
     </div>

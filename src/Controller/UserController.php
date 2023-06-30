@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Painting;
+use App\Entity\Tutoriel;
 use App\Entity\User;
 use App\Form\EditProfileType;
+use App\Form\ForgotPasswordRequestType;
 use App\Form\PaintType;
 use App\Repository\PaintingRepository;
 use App\Repository\TutorielRepository;
@@ -264,6 +266,46 @@ class UserController extends AbstractController
 
 
     /**
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
+    #[Route('/forgot-password', name: 'app_forgot_password')]
+    public function forgotPassword(Request $request, MailerInterface $mailer,UserRepository $repository): Response
+    {
+        $form = $this->createForm(ForgotPasswordRequestType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userEmail = $form->get('email')->getData();
+
+            $user = $repository->findOneBy(['email' => $userEmail]);
+            if ($user) {
+                $email = (new TemplatedEmail())
+                    ->from($userEmail)
+                    ->to('info@art.be')
+                    ->subject('Demande Password')
+                    ->htmlTemplate('contact/forgotPass.html.twig')
+                    ->context([
+                        'title' => "Demande de password",
+                        'firstName' => $user->getFirstName(),
+                    ]);
+
+                $mailer->send($email);
+
+                $this->addFlash('success', 'Un e-mail de demande du mot de passe a été envoyé à l\'admin.');
+                return $this->redirectToRoute('app_login');
+            }else {
+
+                $this->addFlash('danger', 'L\'adresse e-mail fournie n\'existe pas.');
+            }
+
+
+        }
+        return $this->render('login/forgot_password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @param $id
      * @param Request $request
      * @return JsonResponse
@@ -283,6 +325,27 @@ class UserController extends AbstractController
 
 
         return new JsonResponse(['erreur' => false]);
+    }
+
+    /**
+     * @param $id
+     * @param EntityManagerInterface $manager
+     * @param TutorielRepository $tutorialRepo
+     * @param Security $security
+     * @return JsonResponse
+     */
+    #[Route('/tutoriel/{id}/remove', name: 'tuto_remove')]
+    public function removetuto($id, EntityManagerInterface $manager, TutorielRepository $tutorialRepo,Security $security)
+    {
+        $user = $security->getUser();
+        $tutoriel = $tutorialRepo->find($id);
+        if ($tutoriel && $user->getTutorielsSuivis()->contains($tutoriel)) {
+            $user->removeTutorielsSuivi($tutoriel);
+            $manager->flush();
+            return new JsonResponse(['success' => true]);
+        }
+
+        return new JsonResponse(['success' => false]);
     }
 
 }

@@ -141,6 +141,11 @@
                                             <div class="text-center">
                                                 <a class="btn btn-secondary btn-sm"
                                                    href="{{ path('tuto', {slug: tuto.slug}) }}">Détail</a>
+
+                                                <a href="{{ path('tuto_remove', {'id' : tuto.id}) }}"
+                                                   class="btn btn-danger btn-sm remove-link">
+                                                    <i class="icofont-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -267,6 +272,28 @@
                         error: function(xhr, status, error) {
                             // Gérer les erreurs en conséquence
                             console.error('Erreur lors de la suppression de l\'élément', error);
+                        }
+                    });
+                });
+                $('.remove-link').click(function(event) {
+                    event.preventDefault();
+
+                    var removeLink = $(this);
+                    var url = removeLink.attr('href');
+                    var id = removeLink.data('id');
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(response) {
+
+                            removeLink.closest('.col-md-3').remove();
+
+                        },
+                        error: function(xhr, status, error) {
+
+                            console.error('Erreur lors du retrait du tutoriel', error);
                         }
                     });
                 });

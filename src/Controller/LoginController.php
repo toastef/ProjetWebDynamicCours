@@ -59,43 +59,5 @@ class LoginController extends AbstractController
         $session->set('panier',[]);
     }
 
-    /**
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-     */
-    #[Route('/forgot-password', name: 'app_forgot_password')]
-    public function forgotPassword(Request $request, MailerInterface $mailer,UserRepository $repository): Response
-    {
-        $form = $this->createForm(ForgotPasswordRequestType::class);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userEmail = $form->get('email')->getData();
-
-            $user = $repository->findOneBy(['email' => $userEmail]);
-            if ($user) {
-                $email = (new TemplatedEmail())
-                    ->from($userEmail)
-                    ->to('info@art.be')
-                    ->subject('Demande Password')
-                    ->htmlTemplate('contact/forgotPass.html.twig')
-                    ->context([
-                        'title' => "Demande de password",
-                        'firstName' => $user->getFirstName(),
-                    ]);
-
-                $mailer->send($email);
-
-                $this->addFlash('success', 'Un e-mail de demande du mot de passe a été envoyé à l\'admin.');
-                return $this->redirectToRoute('app_login');
-            }else {
-
-                $this->addFlash('danger', 'L\'adresse e-mail fournie n\'existe pas.');
-            }
-
-
-        }
-        return $this->render('login/forgot_password.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
 }
