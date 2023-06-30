@@ -59,6 +59,7 @@ class UserFixture extends Fixture
             ->setPassword($this->hasher->hashPassword($user, 'password'))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable())
+            ->setSuspendu(false)
             ->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
         $manager->flush();
@@ -76,6 +77,7 @@ class UserFixture extends Fixture
             ->setPassword($this->hasher->hashPassword($user, 'password'))
             ->setCreatedAt(new \DateTimeImmutable())
             ->setUpdatedAt(new \DateTimeImmutable())
+            ->setSuspendu(false)
             ->setRoles(['ROLE_SUPER_ADMIN']);
         $manager->persist($user);
         $manager->flush();
