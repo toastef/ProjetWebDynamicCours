@@ -29,7 +29,7 @@
 } 
 
 .carousel-wrapper .slick-track .slick-slide {
-    margin: 10px;
+    margin: 20px 10px;
     
 }
 
@@ -44,7 +44,10 @@
     transition: transform 0.3s ease-out;
 }
 
-.carousel-wrapper .slick-track .slick-slide img:hover {
+.carousel-wrapper .slick-track .slick-slide img:hover,
+.carousel-wrapper .slick-track .slick-slide img:focus,
+.carousel-wrapper .slick-track .slick-slide img:focus-within
+ {
     transform: scale(1.1);
     transition: transform 0.3s ease-out;
 }
