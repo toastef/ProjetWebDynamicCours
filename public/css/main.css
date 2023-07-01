@@ -9,13 +9,20 @@ body {
 }
 
 body * {
-    border-radius: 0 !important;
+    border-radius: 0;
 
 }
 
 header {
     flex: 0;
 }
+
+.dropdown-menu,
+.card,
+.btn {
+    border-radius: 0;
+} 
+
 
 main {
     flex: 1;
