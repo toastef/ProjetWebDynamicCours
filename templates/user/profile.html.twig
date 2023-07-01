@@ -6,34 +6,34 @@
 
 <main>
 <div class="container-fluid my-4 " >
-    <p class="text-center ">
+    <p class="text-left ">
         {# Profile #}
-        <button class="btn btn-secondary px-5 mx-3  " type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile  " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Profil"
-                aria-expanded="false" aria-controls="collapseExample">
+                aria-expanded="true" aria-controls="collapseExample">
             Profil
         </button>
         {# //like #}
-        <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile" type="button" data-bs-toggle="collapse"
                 data-bs-target="#Like"
                 aria-expanded="false" aria-controls="collapseExample">
             Like
         </button>
         {# //tutos #}
-        <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile" type="button" data-bs-toggle="collapse"
                 data-bs-target="#tutos"
                 aria-expanded="false" aria-controls="collapseExample">
             Tutos
         </button>
 
         {# panier #}
-        <button id="panier" class="btn btn-secondary px-5 mx-3 " type="button" data-bs-toggle="collapse"
+        <button id="panier" class="btn btn-secondary btn-menu-profile " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Achat"
                 aria-expanded="false" aria-controls="collapseExample">
             Panier
         </button>
         {% if is_granted('ROLE_SELLER') %}
-            <button class="btn btn-secondary px-5 mx-3" type="button" data-bs-toggle="collapse"
+            <button class="btn btn-secondary btn-menu-profile" type="button" data-bs-toggle="collapse"
                     data-bs-target="#Vente"
                     aria-expanded="false" aria-controls="collapseExample">
                 En vente
@@ -125,16 +125,17 @@
                     <div class="col-md-12">
                         <div class="row">
                             {% for tuto in tutos %}
-                                <div class="col-md-3">
-                                    <div class="card m-3" style="min-height: 480px !important; height: auto;">
-                                        <div class="card-header bg-light">
-                                            <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
-                                        </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="card m-3">
                                         <div class="card-body">
-                                            <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
-                                                 style="height: 225px;">
-
-                                            <p class="card-text">
+                                            <div class="card-body-image">
+                                                <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}">
+                                            </div>
+                                            <div class="card-body-title">
+                                                <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
+                                            </div>
+                                            
+                                            <p class="card-text text-center">
                                                 <small class="text-muted">{{ tuto.description }}</small>
                                             </p>
 

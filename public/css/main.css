@@ -107,14 +107,18 @@ footer a:hover {
 
 }
 
-
+#tutos .card-body,
 #oeuvres .card-body {
     padding: 20px 10px;
 
 
 }
 
+.card-height-100 {
+    height: 100%;
+}
 
+#tutos .card-body-title,
 #oeuvres .card-body-title {
     margin-top: 15px;
     min-height: 50px;
@@ -319,3 +323,15 @@ img {
 .modal.show {
     display: block;
 } 
+
+.btn-menu-profile {
+    padding: 5px 20px;
+    margin-right: 15px;
+}
+
+.btn-menu-profile[aria-expanded="true"],
+.btn-menu-profile[aria-expanded="true"]:focus,
+.btn-menu-profile[aria-expanded="true"]:focus-within {
+    background: #48d3bb;
+    border-color: #48d3bb;
+}
