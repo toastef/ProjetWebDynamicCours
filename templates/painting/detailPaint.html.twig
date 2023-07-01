@@ -1,63 +1,75 @@
 {% extends 'base.html.twig' %}
 {% block title %}Détail peinture{% endblock %}
 {% block body %}
-
-    <div class="container">
-        <div class="text-center my-3">
-            <img class="card-img  my-3 align-items-center"
-                 style="width: 650px; height: auto; border-radius: 7px; box-shadow: rgba(0,0,0,0.89) 0px 2px 4px, rgba(0,0,0,0.6) 0px 7px 13px -3px, rgba(0,0,0,0.56) 0px -3px 0px inset;"
-                 src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('detail_oeuvre') }}"
-                 alt="{{ paint.title }}">
-        </div>
-        <div class="card mb-3 my-3 ">
-            <div class="card-body my-2 ">
-                <h4 class="card-title">{{ paint.title|capitalize }}
-                    {% if is_granted('ROLE_USER') and not app.user.suspendu %}
-                        <span class="mx-5">
-                            <a href="{{ path('paint_like', {id: paint.id}) }}" class="like-link">
-                                <i class="icofont-like"></i>
-                                <span class="like-count-{{ paint.id }}">{{ like }}</span>
-                            </a>
-                        </span>
-                    {% endif %}
-                </h4>
-
-                <h5 class="card-subtitle text-muted my-3">Catégorie : {{ paint.categories.name }}</h5>
-                <p class="card-text">{{ paint.descrioption }}</p>
-                <p class="lead">Style : {{ paint.style.name }}</p>
-                <p class="lead">Vendeur : {{ paint.vendeur.firstName }}</p>
-                <p class="lead">Taille : {{ paint.width }} x {{ paint.height }}</p>
-                <p class="lead">
-                    {% if paint.vendu %}
-                    Vendu
-                    {% else %}
-                    <span style="font-weight: bold ;">Prix</span>
-                    : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
-                {% endif %}
-                <p class="card-text"><small class="text-muted">Date de mise en
-                        ligne: {{ paint.createdAt|date('d/m/Y') }}</small></p>
-                <div class="text-center">
-                    <a href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour à la
-                        Gallery</a>
-                    {% if is_granted('ROLE_USER') %}
-                    {% if not app.user.suspendu %}
-                    <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton" data-target-id="{{ paint.id }}">Ajouter
-                        au panier</a>
-                    {% endif %}
-                    {% endif %}
+    <main class="container">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="my-5">{{ paint.title|capitalize }}</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6 d-flex align-items-center ">
+                    <div class="text-center my-3 w-100">
+                        <img class="card-img align-items-center"
+                            style="max-width: 650px; height: auto; box-shadow: rgba(0,0,0,0.89) 0px 2px 4px, rgba(0,0,0,0.6) 0px 7px 13px -3px, rgba(0,0,0,0.56) 0px -3px 0px inset;"
+                            src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('detail_oeuvre') }}"
+                            alt="{{ paint.title }}">
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="card mb-3 my-3  w-100">
+                        <div class="card-body my-2 ">
+                            <h4 class="card-title">{{ paint.title|capitalize }}
+                                {% if is_granted('ROLE_USER') and not app.user.suspendu %}
+                                    <span class="mx-5">
+                                        <a href="{{ path('paint_like', {id: paint.id}) }}" class="like-link">
+                                            <i class="icofont-like"></i>
+                                            <span class="like-count-{{ paint.id }}">{{ like }}</span>
+                                        </a>
+                                    </span>
+                                {% endif %}
+                            </h4>
+            
+                            <h5 class="card-subtitle text-muted my-3">Catégorie : {{ paint.categories.name }}</h5>
+                            <p class="card-text">{{ paint.descrioption }}
+                            <p>
+                                Style : {{ paint.style.name }}<br/>
+                                Vendeur : {{ paint.vendeur.firstName }}<br/>
+                                Taille : {{ paint.width }} x {{ paint.height }}
+                            </p>
+                            <p class="lead">
+                                {% if paint.vendu %}
+                                Vendu
+                                {% else %}
+                                <span style="font-weight: bold ;">Prix</span>
+                                : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                            {% endif %}
+                            <p class="card-text"><small class="text-muted">Date de mise en
+                                    ligne: {{ paint.createdAt|date('d/m/Y') }}</small></p>
+                            <div class="text-center">
+                                <a href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour à la
+                                    Gallery</a>
+                                {% if is_granted('ROLE_USER') %}
+                                {% if not app.user.suspendu %}
+                                <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton" data-target-id="{{ paint.id }}">Ajouter
+                                    au panier</a>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
-    </div>
 
 
-    <main class="container">
+    
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
         {% endfor %}
-        <div class="row">
+        <div class="row mt-5">
             <h3>Commentaire</h3>
             {% for coms in comments %}
                 {% if coms.painting.id == paint.id %}
@@ -104,8 +116,6 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="example">Laisser un commentaire</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     {{ form(form) }}
