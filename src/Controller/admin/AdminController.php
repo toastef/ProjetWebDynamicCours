@@ -128,9 +128,10 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $tutoriel->createSlug();
+            $manager->persist($tutoriel);
             $manager->flush();
             $this->addFlash('success', 'Tutoriel modifiée avec succès!');
-            return $this->redirectToRoute('app_admin_paint');
+            return $this->redirectToRoute('app_admin_tutos');
         }
 
         return $this->renderForm('admin/tutoriels/edit.html.twig', [

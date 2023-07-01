@@ -29,7 +29,7 @@
                 <p class="lead">Taille : {{ paint.width }} x {{ paint.height }}</p>
                 <p class="lead">
                     {% if paint.vendu %}
-                    Vendu
+                    <strong style="color: #0a0a0a">Vendu</strong>
                     {% else %}
                     <span style="font-weight: bold ;">Prix</span>
                     : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
@@ -40,9 +40,11 @@
                     <a href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour à la
                         Gallery</a>
                     {% if is_granted('ROLE_USER') %}
+                        {% if not paint.vendu %}
                     {% if not app.user.suspendu %}
                     <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton" data-target-id="{{ paint.id }}">Ajouter
                         au panier</a>
+                    {% endif %}
                     {% endif %}
                     {% endif %}
                 </div>
