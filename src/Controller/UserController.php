@@ -13,13 +13,16 @@ use App\Repository\TutorielRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -158,8 +161,9 @@ class UserController extends AbstractController
     public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository): Response
     {
         $user = $security->getUser();
-        // Mise à jour du rôle de l'utilisateur
-        if ($user->getRoles() !== ['ROLE_SUPER_ADMIN'] || $user->getRoles() !== ['ROLE_ADMIN']) {
+        $roles = $user->getRoles();
+
+        if(!in_array("ROLE_SUPER_ADMIN",$roles) && !in_array("ROLE_ADMIN",$roles) ){
             $user->setRoles(['ROLE_SELLER']);
             $manager->persist($user);
         }
@@ -200,7 +204,7 @@ class UserController extends AbstractController
                     ]);
                 $mailer->send($email);
             }
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('paint', ['slug' => $paint->getSlug()]);
         }
         return $this->renderForm('painting/new.html.twig', [
             'form' => $form
@@ -306,25 +310,34 @@ class UserController extends AbstractController
     }
 
     /**
-     * @param $id
      * @param Request $request
-     * @return JsonResponse
+     * @param MailerInterface $mailer
+     * @param PaintingRepository $repository
+     * @param LoggerInterface $logger
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    #[Route('/contactvendeur/{id}', name: 'contact_vendeur')]
-    public function contactVendeur($id,Request $request)
+    #[Route('/profile/contactvendeur', name: 'contact_vendeur')]
+    public function contactVendeur(Request $request,MailerInterface $mailer, PaintingRepository $repository,  LoggerInterface $logger): \Symfony\Component\HttpFoundation\RedirectResponse
     {
-        dd($id);
+        $user = $this->getUser();
+        $id = $request->request->get('paint_id');
+        $message = $request->request->get('message');
+        $paint= $repository->find($id);
 
-
-        if ($request->isMethod('POST')) {
-
-            return new JsonResponse(['success' => true]);
-
-
+        try {
+            $email = (new Email())
+                ->from($user->getEmail())
+                ->to($paint->getVendeur()->getEmail())
+                ->subject('Contact pour informations peinture : '.$paint->getTitle())
+                ->text($message);
+            $mailer->send($email);
+            $this->addFlash('success', 'Votre message a été transmit avec success');
+            return $this->redirectToRoute('app_user');
+        } catch (TransportExceptionInterface $e) {
+            $logger->error('Erreur lors de l\'envoi de l\'email : ' . $e->getMessage());
+            $this->addFlash('success', 'Votre message a été transmit avec success');
+            return $this->redirectToRoute('app_user');
         }
-
-
-        return new JsonResponse(['erreur' => false]);
     }
 
     /**

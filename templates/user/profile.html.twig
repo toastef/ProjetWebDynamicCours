@@ -191,7 +191,7 @@
                                             </a>
                                         </td>
                                         <td class="mx-5">
-                                            <a href="{{ path('contact_vendeur', {'id': item.product.id}) }}">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" data-paint-id="{{ item.product.id }}">
                                                 {{ item.product.vendeur.firstName }}
                                             </a>
                                         </td>
@@ -201,6 +201,26 @@
                                 </tbody>
 
                             </table>
+                            <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="contactModalLabel">Envoyer un message au vendeur</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ path('contact_vendeur') }}" method="post">
+                                                <input type="hidden" name="paint_id" id="paintIdInput">
+                                                <label>
+                                                    <textarea name="message" rows="5" cols="60" placeholder="Saisissez votre message"></textarea>
+                                                </label>
+                                                <button type="submit" class="btn btn-secondary text-center">Envoyer</button>
+                                            </form>
+                                            <div class="messageStatus" style="display: none;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <a href="{{ path('app_facture') }}" class="btn btn-secondary">facture</a>
 
@@ -287,8 +307,13 @@
                         type: 'POST',
                         dataType: 'json',
                         success: function(response) {
+                            if (response.success) {
+                                console.log('coucou')
+                                removeLink.closest('.col-md-3').remove();
 
-                            removeLink.closest('.col-md-3').remove();
+                            } else {
+                                console.error('Erreur lors de la suppression de l\'élément', error);
+                            }
 
                         },
                         error: function(xhr, status, error) {
@@ -297,6 +322,41 @@
                         }
                     });
                 });
+
+
+                $('a[data-bs-target="#contactModal"]').click(function() {
+                    var paintId = $(this).data('paint-id');
+                    $('#paintIdInput').val(paintId);
+                });
+               /* $('.contactForm').submit(function(event) {
+                    event.preventDefault();
+
+                    var form = $(this);
+                    var url = form.attr('action');
+                    var formData = form.serialize();
+                    var message = "Votre message a été envoyé au vendeur.";
+                    var messageStatus = $('.messageStatus');
+                    var delay = 50;
+                    messageStatus.text('').show();
+                    $('.modal-header').addClass('bg-success').removeClass('bg-danger');
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        success: function(response) {
+
+                            if (response.success) {
+                                // Afficher le message uniquement en cas de succès
+                                $('.messageStatus').text('Votre message a été envoyé au vendeur.').show();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Erreur lors de l\'envoi du message', error);
+                        }
+                    });
+                });*/
             });
         </script>
         {% endblock %}

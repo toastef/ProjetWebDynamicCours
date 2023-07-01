@@ -44,14 +44,14 @@ class Painting
 
 
     #[Assert\Range(
-        notInRangeMessage: 'Votre tableau ne doit être compris entre {{ min }} et {{ max }} cm de hauteur',
+        notInRangeMessage: 'Votre tableau doit être compris entre {{ min }} et {{ max }} cm de hauteur',
         min: 20,
         max: 114
     )]
     #[ORM\Column]
     private ?float $height = null;
     #[Assert\Range(
-        notInRangeMessage: 'Votre tableau ne doit être compris entre {{ min }} et {{ max }} cm de largeur',
+        notInRangeMessage: 'Votre tableau doit être compris entre {{ min }} et {{ max }} cm de largeur',
         min: 25,
         max: 195
     )]
@@ -61,7 +61,12 @@ class Painting
     #[ORM\Column(type: 'string')]
     private ?string $imageName = null;
 
-
+    #[Assert\Image(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg', 'image/png'],
+        mimeTypesMessage: 'Veuillez télécharger une image au format JPEG ou PNG.',
+    )]
+    #[Assert\NotBlank(message: 'Veuillez sélectionner une image.')]
     #[Vich\UploadableField(mapping: 'Oeuvre_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
