@@ -18,6 +18,7 @@ main {
 
 .navbar-brand {
     padding-right: 28px;
+    max-width: 150px;
 }
 .btn {
     border-radius: 0;

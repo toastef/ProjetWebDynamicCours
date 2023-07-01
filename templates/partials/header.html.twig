@@ -11,8 +11,10 @@
 
 >
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="{{ asset('img/logo.png') }}" alt="logo-site"
-                                              style="width: 150px; height: auto;"></a>
+       
+        <a class="navbar-brand" href="{{ app.request.get('_route') == "home" ? "#" : path('home') }}">
+            <img width="150" src="{{ asset('img/logo.png') }}" alt="logo-site">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor05"
                 aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,9 +23,11 @@
         <div class="collapse navbar-collapse " id="navbarColor05">
 
                 <ul class="navbar-nav me-auto fs-5">
+                   {#  Ancien lien vers la home
                     <li class="nav-item px-2">
                         <a class="nav-link" id="nav" href="{{ path('home') }}">Home</a>
                     </li>
+                    #}
                     <li class="nav-item px-2">
                         <a class="nav-link" id="nav" href="{{ path('paintings') }}">Gallery</a>
                     </li>
