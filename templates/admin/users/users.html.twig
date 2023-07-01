@@ -51,7 +51,7 @@
                             admin
                     {% else %}
                         <a href="{{ path('app_admin_hideUser', {id: user.id}) }}" class="px-2 ajax-trigger" data-id="{{ user.id }}">
-                            <i class="icofont-skull-danger{% if user.suspendu %} text-danger{% else %} text-success{% endif %} "></i>
+                            <i id="icon" class="{% if user.suspendu %}icofont-close text-danger{% else %}icofont-check-circled text-success{% endif %} " style="font-size: 20px;"></i>
                         </a>
                     {% endif %}
                 </td>
@@ -80,12 +80,12 @@
                     success: function(response) {
                         console.log('Requête AJAX réussie');
                         var visibility = response.visibility;
-                        var icon = link.find('.icofont-skull-danger');
+                        var icon = link.find('#icon');
 
                         if (visibility) {
-                            icon.removeClass('text-success').addClass('text-danger');
+                            icon.removeClass('icofont-check-circled text-success').addClass('icofont-close text-danger');
                         } else {
-                            icon.removeClass('text-danger').addClass('text-success');
+                            icon.removeClass('icofont-close text-danger').addClass('icofont-check-circled text-success');
                         }
                     },
                     error: function(xhr, status, error) {

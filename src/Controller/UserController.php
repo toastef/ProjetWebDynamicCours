@@ -16,6 +16,7 @@ use Dompdf\Dompdf;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Vich\UploaderBundle\Handler\UploadHandler;
 
 class UserController extends AbstractController
 {
@@ -74,14 +76,16 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     #[Route('/user/edit-profile', name: 'app_edit_profile')]
-    public function editProfile(Request $request, EntityManagerInterface $manager)
+    public function editProfile(Request $request, EntityManagerInterface $manager, UploadHandler $uploadHandler)
     {
         $user = $this->getUser();
         $form = $this->createForm(EditProfileType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setUpdatedAt(new \DateTimeImmutable());
+
             $manager->flush();
+            $user->setImageFile(null);
             return $this->redirectToRoute('app_user');
         }
         return $this->renderForm('user/editProfile.html.twig',

@@ -235,6 +235,14 @@ img {
     body{
     overflow-x: hidden;
     }
+    .btn-menu-profile {
+        margin-top: 15px ;
+
+    }
+    .prof {
+        margin-top: 15px ;
+
+    }
 
 }
 
@@ -334,4 +342,8 @@ img {
 .btn-menu-profile[aria-expanded="true"]:focus-within {
     background: #48d3bb;
     border-color: #48d3bb;
+}
+.img-pro {
+    display: flex;
+    align-items: center;
 }

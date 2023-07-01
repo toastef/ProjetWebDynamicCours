@@ -51,7 +51,7 @@
                                     Gallery</a>
                                 {% if is_granted('ROLE_USER') %}
                                 {% if not app.user.suspendu %}
-                                <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton" data-target-id="{{ paint.id }}">Ajouter
+                                <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton prof" data-target-id="{{ paint.id }}">Ajouter
                                     au panier</a>
                                 {% endif %}
                                 {% endif %}

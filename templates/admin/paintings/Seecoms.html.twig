@@ -9,6 +9,9 @@
                 <th scope="col">Tableau</th>
                 <th scope="col">commentaire</th>
                 <th scope="col">Visibilité</th>
+                <th scope="col">Auteur</th>
+                <th scope="col" class="text-center">Supprimer</th>
+
 
             </tr>
             </thead>
@@ -29,7 +32,7 @@
                     </td>
 
                 <td> {{ coms.user.firstName }} {{ coms.user.lastName }} </td>
-                <td><a class="ajax-link" href="{{ path('app_admin_delecom', { id:coms.id }) }}"> <i class="icofont-ui-delete"></i></a>
+                <td class="text-center" ><a class="removeCom" href="{{ path('app_admin_delecom', { id:coms.id }) }}" > <i class="icofont-ui-delete"></i></a>
                 </td>
 
             </tr>
@@ -63,6 +66,31 @@
                             icon.removeClass('text-danger').addClass('text-success');
                         } else {
                             icon.removeClass('text-success').addClass('text-danger');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors de la requête AJAX');
+                    }
+                });
+            });
+            $('.removeCom').on('click', function(event) {
+                event.preventDefault();
+
+                var link = $(this);
+                var url = link.attr('href');
+                var id = link.data('id'); // Récupérer la valeur de l'attribut data-id
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    data: { id: id }, // Passer l'identifiant en tant que paramètre dans la requête
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('coucou')
+                            link.closest("tr").remove();
+
+                        } else {
+                            console.error('Erreur lors de la suppression de l\'élément', error);
                         }
                     },
                     error: function(xhr, status, error) {

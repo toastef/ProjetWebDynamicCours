@@ -234,7 +234,7 @@ class AdminController extends AbstractController
      * @param Comment $comment
      * @param EntityManagerInterface $manager
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return JsonResponse
      */
     #[Route('/admin/delecom/{id}', name: 'app_admin_delecom')]
     public function delcom(Comment $comment, EntityManagerInterface $manager, Request $request)
@@ -242,9 +242,26 @@ class AdminController extends AbstractController
         $route = $request->headers->get('referer');
         $manager->remove($comment);
         $manager->flush();
-        $this->addFlash('success', 'Commentaire supprimé !');
-        return $this->redirect($route);
+        return new JsonResponse(['success' => true]);
     }
+
+
+    /**
+     * @param TutoComment $comment
+     * @param EntityManagerInterface $manager
+     * @param Request $request
+     * @return JsonResponse
+     */
+    #[Route('/admin/delTutoCom/{id}', name: 'app_admin_deleTutoCom')]
+    public function delTutoCom(TutoComment $comment, EntityManagerInterface $manager, Request $request)
+    {
+        $route = $request->headers->get('referer');
+        $manager->remove($comment);
+        $manager->flush();
+
+        return new JsonResponse(['success' => true]);
+    }
+
 
     // userPart
     #[Route('/admin/user', name: 'app_admin_user')]

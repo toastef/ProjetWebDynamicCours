@@ -11,10 +11,10 @@
                 <div class="col-md-12 controls-filter ">
                     <ul class="px-0">
                         <!-- For filtering controls add -->
-                        <li data-filter="all" class="btn btn-outline-secondary active"> All items</li>
+                        <li data-filter="all" class="btn btn-outline-secondary active prof"> All items</li>
                         <!--variable passée dans le controller-->
                         {% for cat in categories %}
-                            <li data-filter="{{ cat.id }}" class="btn btn-outline-secondary"> {{ cat.name }}</li>
+                            <li data-filter="{{ cat.id }}" class="btn btn-outline-secondary prof"> {{ cat.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>

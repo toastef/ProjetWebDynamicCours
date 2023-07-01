@@ -8,19 +8,19 @@
 <div class="container-fluid my-4 " >
     <p class="text-left ">
         {# Profile #}
-        <button class="btn btn-secondary btn-menu-profile  " type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Profil"
                 aria-expanded="true" aria-controls="collapseExample">
             Profil
         </button>
         {# //like #}
-        <button class="btn btn-secondary btn-menu-profile" type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile " type="button" data-bs-toggle="collapse"
                 data-bs-target="#Like"
                 aria-expanded="false" aria-controls="collapseExample">
             Like
         </button>
         {# //tutos #}
-        <button class="btn btn-secondary btn-menu-profile" type="button" data-bs-toggle="collapse"
+        <button class="btn btn-secondary btn-menu-profile " type="button" data-bs-toggle="collapse"
                 data-bs-target="#tutos"
                 aria-expanded="false" aria-controls="collapseExample">
             Tutos
@@ -69,9 +69,9 @@
                                             {% endfor %}</p>
                                         </div>
                                         <div class="my-4 text-center ">
-                                        <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un
+                                        <a class="btn btn-secondary prof" href="{{ path('app_seller_new') }}">Vendre un
                                             Tableau</a>
-                                        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier
+                                        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary prof">Modifier
                                             mon
                                             Profile</a>
                                     </div>
@@ -93,10 +93,12 @@
                     <div class="row">
                         {% for paint in paintings %}
                             <div class="col-md-3">
-                                <div class="card m-3">
+                                <div class="card m-3 ">
+                                    <div class="img-pro">
                                     <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
                                             class="card-img-top"
-                                            alt="...">
+                                            alt="image tableau">
+                                    </div>
                                     <div class="card-body">
                                         <h5 class="card-title">{{ paint.title | capitalize }}</h5>
                                         <p class="card-text">Prix
@@ -107,7 +109,7 @@
                                             <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
                                                 class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
                                             <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
-                                                class="btn btn-outline-dark btn-sm">retirer</a>
+                                                class="btn btn-outline-dark btn-sm remove-like">retirer</a>
                                         </div>
                                     </div>
                                 </div>
@@ -302,6 +304,35 @@
                     });
                 });
                 $('.remove-link').click(function(event) {
+                    event.preventDefault();
+
+                    var removeLink = $(this);
+                    var url = removeLink.attr('href');
+                    var id = removeLink.data('id');
+
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                console.log('coucou')
+                                removeLink.closest('.col-md-3').remove();
+
+                            } else {
+                                console.error('Erreur lors de la suppression de l\'élément', error);
+                            }
+
+                        },
+                        error: function(xhr, status, error) {
+
+                            console.error('Erreur lors du retrait du tutoriel', error);
+                        }
+                    });
+                });
+
+
+                $('.remove-like').click(function(event) {
                     event.preventDefault();
 
                     var removeLink = $(this);
