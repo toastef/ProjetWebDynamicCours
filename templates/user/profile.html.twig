@@ -216,7 +216,7 @@
                                                 </label>
                                                 <button type="submit" class="btn btn-secondary text-center">Envoyer</button>
                                             </form>
-                                            <div calss="messageStatus" style="display: none;"></div>
+                                            <div class="messageStatus" style="display: none;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -307,11 +307,12 @@
                         type: 'POST',
                         dataType: 'json',
                         success: function(response) {
-
                             if (response.success) {
-                                $('.modal-header').addClass('bg-success').removeClass('bg-danger');
+                                console.log('coucou')
+                                removeLink.closest('.col-md-3').remove();
+
                             } else {
-                                $('.modal-header').addClass('bg-danger').removeClass('bg-success');
+                                console.error('Erreur lors de la suppression de l\'élément', error);
                             }
 
                         },

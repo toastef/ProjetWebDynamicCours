@@ -161,8 +161,9 @@ class UserController extends AbstractController
     public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository): Response
     {
         $user = $security->getUser();
-        // Mise à jour du rôle de l'utilisateur
-        if ($user->getRoles() !== ['ROLE_SUPER_ADMIN'] || $user->getRoles() !== ['ROLE_ADMIN']) {
+        $roles = $user->getRoles();
+
+        if(!in_array("ROLE_SUPER_ADMIN",$roles) && !in_array("ROLE_ADMIN",$roles) ){
             $user->setRoles(['ROLE_SELLER']);
             $manager->persist($user);
         }
@@ -203,7 +204,7 @@ class UserController extends AbstractController
                     ]);
                 $mailer->send($email);
             }
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('paint', ['slug' => $paint->getSlug()]);
         }
         return $this->renderForm('painting/new.html.twig', [
             'form' => $form
