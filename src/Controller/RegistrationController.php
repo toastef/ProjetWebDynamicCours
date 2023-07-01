@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -24,44 +26,56 @@ class RegistrationController extends AbstractController
      * @return Response
      */
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MailerInterface $mailer,UserRepository $repository): Response
     {
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $existingUser = $repository->findOneBy(['email' => $form->get('email')->getData()]);
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            if (empty($user->getImageFile())) $user->setImageName('default.jpg');
-            $user->setCreatedAt(new \DateTimeImmutable())
-                ->setUpdatedAt(new \DateTimeImmutable())
-                ->setSuspendu(false)
-                ->setRoles(['ROLE_USER']);
+            if ($existingUser) {
+                $type='danger';
+                $message = 'erreur, l\'email existe déja';
+            } else {
+                $user->setPassword(
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+                if (empty($user->getImageFile())) $user->setImageName('default.jpg');
+                $user->setCreatedAt(new \DateTimeImmutable())
+                    ->setUpdatedAt(new \DateTimeImmutable())
+                    ->setSuspendu(false)
+                    ->setRoles(['ROLE_USER']);
 
-            // email de confirmation
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $email = (new TemplatedEmail())
-                ->from($user->getEmail())
-                ->to('admin@infor.be')
-                ->subject('Inscription')
-                ->htmlTemplate('contact/email.html.twig')
-                ->context([
-                    'firstName' => $user->getFirstName(),
-                    'lastName' => $user->getLastName(),
-                    'title' => 'Inscription réussie',
-                    'message' => 'Vous êtes bien inscrit sur notre site avec le nom ' . $user->getFirstName(),
-                ]);
-            $mailer->send($email);
-            return $this->redirectToRoute('home'); // redirection
+                // email de confirmation
+
+                $email = (new TemplatedEmail())
+                    ->from('info@artGalleri.be')
+                    ->to($user->getEmail())
+                    ->subject('Inscription')
+                    ->htmlTemplate('contact/email.html.twig')
+                    ->context([
+                        'firstName' => $user->getFirstName(),
+                        'lastName' => $user->getLastName(),
+                        'title' => 'Inscription réussie',
+                        'message' => 'Vous êtes bien inscrit sur notre site avec le nom ' . $user->getFirstName(),
+                    ]);
+                $mailer->send($email);
+
+                return $this->redirectToRoute('home'); // redirection
+            }
+            $this->addFlash($type, $message);
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/registration.html.twig', [
