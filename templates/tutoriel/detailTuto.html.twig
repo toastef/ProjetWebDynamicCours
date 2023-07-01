@@ -2,11 +2,6 @@
 
 {% block body %}
     <style>
-        #video-player {
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
 
         .related-tutorials {
             background-color: #f9f9f9;
@@ -22,10 +17,10 @@
         }
 
         .related-tutorials .list-group-item {
-            display: flex;
-            align-items: center;
+            /*display: flex;
+            align-items: center;*/
+            padding: 0;
             margin-bottom: 10px;
-            padding: 10px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -34,11 +29,23 @@
             margin-bottom: 0;
         }
 
-        .related-tutorials .media img {
+        .related-tutorials .media .img-tuto-side {
             width: 60px;
             height: 60px;
             border-radius: 5px;
             margin-right: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .related-tutorials .media .img-tuto-side img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 60px;
+            width: auto;
+            
         }
 
         .related-tutorials .media .media-body {
@@ -53,6 +60,7 @@
 
         .related-tutorials .media .btn-secondary {
             display: flex;
+            width: 100%;
             align-items: center;
             white-space: nowrap;
             overflow: hidden;
@@ -62,6 +70,7 @@
             padding-left: 0;
             color: #737171;
             background-color: unset;
+            padding: 10px;
         }
 
         .related-tutorials .media .btn-secondary:hover {
@@ -70,46 +79,74 @@
         .related-tutorials::-webkit-scrollbar {
             display: none;
         }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+        }
+
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="video-container">
-                    <iframe id="video-player" data-tuto-id="{{ tuto.id }}" width="850" height="460"
-                            src="{{ tuto.content }}" title="YouTube video player"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                </div>
+
+    <main class="container mb-5">
+        <div class="container my-5">
+            <div class="text-center mb-5">
+               <h1>{{ tuto.title | capitalize }}</h1>
             </div>
-            <div class="col-md-4 ">
-                <div class="related-tutorials">
-                    <h3 class="text-center">Tutoriels similaires</h3>
-                    <ul class="list-group">
-                        {% for tutorial in tutoriels %}
-                            {% if tutorial.style == tuto.style %}
-                                {% if tutorial.id != tuto.id %}
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <a href="{{ path('tuto', {slug: tutorial.slug}) }}"
-                                               class="btn btn-secondary btn-sm">
-                                                <img src="{{ asset('img/tutos/' ~ tutorial.image) }}" class="mr-3"
-                                                     alt="image of tutorial" >
-                                                <div class="media-body">
-                                                    <h5 class="mt-0">{{ tutorial.title | capitalize }}</h5>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
+
+            <div class="row">
+                
+                <div class="col-lg-4 order-last">
+                    <div class="related-tutorials">
+                        <h3 class="text-center">Tutoriels similaires</h3>
+                        <ul class="list-group">
+                            {% for tutorial in tutoriels %}
+                                {% if tutorial.style == tuto.style %}
+                                    {% if tutorial.id != tuto.id %}
+                                        <li class="list-group-item">
+                                            <div class="media">
+                                                <a href="{{ path('tuto', {slug: tutorial.slug}) }}"
+                                                class="btn btn-secondary btn-sm">
+                                                    <div class="img-tuto-side">
+                                                        <img src="{{ asset('img/tutos/' ~ tutorial.image) }}" class="mr-3"
+                                                        alt="image of tutorial" >
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h5 class="mt-0">{{ tutorial.title | capitalize }}</h5>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
+
+                <div class="col-lg-8 order-first">
+                    <div class="video-container">
+                        <iframe id="video-player" data-tuto-id="{{ tuto.id }}" width="850" height="460"
+                                src="{{ tuto.content }}" title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+                
             </div>
         </div>
-    </div>
-    <main class="container">
+    
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}

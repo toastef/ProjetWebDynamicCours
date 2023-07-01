@@ -23,19 +23,26 @@
                 <div class="col-md-12 filter-container " >
                     <!-- Card -->
                     {% for tuto in tutorials %}
-                        <div class="col-md-4 filtr-item" data-category="{{ tuto.style.id }}" data-sort="value">
-                            <div class="card m-3" style="min-height: 480px !important; height: auto;">
-                                <div class="card-header bg-light">
-                                    <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
-                                </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 filtr-item" data-category="{{ tuto.style.id }}" data-sort="value">
+                            <div class="card m-3">
                                 <div class="card-body">
                                     <div class="text-center">
-                                    <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
-                                         style="height: 225px; width: 320px;"  class="img-fluid">
+                                        <div class="card-body-image">
+                                            <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="card-body-title">
+                                        <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
                                     </div>
 
                                     <p class="card-text">
-                                        <small class="text-muted">{{ tuto.description }}</small>
+                                        <small class="text-muted">
+                                            {% if tuto.description|length > 200 %}
+                                                {{ tuto.description|slice(0, 200) ~ '...' }}    
+                                            {% else %}
+                                                {{ tuto.description }}    
+                                            {% endif %}
+                                        </small>
                                     </p>
 
 
@@ -56,6 +63,36 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/jquery.filterizr.min.js') }}"></script>
     <script>
+
+        resizeCardText(true);
+        $(window).on('resize', function(){
+            if($(window).width() >= 576) {
+                resizeCardText(true);
+            } else {
+                resizeCardText(false);
+            }
+        })
+        
+        function resizeCardText(application) {
+            
+            $('.card-text').css({'height' : 'auto'})
+            var maxheight = 0;
+            var currentHeight = 0;
+            $('.card-text').each(function(){
+                currentHeight = $(this).height();
+                if(currentHeight > maxheight) {
+                    maxheight = $(this).height();
+                }
+            })
+            if(application) {
+                $('.card-text').height(maxheight);
+            } else {
+                $('.card-text').css({'height' : 'auto'});
+            }
+            
+
+        }
+        
         let filterizd = $('.filter-container').filterizr({
             // options here
         });
