@@ -8,6 +8,11 @@ body {
     flex-direction: column;
 }
 
+body * {
+    border-radius: 0 !important;
+
+}
+
 header {
     flex: 0;
 }
@@ -65,7 +70,7 @@ a{
 /* Footer */
 footer {
     flex: 0;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     padding: 20px 0;
     height: auto;
     border-top: 1px solid #dfdfdf;
@@ -221,13 +226,23 @@ img {
     }
 
 }
+
+.icofont-cart-alt {
+    position: relative;
+} 
+
 .count-panier {
     position: absolute;
-    margin-right: 15%;
-    width: 25px;
-    height: 25px;
-    background-color: transparent;
-    border-radius: 100%;
+    right: -8px;
+    top: -8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 15px;
+    border-radius: 25px !important;
+    font-size: 12px;
+    background-color: #48d3bb;
     color: white;
 }
 
@@ -240,12 +255,10 @@ img {
     padding: 0 40px;
 }
 
-.user-detail-container {
-    width: 70vw;
-}
 
 .user-detail {
-    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
 }
 
 .user-detail .card {
@@ -289,8 +302,11 @@ img {
 
 .login {
     border-radius: 7px;
-    max-width: 400px;
+    max-width: 450px;
     margin: 0 auto;
+    border: 2px solid #48d3bb;
+    border-radius: 0;
+    
 }
 
 .modal.show {

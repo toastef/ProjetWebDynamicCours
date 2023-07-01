@@ -1,14 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Identification {{ parent() }}{% endblock %}
-{% block stylesheets %}
-    <style>
-        #login{
-            border: 1px solid #e7e4e4;
-            box-shadow: 0 2px 6px 2px  #48d3bb;
-        }
-    </style>
-{% endblock %}
+
 {% block body %}
 {%  if is_granted('ROLE_USER') %}
 

@@ -46,20 +46,21 @@
     <div class="collapse show" id="Profil">
         <div class="card card-body align-items-center">
             <h2 class="text-center">Votre profile</h2>
-            <div class="container  " style="display:flex;">
+            <div class="container">
                 <div class="user-detail-container  " >
                     <div class="user-detail">
-                        <div class="upper-card mx-5">
+                        <div class="card user-detail-card" data-mh="card-one">
                             <div class="row ">
-                                <div class="container" style="width: 70%">
-                                    <div class="card user-detail-card mx-5 " data-mh="card-one">
-                                        <div class="card-img-top">
-                                            <img src="img/avatar/{{ app.user.imageName }}"
-                                                 alt="{{ app.user.firstName }} {{ app.user.lastName }}"
-                                                 class="" style="max-width: 100%; height: auto; ">
-                                        </div>
-                                        <h3 class="text-center mx-3 my-3">{{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h3>
-                                        <div class="px-3">
+                                <div class="col-md-4">
+                                    <div class="card-img-top">
+                                        <img src="img/avatar/{{ app.user.imageName }}"
+                                            alt="{{ app.user.firstName }} {{ app.user.lastName }}"
+                                            class="" style="max-width: 100%; height: auto; ">
+                                    </div>
+                                    <h3 class="text-center mx-3 my-3">{{ app.user.firstName|capitalize }} {{ app.user.lastName|capitalize }}</h3>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="px-3">
                                         <p>Email : {{ app.user.email }}</p>
                                         <p>Created : {{ app.user.createdAt|date('d/m/Y') }} </p>
                                         <p>Updated :{{ app.user.updatedAt|date('d/m/Y') }}</p>
@@ -68,55 +69,54 @@
                                             {% endfor %}</p>
                                         </div>
                                         <div class="my-4 text-center ">
-                                            <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un
-                                                Tableau</a>
-                                            <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier
-                                                mon
-                                                Profile</a>
-                                        </div>
+                                        <a class="btn btn-secondary" href="{{ path('app_seller_new') }}">Vendre un
+                                            Tableau</a>
+                                        <a href="{{ path('app_edit_profile') }}" class="btn btn-secondary">Modifier
+                                            mon
+                                            Profile</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
             </div>
-        </div>
     </div>
 
-            {# Like #}
-            <div class="collapse" id="Like">
-                <div class="card card-body">
-                    <h2 class="mx-3 text-center">Tableaux Préférés</h2>
-                    <div class="col-md-12">
-                        <div class="row">
-                            {% for paint in paintings %}
-                                <div class="col-md-3">
-                                    <div class="card m-3">
-                                        <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
-                                             class="card-img-top"
-                                             alt="...">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ paint.title | capitalize }}</h5>
-                                            <p class="card-text">Prix
-                                                : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
-                                            <div class="text-center">
-                                                <a class="btn btn-secondary btn-sm"
-                                                   href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
-                                                <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
-                                                   class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
-                                                <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
-                                                   class="btn btn-outline-dark btn-sm">retirer</a>
-                                            </div>
+        {# Like #}
+        <div class="collapse" id="Like">
+            <div class="card card-body">
+                <h2 class="mx-3 text-center">Tableaux Préférés</h2>
+                <div class="col-md-12">
+                    <div class="row">
+                        {% for paint in paintings %}
+                            <div class="col-md-3">
+                                <div class="card m-3">
+                                    <img src="{{ asset('img/oeuvres/' ~ paint.imageName)|imagine_filter('mini_oeuvre') }}"
+                                            class="card-img-top"
+                                            alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ paint.title | capitalize }}</h5>
+                                        <p class="card-text">Prix
+                                            : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
+                                        <div class="text-center">
+                                            <a class="btn btn-secondary btn-sm"
+                                                href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
+                                            <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
+                                                class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+                                            <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
+                                                class="btn btn-outline-dark btn-sm">retirer</a>
                                         </div>
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+        </div>
 
     {# Tutos #}
             <div class="collapse" id="tutos">
@@ -158,7 +158,7 @@
 
 
          {#Panier#}
-            <div class="collapse show" id="Achat">
+            <div class="collapse" id="Achat">
                 <div class="card card-body">
                     <div class="container">
                         <div class="text-center">
@@ -273,6 +273,11 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
             $(document).ready(function() {
+
+                $('.collapse[id]').on('show.bs.collapse', function () {
+                    $('.collapse[id]').collapse('hide');
+                  })
+
                 $('.delete-link').click(function(event) {
                     event.preventDefault();
 
