@@ -289,5 +289,10 @@ img {
 
 .login {
     border-radius: 7px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
+.modal.show {
+    display: block;
+} 

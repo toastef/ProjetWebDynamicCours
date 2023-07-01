@@ -18,8 +18,8 @@
 
 
     <main class="container my-5 "  >
-        <div class="row" >
-            <div class="col-md-6 offset-3 login" id="login" >
+        <div >
+            <div class="login" id="login" >
                 <h2 class="display-4 my-3 text-center ">S'identifier</h2>
                 {% if error %}
                     <div class="text-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
