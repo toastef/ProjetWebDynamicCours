@@ -25,11 +25,21 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 class UserController extends AbstractController
 {
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
     /**
      * Variable Utilisé dans section profile
      * @param PaintingRepository $repository
@@ -162,15 +172,11 @@ class UserController extends AbstractController
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     #[Route('/vendeur/new', name: 'app_seller_new')]
-    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository): Response
+    public function newPainting(Request $request, EntityManagerInterface $manager, Security $security, MailerInterface $mailer, UserRepository $userRepository, TokenStorageInterface $tokenStorage): Response
     {
         $user = $security->getUser();
         $roles = $user->getRoles();
 
-        if(!in_array("ROLE_SUPER_ADMIN",$roles) && !in_array("ROLE_ADMIN",$roles) ){
-            $user->setRoles(['ROLE_SELLER']);
-            $manager->persist($user);
-        }
 
         //Nouvelle peinture
         $paint = new Painting();
@@ -178,6 +184,14 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if(!in_array("ROLE_SUPER_ADMIN",$roles) && !in_array("ROLE_ADMIN",$roles) ){
+                $user->setRoles(['ROLE_SELLER']);
+                $manager->persist($user);
+
+                $token = new UsernamePasswordToken($this->getUser(), 'main',$this->getUser()->getRoles() );
+                $this->tokenStorage->setToken($token);
+            }
             $paint->setCreatedAt(new \DateTimeImmutable())
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setImageName('image')
@@ -364,6 +378,8 @@ class UserController extends AbstractController
 
         return new JsonResponse(['success' => false]);
     }
+
+
 
 }
 

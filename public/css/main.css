@@ -230,7 +230,7 @@ img {
 
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
 
     body{
     overflow-x: hidden;
@@ -240,7 +240,7 @@ img {
 
     }
     .prof {
-        margin-top: 15px ;
+        margin-top: 25px ;
 
     }
 
