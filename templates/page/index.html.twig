@@ -20,6 +20,7 @@
     {% block javascripts %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+
         <script>
             $(document).ready(function(){
                 $('.carousel').slick({
@@ -74,7 +75,7 @@
         <div class="containerb" >
             <canvas id="scene"></canvas>
             <label for="copy"></label>
-            <input id="copy" type="text" value="Art-Gallery"/>
+            <input id="copy" type="text" value="ART-GALLERY"/>
         </div>
     </div>
 
@@ -103,4 +104,5 @@
         </div>
     </div>
 </main>
+    <script src="{{ asset('js/canvas.js') }}"></script>
 {% endblock %}

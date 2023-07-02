@@ -127,7 +127,7 @@
                     <div class="col-md-12">
                         <div class="row">
                             {% for tuto in tutos %}
-                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="col-lg-3 col-md-4 col-sm-6" id="tutoc">
                                     <div class="card m-3">
                                         <div class="card-body">
                                             <div class="card-body-image">
@@ -146,7 +146,7 @@
                                                    href="{{ path('tuto', {slug: tuto.slug}) }}">Détail</a>
 
                                                 <a href="{{ path('tuto_remove', {'id' : tuto.id}) }}"
-                                                   class="btn btn-danger btn-sm remove-link">
+                                                   class="btn btn-danger btn-sm tuto-link">
                                                     <i class="icofont-trash"></i>
                                                 </a>
                                             </div>
@@ -303,12 +303,12 @@
                         }
                     });
                 });
-                $('.remove-link').click(function(event) {
+                $('.tuto-link').click(function(event) {
                     event.preventDefault();
 
-                    var removeLink = $(this);
-                    var url = removeLink.attr('href');
-                    var id = removeLink.data('id');
+                    var link = $(this);
+                    var url = link.attr('href');
+                    var id = link.data('id');
 
                     $.ajax({
                         url: url,
@@ -317,7 +317,7 @@
                         success: function(response) {
                             if (response.success) {
                                 console.log('coucou')
-                                removeLink.closest('.col-md-3').remove();
+                                link.closest('#tutoc').remove();
 
                             } else {
                                 console.error('Erreur lors de la suppression de l\'élément', error);

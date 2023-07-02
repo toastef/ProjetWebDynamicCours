@@ -39,23 +39,31 @@
                     <td><a href="{{ path('app_admin_editTuto', {id:tuto.id}) }}"><i class="icofont-edit-alt"></i></a></td>
                 <td class="text-center">
                     {% set hasComment = false %}
-                    {% set commentCountPu = 0 %}
                     {% set commentCount = 0 %}
+                    {% set commentCountPu = 0 %}
+
                     {% for coms in comment %}
                         {% if tuto.id is same as (coms.tutorial.id) %}
                             {% set commentCount = commentCount + 1 %}
 
                             {% set hasComment = true %}
-                            <a href="{{ path('app_admin_commentTuto', {id: tuto.id , user: coms.user }) }}">
-                                <i class="icofont-comment{% if coms.isPublished %} {% set commentCountPu = commentCountPu + 1 %} {% else %} text-danger{% endif %}"></i>
-                            </a>
-                            {{ commentCount }}
+                            {% if not coms.isPublished %}
+                                {% set commentCountPu = commentCountPu + 1 %}
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
-                    {% if not hasComment %}
+
+                    {% if hasComment %}
+                        <a href="{{ path('app_admin_commentTuto', {id: tuto.id}) }}">
+                            {% if commentCountPu > 0 %}
+                                <i class="icofont-comment text-danger"></i> {{ commentCountPu }}
+                            {% else %}
+                                <i class="icofont-comment text-success"></i>
+                            {% endif %}
+                        </a>
+                    {% else %}
                         ...
                     {% endif %}
-
                 </td>
             </tr>
         {% endfor %}
