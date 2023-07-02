@@ -99,7 +99,7 @@
                                             class="card-img-top"
                                             alt="image tableau">
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" style="min-height: 140px; ">
                                         <h5 class="card-title">{{ paint.title | capitalize }}</h5>
                                         <p class="card-text">Prix
                                             : {{ paint.price|format_currency('EUR', locale='fr') }}</p>
@@ -195,7 +195,7 @@
                                         </td>
                                         <td class="mx-5">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" data-paint-id="{{ item.product.id }}">
-                                                {{ item.product.vendeur.firstName }} <i class="icofont-envelope"></i>
+                                                {{ item.product.vendeur.firstName }} &nbsp; <i class="icofont-envelope"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -233,7 +233,7 @@
                     </div>
                 </div>
             </div>
-
+{# En vente #}
             <div class="collapse" id="Vente">
                 <div class="card card-body">
                     <h2 class="mx-3 text-center ">Tableaux mis en vente</h2>
@@ -247,7 +247,7 @@
                                              alt="...">
                                         <div class="card-body">
                                             <h5 class="card-title">{{ paint.title | capitalize }}</h5>
-                                            <p class="card-text text-muted ">
+                                            <p class="card-text text-muted " id="vendu-text" >
                                                 {% if paint.vendu %}
                                                 Vendu
                                                 {% else %}
@@ -259,7 +259,7 @@
                                                    href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
                                                 <a href="{{ path('app_seller_vendu', {'id': paint.id}) }}"
                                                    type="button"
-                                                   class="btn btn-outline-dark btn-sm">Vendu</a>
+                                                   class="btn btn-outline-dark btn-sm {% if paint.vendu %} disabled {% endif %}" id="vendu-link" >Vendu</a>
                                             </div>
                                         </div>
                                     </div>
@@ -365,35 +365,35 @@
                     var paintId = $(this).data('paint-id');
                     $('#paintIdInput').val(paintId);
                 });
-               /* $('.contactForm').submit(function(event) {
+
+
+                $('#vendu-link').click(function(event) {
                     event.preventDefault();
 
-                    var form = $(this);
-                    var url = form.attr('action');
-                    var formData = form.serialize();
-                    var message = "Votre message a été envoyé au vendeur.";
-                    var messageStatus = $('.messageStatus');
-                    var delay = 50;
-                    messageStatus.text('').show();
-                    $('.modal-header').addClass('bg-success').removeClass('bg-danger');
+                    var reLink = $(this);
+                    var url = reLink.attr('href');
+                    var id = reLink.data('id');
 
                     $.ajax({
                         url: url,
                         type: 'POST',
-                        data: formData,
                         dataType: 'json',
                         success: function(response) {
-
                             if (response.success) {
-                                // Afficher le message uniquement en cas de succès
-                                $('.messageStatus').text('Votre message a été envoyé au vendeur.').show();
+                                $('#vendu-text').text('Vendu');
+                                reLink.addClass('disabled');
+                                reLink.off('click');
+                            } else {
+                                console.error('Erreur lors du changement de status', error);
                             }
+
                         },
                         error: function(xhr, status, error) {
-                            console.error('Erreur lors de l\'envoi du message', error);
+
+                            console.error('Erreur lors du retrait de la peinture', error);
                         }
                     });
-                });*/
+                });
             });
         </script>
         {% endblock %}

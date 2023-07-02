@@ -1,13 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}About {{ parent() }}{% endblock %}
-{% block stylesheets %}
-    <style>
-        footer{
-           /*display: none;*/
-        }
-    </style>
-{% endblock %}
+
 {% block body %}
 
     <div class="px-2 pt-5 my-3 text-center border-bottom">
@@ -20,7 +14,7 @@
                 veniam voluptatibus.
                 Enim magni maxime necessitatibus odit sequi? Alias, ipsa.</p>
             <img src="{{ asset('img/ban04.jpeg') }}" class="img-fluid border rounded-3 shadow-lg mb-4"
-                 alt="Example image" width="700" height="600" loading="lazy">
+                 alt="Example image" width="600" height="500" loading="lazy">
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5 ">
                 <button  type="button" class="btn btn-secondary btn-lg px-4 me-sm-3 "
                          data-bs-toggle="collapse"

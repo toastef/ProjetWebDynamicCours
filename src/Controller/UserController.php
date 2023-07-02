@@ -155,12 +155,15 @@ class UserController extends AbstractController
     #[Route('/vendeur/vendu/{id}', name: 'app_seller_vendu')]
     public function delete(Painting $painting, EntityManagerInterface $manager): Response
     {
-        $painting->setVendu(!$painting->isVendu());
-        $manager->flush();
-        return $this->redirectToRoute('app_user');
+        try {
+            $painting->setVendu(!$painting->isVendu());
+            $manager->flush();
+            return new JsonResponse(['success' => true]);
+        } catch (\Exception $e) {
+            // Gérer l'exception ici
+            return new JsonResponse(['success' => false, 'error' => $e->getMessage()]);
+        }
     }
-
-
     /**
      * Ajout d'une peinture par l'utilisateur avec envoi de l'info par mail a tous les utilisateurs
      * @param Request $request

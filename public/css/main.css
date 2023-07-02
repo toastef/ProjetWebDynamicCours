@@ -344,6 +344,13 @@ img {
     border-color: #48d3bb;
 }
 .img-pro {
-    display: flex;
-    align-items: center;
+   min-height: 350px;
+}
+.icofont-envelope{
+    font-size: 20px;
+    color: #1c7769;
+}
+.icofont-envelope:hover{
+
+    color: #48d3bb;
 }
