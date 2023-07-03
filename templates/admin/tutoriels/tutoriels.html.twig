@@ -24,7 +24,7 @@
                 <td><img src="{{ asset('/img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}"
                          alt="{{ tuto.title }}"
                          style="width: 60px; height: 60px;"></td>
-                <td><a class="ajax-link" href="{{ path('tuto', {slug: tuto.slug}) }} ">{{ tuto.title|capitalize }}</a></td>
+                <td><a  href="{{ path('tuto', {slug: tuto.slug}) }} ">{{ tuto.title|capitalize }}</a></td>
                 <td>{{ tuto.content }}</td>
                 <td>{{ tuto.style.name }}</td>
                     {# <td>

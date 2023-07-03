@@ -3,20 +3,126 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<main>
-    <div class="container ">
-        <section class="row">
-            <div class="col-md-8 offset-md-2">
-                <h2 class="display-4 my-4">S'enregistrer</h2>
-                {{ form_start(registrationForm) }}
-                {{ form_widget(registrationForm) }}
-                {{ form_errors(registrationForm) }}
-                {{ form_errors(registrationForm.captcha) }}
-                <button type="submit" class="btn btn-secondary">S'enregistrer</button>
-                {{ form_end(registrationForm) }}
 
+    <main>
+        <div class="container ">
+            <section class="row">
+                <div class="col-md-8 offset-md-2">
+                    <h2 class="display-4 my-4">S'enregistrer</h2>
+                    {{ form_start(registrationForm) }}
+                    {{ form_widget(registrationForm) }}
+                    {{ form_errors(registrationForm) }}
+                    {{ form_errors(registrationForm.captcha) }}
+                    {{ form_label(registrationForm.agreeTerms, 'Termes et conditions', { 'attr': {'id': 'terms-link'} }) }}
+                    <button type="submit" class="btn btn-secondary">S'enregistrer</button>
+                    {{ form_end(registrationForm) }}
+
+                </div>
+            </section>
+        </div>
+
+        <div id="terms-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Termes et conditions</h5>
+                        <button type="button" class="closeMo" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Termes et conditions
+
+                            En utilisant le site Art Gallery, vous acceptez les conditions suivantes :<br>
+
+                            Utilisation du site :<br>
+
+                            Art Gallery est une plateforme en ligne permettant aux utilisateurs de vendre et d'acheter
+                            des tableaux d'art.
+                            Le site est uniquement destiné à des fins d'affichage et de mise en relation entre les
+                            vendeurs et les acheteurs. Art Gallery ne traite pas les transactions financières et n'est
+                            pas responsable des éventuels litiges entre les utilisateurs.
+                            <br>
+                            Responsabilité :<br>
+
+                            Art Gallery ne peut garantir l'authenticité, la qualité ou l'état des tableaux proposés par
+                            les vendeurs. Les utilisateurs sont responsables de vérifier les informations et de prendre
+                            des décisions éclairées lors de l'achat ou de la vente d'un tableau.
+                            Art Gallery décline toute responsabilité en cas de perte, de dommage ou de litige résultant
+                            de l'utilisation du site.
+                            <br>
+                            Propriété intellectuelle : <br>
+
+                            Les vendeurs sont responsables de s'assurer qu'ils détiennent les droits de propriété
+                            intellectuelle nécessaires sur les tableaux qu'ils proposent à la vente.
+                            Les utilisateurs s'engagent à respecter les droits d'auteur et les droits de propriété
+                            intellectuelle des autres utilisateurs et de ne pas utiliser ou reproduire le contenu du
+                            site sans autorisation préalable.
+                            <br>
+                            Confidentialité : <br>
+
+                            Art Gallery collecte et traite les données personnelles des utilisateurs conformément à sa
+                            politique de confidentialité. En utilisant le site, vous consentez à la collecte, au
+                            traitement et à l'utilisation de vos données personnelles conformément à cette
+                            politique.<br>
+                            Modification des termes et conditions :<br>
+
+                            Art Gallery se réserve le droit de modifier les présents termes et conditions à tout moment.
+                            Les utilisateurs seront informés de toute modification et devront accepter les nouvelles
+                            conditions pour continuer à utiliser le site. <br>
+                            En utilisant le site Art Gallery, vous acceptez ces termes et conditions. Si vous n'êtes pas
+                            d'accord avec ces conditions, veuillez ne pas utiliser le site.
+                            <br>
+                            Pour toute question ou préoccupation concernant ces termes et conditions, veuillez nous
+                            contacter à l'adresse suivante : [info@gallery.be].</p>
+
+                    </div>
+
+                </div>
             </div>
-        </section>
-    </div>
-</main>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.form-check-label').click(function (event) {
+                event.preventDefault();
+                $('#terms-modal').modal('show');
+            });
+            $('.closeMo').click(function (event) {
+                event.preventDefault();
+                $(this).closest('.modal').modal('hide');
+            });
+
+            $('#registration_form_email').blur(function () {
+                var email = $(this).val();
+                var emailInput = $(this);
+                if (email.length >= 5) {
+                    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (emailRegex.test(email)) {
+                        // Requête AJAX
+                        $.ajax({
+                            url: '{{ path('email_verif') }}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {email: email},
+                            success: function (response) {
+                                if (response.exists) {
+                                    console.log('ok')
+                                    emailInput.closest('input').addClass('email-exists');
+                                } else {
+                                    emailInput.closest('input').removeClass('email-exists');
+                                    emailInput.closest('input').addClass('email-ok');
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Erreur lors de la vérification de l\'email', error);
+                            }
+                        });
+                    }
+                }
+            });
+
+        });
+    </script>
 {% endblock %}

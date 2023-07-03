@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -82,4 +83,24 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(), // passage du form vers la vue
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param UserRepository $repository
+     * @return JsonResponse
+     */
+    #[Route('/verif', name: 'email_verif')]
+    public function verifEmail(Request $request,UserRepository $repository): JsonResponse
+    {
+        $email = $request->request->get('email');
+
+        $user = $repository->findOneBy(['email' => $email]);
+
+        if ($user) {
+            return new JsonResponse(['exists' => true]);
+        }
+
+        return new JsonResponse(['exists' => false]);
+    }
+
 }

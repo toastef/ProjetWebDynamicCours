@@ -245,7 +245,12 @@ img {
     }
 
 }
-
+.email-exists {
+    box-shadow: 0 0 5px red;
+}
+.email-ok{
+    box-shadow: 0 0 5px green;
+}
 .icofont-cart-alt {
     position: relative;
 } 
@@ -262,7 +267,7 @@ img {
     border-radius: 25px !important;
     font-size: 12px;
     background-color: #48d3bb;
-    color: white;
+    color: rgba(3, 3, 3, 0.82);
 }
 
 .cont {
@@ -353,4 +358,7 @@ img {
 .icofont-envelope:hover{
 
     color: #48d3bb;
+}
+.btn-secondary,.btn-outline-secondary.active {
+    background-color: #424242;
 }

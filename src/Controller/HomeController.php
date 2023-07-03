@@ -50,8 +50,10 @@ class HomeController extends AbstractController
 
         $totalachat = 0;
         foreach ($panierWithData as $item) {
-            $totalItem = $item['product']->getPrice() * $item['quantity'];
-            $totalachat += $totalItem;
+            if ($item['product']) {
+                $totalItem = $item['product']->getPrice() * $item['quantity'];
+                $totalachat += $totalItem;
+            }
 
         }
         return $this->render('partials/nav.html.twig',

@@ -1,0 +1,23 @@
+{% apply inline_css(source('@style/bootstrap.min.css')) %}
+
+    <div class="container ">
+        <div class="card mb-3 my-3 ">
+            <div class="card-body my-2 ">
+                <h3 class="card-title text-center my-3">{{ title }}</h3>
+                <hr class="my-4 ">
+                <h5 class="card-subtitle text-center">Demande d'information de la part de
+                    : {{ firstName|capitalize }} {{ lastName|capitalize }}</h5>
+                <p class="lead text-center my-2">Concernant le tableau : {{ titreOeuvre|capitalize }}</p>
+                <div class="my-5">
+                   <p class="text-center">Message : {{ message }}</p>
+                    <div class="text-center">
+                        <img class="card-img  my-3 align-items-center"
+                             style="width: 450px; height: 300px; border-radius: 7px; box-shadow: rgba(0,0,0,0.89) 0 2px 4px, rgba(0,0,0,0.6) 0 7px 13px -3px, rgba(0,0,0,0.56) 0 -3px 0 inset;"
+                             src="{{ email.image('@image/' ~ paint) }}" alt="image du tableau ajouté">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endapply %}

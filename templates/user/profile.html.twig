@@ -106,8 +106,8 @@
                                         <div class="text-center">
                                             <a class="btn btn-secondary btn-sm"
                                                 href="{{ path('paint', {slug: paint.slug}) }}">Détail</a>
-                                            <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
-                                                class="btn btn-outline-dark btn-sm">Ajouter au panier</a>
+                                            {#<a href="{{ path('paint_add', {'id': paint.id}) }}" type="button"
+                                                class="btn btn-outline-dark btn-sm">Ajouter au panier</a>#}
                                             <a href="{{ path('paint_unlike', {'id': paint.id}) }}" type="button"
                                                 class="btn btn-outline-dark btn-sm remove-like">retirer</a>
                                         </div>
@@ -131,14 +131,14 @@
                                     <div class="card m-3">
                                         <div class="card-body">
                                             <div class="card-body-image">
-                                                <img alt="image of tutorials" src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}">
+                                                <img alt="image of tutorials"  src="{{ asset('img/tutos/' ~ tuto.image)|imagine_filter('mini_oeuvre') }}">
                                             </div>
                                             <div class="card-body-title">
                                                 <h5 class="text-center">{{ tuto.title | capitalize }}</h5>
                                             </div>
                                             
                                             <p class="card-text text-center">
-                                                <small class="text-muted">{{ tuto.description }}</small>
+                                                <small class="text-muted">{{ tuto.description|slice(0, 95) }}</small>
                                             </p>
 
                                             <div class="text-center">
@@ -195,7 +195,7 @@
                                         </td>
                                         <td class="mx-5">
                                             <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal" data-paint-id="{{ item.product.id }}">
-                                                {{ item.product.vendeur.firstName }} &nbsp; <i class="icofont-envelope"></i>
+                                                {{ item.product.vendeur.firstName|capitalize }} &nbsp; <i class="icofont-envelope"></i>
                                             </a>
                                         </td>
                                     </tr>

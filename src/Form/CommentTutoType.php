@@ -16,7 +16,7 @@ class CommentTutoType extends AbstractType
         $builder
             ->add('content',TextareaType::class ,
                 [
-                    'label' => '',
+                    'label' => 'Message',
                     'attr' => [
                         'placeholder' => 'commentaire',
                     ],

@@ -15,6 +15,7 @@ use App\Repository\StyleRepository;
 use App\Repository\TutoCommentRepository;
 use App\Repository\TutorielRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TutorielController extends AbstractController
 {
     #[Route('/tutoriel', name: 'app_tutoriel')]
+
     public function index(StyleRepository $styleRepository, TutorielRepository $tutorielRepository): Response
     {
         $style = $styleRepository->findAll();

@@ -46,7 +46,7 @@ class Painting
     #[Assert\Range(
         notInRangeMessage: 'Votre tableau doit être compris entre {{ min }} et {{ max }} cm de hauteur',
         min: 20,
-        max: 114
+        max: 214
     )]
     #[ORM\Column]
     private ?float $height = null;

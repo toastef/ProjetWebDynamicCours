@@ -346,11 +346,19 @@ class UserController extends AbstractController
         $paint= $repository->find($id);
 
         try {
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from($user->getEmail())
                 ->to($paint->getVendeur()->getEmail())
                 ->subject('Contact pour informations peinture : '.$paint->getTitle())
-                ->text($message);
+                ->htmlTemplate('contact/contact_vendeur.html.twig',)
+                ->context([
+                    'title' => "Demande D'informations",
+                    'firstName' => $user->getFirstName(),
+                    'lastName' => $user->getLastName(),
+                    'paint' => $paint->getImageName(),
+                    'titreOeuvre' => $paint->getTitle(),
+                    'message' => $message,
+                ]);
             $mailer->send($email);
             $this->addFlash('success', 'Votre message a été transmit avec success');
             return $this->redirectToRoute('app_user');

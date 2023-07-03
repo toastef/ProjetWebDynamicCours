@@ -1,0 +1,93 @@
+.related-tutorials {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 460px; /* hauteur maximale */
+    overflow-y: auto;
+}
+
+.related-tutorials h3 {
+    margin-bottom: 20px;
+}
+
+.related-tutorials .list-group-item {
+    /*display: flex;
+    align-items: center;*/
+    padding: 0;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.related-tutorials .list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+.related-tutorials .media .img-tuto-side {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    margin-right: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.related-tutorials .media .img-tuto-side img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 60px;
+    width: auto;
+
+}
+
+.related-tutorials .media .media-body {
+    flex-grow: 1;
+}
+
+.related-tutorials .media .media-body h5 {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.related-tutorials .media .btn-secondary {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: none;
+    text-align: left;
+    padding-left: 0;
+    color: #737171;
+    background-color: unset;
+    padding: 10px;
+}
+
+.related-tutorials .media .btn-secondary:hover {
+    color: #007bff;
+}
+.related-tutorials::-webkit-scrollbar {
+    display: none;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.video-container iframe,
+.video-container video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

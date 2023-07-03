@@ -43,6 +43,7 @@ security:
         - { path: ^/vendeur, roles: ROLE_USER }
         - { path: ^/panier, roles: ROLE_USER }
         - { path: ^/like, roles: ROLE_USER }
+        - { path: ^/tutoriel, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_SELLER: ROLE_USER

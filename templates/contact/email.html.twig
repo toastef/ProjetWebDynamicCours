@@ -1,10 +1,15 @@
 {% apply inline_css(source('@style/bootstrap.min.css')) %}
 
     <div class="container">
-        <div class="card mb-3 my-3 " style="background-color: rgba(125,224,243,0.43)">
+        <div class="card mb-3 my-3" >
             <div class="card-body my-2">
+                <div class="text-center">
+                    <img class="card-img  my-3 align-items-center" style="width: 350px; height: 120px;"
+                         src="{{ email.image('@image/logo.png') }}" alt="logo du site">
+                </div>
                 <h3 class="card-title text-center my-3">{{ title }}</h3>
                 <p class="lead text-center my-5">{{ message }} {{ lastName }}</p>
+
                 <div class="my-5">
                 </div>
             </div>

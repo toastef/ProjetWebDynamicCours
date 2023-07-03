@@ -47,8 +47,7 @@
                             <p class="card-text"><small class="text-muted">Date de mise en
                                     ligne: {{ paint.createdAt|date('d/m/Y') }}</small></p>
                             <div class="text-center">
-                                <a href="{{ path('paintings') }}" type="button" class="btn btn-outline-dark mx-2 ">Retour à la
-                                    Gallery</a>
+                                <button type="button" onclick="window.history.back()" class="btn btn-outline-dark mx-2 ">Retour </button>
                                 {% if is_granted('ROLE_USER') %}
                                 {% if not app.user.suspendu %}
                                 <a href="{{ path('paint_add', {'id': paint.id}) }}" type="button" class="btn btn-outline-dark addToCartButton prof" data-target-id="{{ paint.id }}">Ajouter
